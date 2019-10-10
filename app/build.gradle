@@ -84,10 +84,10 @@ dependencies {
     compile "com.android.support:cardview-v7:${SUPPORT_LIBRARY}"
     compile "com.android.support:support-v4:${SUPPORT_LIBRARY}"
     testImplementation 'junit:junit:4.12'
-    compile project(':countdown_library')
-    compile project(':guideview')
-    compile project(':stagger_library')
-    compile project(':wheelview')
-    compile project(':pickerview')
-    compile project(':FlycoTabLayout_Lib')
+    compile project(':countdown_library')//倒计时控件
+    compile project(':guideview')//新手引导控件
+    compile project(':stagger_library')//瀑布流控件
+    compile project(':wheelview')//时间，省市滚轮控件
+    compile project(':pickerview')//时间，省市滚轮控件
+    compile project(':FlycoTabLayout_Lib')//TabLayout控件，类似今日头条顶部导航效果
 }
