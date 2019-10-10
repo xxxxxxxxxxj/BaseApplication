@@ -1,0 +1,14 @@
+apply plugin: 'com.android.library'
+//瀑布流控件
+android {
+    compileSdkVersion 21
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 21
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
