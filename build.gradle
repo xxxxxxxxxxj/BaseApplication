@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.1'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+}
+
+// 运行gradle clean时，执行此处定义的task任务。
+// 该任务继承自Delete，删除根目录中的build目录。
+// 相当于执行Delete.delete(rootProject.buildDir)。
+// gradle使用groovy语言，调用method时可以不用加（）。
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
