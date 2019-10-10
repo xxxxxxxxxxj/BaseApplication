@@ -13,7 +13,7 @@ android {
         versionName project.VERSION_NAME
         minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
         targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {// 自动化打包配置
         config {
@@ -77,9 +77,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY}"
+    compile "com.android.support:design:${SUPPORT_LIBRARY}"
+    compile "com.android.support:recyclerview-v7:${SUPPORT_LIBRARY}"
+    compile "com.android.support:support-annotations:${SUPPORT_LIBRARY}"
+    compile "com.android.support:cardview-v7:${SUPPORT_LIBRARY}"
+    compile "com.android.support:support-v4:${SUPPORT_LIBRARY}"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    compile project(':countdown_library')
+    compile project(':guideview')
+    compile project(':stagger_library')
+    compile project(':wheelview')
+    compile project(':pickerview')
+    compile project(':FlycoTabLayout_Lib')
 }
