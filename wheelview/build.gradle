@@ -1,16 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.novoda.bintray-release'//添加插件
-//时间，省市滚轮控件
 
 
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 26
         versionCode 28
         versionName "4.0.5"
@@ -45,6 +43,6 @@ publish {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
 }

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
-//倒计时控件
+
 android {
     compileSdkVersion 23
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
