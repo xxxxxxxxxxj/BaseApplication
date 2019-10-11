@@ -3,4 +3,13 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFF</color>
+    <color name="a333333">#333333</color>
+    <color name="bbbbbb">#bbbbbb</color>
+    <color name="orange">#BB996C</color>
+    <color name="a777777">#777777</color>
+    <color name="bordergray">#F3F1EC</color>
+    <color name="default_shadow_color">#2a000000</color>
+    <color name="default_shadowback_color">#fff</color>
+    <color name="bgloading1">#55000000</color>
 </resources>

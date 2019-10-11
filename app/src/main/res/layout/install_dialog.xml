@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:src="@mipmap/install_dialog_topimg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_install_dialog_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="10dip"
+                    android:text="TextView"
+                    android:textColor="#DBB27B"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_install_dialog_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:text="TextView"
+                    android:textColor="@color/a333333"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dip"
+                    android:background="#d3d3d3" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="65dip"
+                android:background="@mipmap/bg_install_bottom">
+
+                <View
+                    android:id="@+id/vw_install_line"
+                    android:layout_width="0.5dip"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:background="#d3d3d3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ll_install_cancel"
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_install_cancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dip"
+                            android:text="残忍拒绝"
+                            android:textColor="@color/bbbbbb"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_install_ok"
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="13dip"
+                        android:paddingLeft="20dip"
+                        android:paddingRight="20dip"
+                        android:paddingTop="13dip">
+
+                        <Button
+                            android:id="@+id/btn_install_ok"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:background="@drawable/btn_install_selector"
+                            android:text="极速升级"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
