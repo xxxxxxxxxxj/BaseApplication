@@ -15,13 +15,12 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.widget.MProgressDialog;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.util.ActivityListManager;
+import com.example.baseapplication.util.GlideUtil;
 import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.StringUtil;
 import com.tbruyelle.rxpermissions2.Permission;
@@ -205,12 +204,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
 
     //glide加载图片
     protected void displayImage(String url, ImageView imageView) {
-        Glide.with(this)
-                .load(url)
-                .placeholder(R.mipmap.ic_launcher)
-                .fitCenter()
-                .error(R.mipmap.ic_launcher)
-                .into(imageView);
+        GlideUtil.displayImage(this, url, imageView);
     }
 
     //请求单个权限建议用这个

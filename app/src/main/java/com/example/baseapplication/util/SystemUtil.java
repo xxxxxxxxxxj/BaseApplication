@@ -12,11 +12,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.example.baseapplication.mvp.model.entity.ImageInfo;
+import com.example.baseapplication.photoview.PhotoViewActivity;
+
 import java.io.InputStream;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>Title:${type_name}</p>
@@ -129,5 +135,16 @@ public class SystemUtil {
         ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = conn.getActiveNetworkInfo();
         return (info != null && info.isConnected());
+    }
+
+    //查看大图
+    public static void photoView(Context context, int position, List<ImageInfo> imgList) {
+        Intent intent = new Intent();
+        intent.setClass(context, PhotoViewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
+        bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }
