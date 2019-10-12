@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
     //关闭Android Studio的PNG合法性检查,将Eclipse项目导入到Android studio 中 很多点9图出现问题解决方法：
     // 用来关闭Android Studio的PNG合法性检查的，直接不让它检查。
     aaptOptions.cruncherEnabled = false
@@ -123,7 +124,7 @@ dependencies {
     //微信SDK
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     //支付宝SDK
-    implementation (name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
+    implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
     //今日头条屏幕适配方案终极版，一个极低成本的 Android 屏幕适配方案
     implementation 'me.jessyan:autosize:1.1.2'
     //Retrofit2
@@ -131,4 +132,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'//JavaNetCookieJar来实现非持久化cookie
+    //侧滑退出
+    implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
+    //通用适配器
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
 }
