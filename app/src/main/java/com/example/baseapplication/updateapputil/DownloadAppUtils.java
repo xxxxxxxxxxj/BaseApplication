@@ -50,8 +50,7 @@ public class DownloadAppUtils {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//外部存储卡
             filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
         } else {
-            Log.i(TAG, "没有SD卡");
-            return;
+            filePath = context.getFilesDir().getAbsolutePath();
         }
         downloadUpdateApkFilePath = filePath + File.separator + packageName + "_" + localserverVersionName + ".apk";
         FileDownloader.setup(localContext);
@@ -76,7 +75,7 @@ public class DownloadAppUtils {
 
                     @Override
                     protected void progress(BaseDownloadTask task, long soFarBytes, long totalBytes) {
-                        EventBus.getDefault().post(new UpdateAppEvent(soFarBytes, totalBytes, UpdateAppEvent.DOWNLOADING,localisUpgrade));
+                        EventBus.getDefault().post(new UpdateAppEvent(soFarBytes, totalBytes, UpdateAppEvent.DOWNLOADING, localisUpgrade));
                         /*if (localisUpgrade == 1) {
                             EventBus.getDefault().post(new UpdateAppEvent(soFarBytes, totalBytes, UpdateAppEvent.DOWNLOADING));
                         } else {
@@ -90,7 +89,7 @@ public class DownloadAppUtils {
 
                     @Override
                     protected void completed(BaseDownloadTask task) {
-                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_COMPLETE,localisUpgrade));
+                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_COMPLETE, localisUpgrade));
                         /*if (localisUpgrade == 1) {
                             EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_COMPLETE));
                         } else {
@@ -100,8 +99,8 @@ public class DownloadAppUtils {
 
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
-                        Log.e("TAG","e = "+e.toString());
-                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_FAIL,localisUpgrade));
+                        Log.e("TAG", "e = " + e.toString());
+                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_FAIL, localisUpgrade));
                        /* if (localisUpgrade == 1) {
                             EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_FAIL));
                         } else {
@@ -147,7 +146,7 @@ public class DownloadAppUtils {
 
                     @Override
                     protected void progress(BaseDownloadTask task, long soFarBytes, long totalBytes) {
-                        EventBus.getDefault().post(new UpdateAppEvent(soFarBytes, totalBytes, UpdateAppEvent.DOWNLOADING,localisUpgrade));
+                        EventBus.getDefault().post(new UpdateAppEvent(soFarBytes, totalBytes, UpdateAppEvent.DOWNLOADING, localisUpgrade));
                         /*if (localisUpgrade == 1) {
                             EventBus.getDefault().post(new UpdateAppEvent(soFarBytes, totalBytes, UpdateAppEvent.DOWNLOADING));
                         } else {
@@ -161,7 +160,7 @@ public class DownloadAppUtils {
 
                     @Override
                     protected void completed(BaseDownloadTask task) {
-                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_COMPLETE,localisUpgrade));
+                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_COMPLETE, localisUpgrade));
                         /*if (localisUpgrade == 1) {
                             EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_COMPLETE));
                         } else {
@@ -171,8 +170,8 @@ public class DownloadAppUtils {
 
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
-                        Log.e("TAG","e = "+e.toString());
-                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_FAIL,localisUpgrade));
+                        Log.e("TAG", "e = " + e.toString());
+                        EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_FAIL, localisUpgrade));
                        /* if (localisUpgrade == 1) {
                             EventBus.getDefault().post(new UpdateAppEvent(UpdateAppEvent.DOWNLOAD_FAIL));
                         } else {

@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.baseapplication.R;
-import com.example.baseapplication.http.UrlConstants;
+import com.example.baseapplication.app.UrlConstants;
 
 /**
  * Glide图片加载工具类

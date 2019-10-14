@@ -1,6 +1,5 @@
 package com.example.baseapplication.mvp.presenter.base;
 
-import com.example.baseapplication.mvp.model.imodel.base.IBaseModel;
 import com.example.baseapplication.mvp.view.iview.base.IBaseView;
 
 /**
@@ -9,15 +8,8 @@ import com.example.baseapplication.mvp.view.iview.base.IBaseView;
  * description: Presenter基类
  * <a>https://www.jianshu.com/p/1f91cfd68d48</a>
  */
-public abstract class BasePresenter<V extends IBaseView,M extends IBaseModel>{
-
+public abstract class BasePresenter<V extends IBaseView>{
     protected V mIView;
-    protected M mIModel;
-
-    public BasePresenter(V iView, M iModel) {
-        mIView = iView;
-        mIModel = iModel;
-    }
 
     public BasePresenter(V iView) {
         mIView = iView;

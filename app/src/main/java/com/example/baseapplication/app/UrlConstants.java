@@ -1,6 +1,4 @@
-package com.example.baseapplication.http;
-
-import com.example.baseapplication.app.AppConfig;
+package com.example.baseapplication.app;
 
 /**
  * <p>Title:${type_name}</p>
