@@ -14,6 +14,7 @@
         tl:tl_iconWidth="22dip"
         tl:tl_indicator_color="@color/transparent"
         tl:tl_indicator_height="0dp"
+        tl:tl_textBold="SELECT"
         tl:tl_textSelectColor="@color/aD1494F"
         tl:tl_textUnselectColor="@color/a666666"
         tl:tl_textsize="12sp"

@@ -1,13 +1,18 @@
 package com.example.baseapplication.mvp.view.fragment;
 
-import android.support.design.widget.TabLayout;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.presenter.MainFragPresenter;
+import com.example.baseapplication.mvp.view.adapter.MyPagerAdapter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.IMainFragView;
+import com.flyco.tablayout.SlidingTabLayout;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -24,8 +29,15 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
     Toolbar toolbar;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    @BindView(R.id.tab)
-    TabLayout tab;
+    @BindView(R.id.stl_main)
+    SlidingTabLayout stlMain;
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
+    private final String[] mTitles = {
+            "热门", "iOS", "Android"
+            , "前端", "后端", "设计", "工具资源"
+    };
+    private MyPagerAdapter mAdapter;
+
     @Override
     protected MainFragPresenter createPresenter() {
         return new MainFragPresenter(this);
@@ -49,6 +61,16 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
     @Override
     protected void initView() {
         initToolBar(toolbar, false, "");
+        for (int i = 0; i < mTitles.length; i++) {
+            NewsFragment newsFragment = new NewsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("index", i);
+            newsFragment.setArguments(bundle);
+            mFragments.add(newsFragment);
+        }
+        mAdapter = new MyPagerAdapter(mActivity.getSupportFragmentManager(), mFragments, mTitles);
+        viewPager.setAdapter(mAdapter);
+        stlMain.setViewPager(viewPager);
     }
 
     @Override
