@@ -3,6 +3,9 @@ package com.example.baseapplication.mvp.view.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -19,11 +22,16 @@ import com.example.baseapplication.updateapputil.DownloadAppUtils;
 import com.example.baseapplication.updateapputil.DownloadProgressDialog;
 import com.example.baseapplication.updateapputil.UpdateAppEvent;
 import com.example.baseapplication.updateapputil.UpdateUtil;
+import com.example.baseapplication.util.GetDeviceId;
+import com.example.baseapplication.util.StringUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 首页
@@ -31,6 +39,12 @@ import java.io.File;
 public class MainActivity extends BaseActivity<MainActivityPresenter> implements IMainActivityView {
     private DownloadProgressDialog progressDialog;
     private boolean isShow;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.tab)
+    TabLayout tab;
 
     @Override
     protected int getLayoutResID() {
@@ -54,13 +68,29 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
     @Override
     protected void initEvent() {
+        requestEachCombined(new PermissionListener() {
+            @Override
+            public void onGranted(String permissionName) {
+                if (StringUtil.isEmpty(GetDeviceId.readDeviceID(mContext))) {
+                    GetDeviceId.saveDeviceID(mContext);
+                }
+            }
 
+            @Override
+            public void onDenied(String permissionName) {
+                showToast("请打开存储权限");
+            }
+
+            @Override
+            public void onDeniedWithNeverAsk(String permissionName) {
+                showToast("请打开存储权限");
+            }
+        }, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE});
     }
 
     @Override
     protected void loadData() {
-        showLoadDialog();
-        mPresenter.checkversion();
+
     }
 
     @Override
@@ -77,6 +107,13 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSwipeBack(false);
+        initToolBar(toolbar, false, "");
+    }
+
+    @OnClick(R.id.fab)
+    public void fab(View view) {
+        showLoadDialog();
+        mPresenter.checkVersion();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

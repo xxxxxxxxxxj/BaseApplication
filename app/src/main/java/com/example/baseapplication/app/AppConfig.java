@@ -25,5 +25,5 @@ public class AppConfig {
     public static final int environmental = 2;//1.test环境---2.demo环境---3.线上环境
     public static final int ALI_SDK_PAY_FLAG = 1000;
     public static final int REQUEST_CODE_CHOOSE = 23;
-    public static final String KEYWORD = "base";
+    public static final String KEYWORD = "BASE_APP";
 }

@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -15,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.widget.MProgressDialog;
 import com.example.baseapplication.permission.PermissionListener;
@@ -310,7 +313,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      * @param clz
      */
     protected void startActivity(Class<?> clz) {
-        startActivity(new Intent(BaseActivity.this, clz));
+        startActivity(new Intent(this, clz));
     }
 
     /**
@@ -319,7 +322,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      * @param clz
      */
     protected void startActivity(Class<?> clz, boolean isFinish) {
-        startActivity(new Intent(BaseActivity.this, clz));
+        startActivity(new Intent(this, clz));
         if (isFinish) {
             this.finish();
         }
@@ -423,6 +426,31 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
             //getWindow().addFlags(
             //WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+    }
+
+    /** 获取主题色 */
+    protected int getColorPrimary() {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
+    }
+
+    /** 获取深主题色 */
+    protected int getDarkColorPrimary() {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
+        return typedValue.data;
+    }
+
+    /** 初始化 Toolbar */
+    protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
+    }
+
+    protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, int resTitle) {
+        initToolBar(toolbar, homeAsUpEnabled, getString(resTitle));
     }
 
     @Override

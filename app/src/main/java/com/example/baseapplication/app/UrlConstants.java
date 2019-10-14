@@ -1,5 +1,12 @@
 package com.example.baseapplication.app;
 
+import android.content.Context;
+
+import com.example.baseapplication.util.GetDeviceId;
+import com.example.baseapplication.util.SharedPreferenceUtil;
+import com.example.baseapplication.util.SystemUtil;
+import com.zhouyou.http.model.HttpHeaders;
+
 /**
  * <p>Title:${type_name}</p>
  * <p>Description:</p>
@@ -324,5 +331,17 @@ public class UrlConstants {
                 break;
         }
         return url;
+    }
+
+    public static HttpHeaders getHeaders(Context mContext) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.put("imei", GetDeviceId.readDeviceID(mContext));
+        headers.put("phoneModel", android.os.Build.BRAND + " "
+                + android.os.Build.MODEL);
+        headers.put("phoneSystemVersion", GetDeviceId.readDeviceID(mContext));
+        headers.put("petTimeStamp", String.valueOf(System.currentTimeMillis()));
+        headers.put("phone", SharedPreferenceUtil.getInstance(mContext).getString("cellphone", ""));
+        headers.put("system", "android" + SystemUtil.getCurrentVersion(mContext));
+        return headers;
     }
 }
