@@ -3,7 +3,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 15
@@ -31,20 +30,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     //用于打印http日志
-    compile 'com.squareup.okhttp3:logging-interceptor:3.12.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     //缓存机制
-    compile 'com.jakewharton:disklrucache:2.0.2'
+    implementation 'com.jakewharton:disklrucache:2.0.2'
     //Rxjava2 & RxAndroid2
-    compile 'io.reactivex.rxjava2:rxjava:2.2.13'
-    compile 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     //Retrofit2网络请求适配器，实际网络请求是okhttp
-    compile 'com.squareup.retrofit2:retrofit:2.5.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.5.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 }

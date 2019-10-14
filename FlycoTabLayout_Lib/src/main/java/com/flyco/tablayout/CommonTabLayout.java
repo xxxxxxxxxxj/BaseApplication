@@ -2,7 +2,6 @@ package com.flyco.tablayout;
 
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,10 +10,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
@@ -29,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.utils.FragmentChangeManager;
@@ -38,9 +34,7 @@ import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
 
-/**
- * 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖
- */
+/** 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖 */
 public class CommonTabLayout extends FrameLayout implements ValueAnimator.AnimatorUpdateListener {
     private Context mContext;
     private ArrayList<CustomTabEntity> mTabEntitys = new ArrayList<>();
@@ -48,9 +42,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private int mCurrentTab;
     private int mLastTab;
     private int mTabCount;
-    /**
-     * 用于绘制显示器
-     */
+    /** 用于绘制显示器 */
     private Rect mIndicatorRect = new Rect();
     private GradientDrawable mIndicatorDrawable = new GradientDrawable();
 
@@ -67,9 +59,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private boolean mTabSpaceEqual;
     private float mTabWidth;
 
-    /**
-     * indicator
-     */
+    /** indicator */
     private int mIndicatorColor;
     private float mIndicatorHeight;
     private float mIndicatorWidth;
@@ -83,23 +73,17 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private boolean mIndicatorBounceEnable;
     private int mIndicatorGravity;
 
-    /**
-     * underline
-     */
+    /** underline */
     private int mUnderlineColor;
     private float mUnderlineHeight;
     private int mUnderlineGravity;
 
-    /**
-     * divider
-     */
+    /** divider */
     private int mDividerColor;
     private float mDividerWidth;
     private float mDividerPadding;
 
-    /**
-     * title
-     */
+    /** title */
     private static final int TEXT_BOLD_NONE = 0;
     private static final int TEXT_BOLD_WHEN_SELECT = 1;
     private static final int TEXT_BOLD_BOTH = 2;
@@ -109,9 +93,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private int mTextBold;
     private boolean mTextAllCaps;
 
-    /**
-     * icon
-     */
+    /** icon */
     private boolean mIconVisible;
     private int mIconGravity;
     private float mIconWidth;
@@ -119,13 +101,8 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private float mIconMargin;
 
     private int mHeight;
-    private int[] colors;
-    private boolean gradient;
-    private boolean isIndicatorTextMiddle;
-    private float mTextSelectsize;
-    /**
-     * anim
-     */
+
+    /** anim */
     private ValueAnimator mValueAnimator;
     private OvershootInterpolator mInterpolator = new OvershootInterpolator(1.5f);
 
@@ -224,46 +201,13 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         notifyDataSetChanged();
     }
 
-    /**
-     * 关联数据支持同时切换fragments
-     */
+    /** 关联数据支持同时切换fragments */
     public void setTabData(ArrayList<CustomTabEntity> tabEntitys, FragmentActivity fa, int containerViewId, ArrayList<Fragment> fragments) {
         mFragmentChangeManager = new FragmentChangeManager(fa.getSupportFragmentManager(), containerViewId, fragments);
         setTabData(tabEntitys);
     }
-    public void setmTextSelectsize(float mTextSelectsize) {
-        this.mTextSelectsize = mTextSelectsize;
-        updateTabStyles();
-    }
 
-    public float getmTextSelectsize() {
-        return mTextSelectsize;
-    }
-    public boolean isIndicatorTextMiddle() {
-        return isIndicatorTextMiddle;
-    }
-    public void setIndicatorTextMiddle(boolean indicatorTextMiddle) {
-        isIndicatorTextMiddle = indicatorTextMiddle;
-        invalidate();
-    }
-    private int[] getColors() {
-        return colors;
-    }
-
-    public void setColors(int[] colors) {
-        this.colors = colors;
-        updateTabStyles();
-    }
-    public boolean isGradient() {
-        return gradient;
-    }
-    public void setGradient(boolean gradient) {
-        this.gradient = gradient;
-        invalidate();
-    }
-    /**
-     * 更新数据
-     */
+    /** 更新数据 */
     public void notifyDataSetChanged() {
         mTabsContainer.removeAllViews();
         this.mTabCount = mTabEntitys.size();
@@ -286,27 +230,13 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         updateTabStyles();
     }
 
-    /**
-     * 创建并添加tab
-     */
+    /** 创建并添加tab */
     private void addTab(final int position, View tabView) {
         TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
         tv_tab_title.setText(mTabEntitys.get(position).getTabTitle());
         ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
-        if (mTabEntitys.get(position).getTabUnSelectedIconByString() != null &&
-                !mTabEntitys.get(position).getTabUnSelectedIconByString().trim().isEmpty() &&
-                !mTabEntitys.get(position).getTabUnSelectedIconByString().trim().equals("")) {
-            String url = mTabEntitys.get(position).getTabUnSelectedIconByString().trim();
-            if (!mTabEntitys.get(position).getTabUnSelectedIconByString().trim().startsWith("http://")
-                    && !mTabEntitys.get(position).getTabUnSelectedIconByString().trim().startsWith("https://")) {
-                url = UrlConstants.getServiceBaseUrl() + mTabEntitys.get(position).getTabUnSelectedIconByString().trim();
-            }
-            Glide.with(mContext).load(url)
-                    .placeholder(mTabEntitys.get(position).getTabUnselectedIcon())
-                    .error(mTabEntitys.get(position).getTabUnselectedIcon()).into(iv_tab_icon);
-        } else {
-            iv_tab_icon.setImageResource(mTabEntitys.get(position).getTabUnselectedIcon());
-        }
+        iv_tab_icon.setImageResource(mTabEntitys.get(position).getTabUnselectedIcon());
+
         tabView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -337,14 +267,10 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private void updateTabStyles() {
         for (int i = 0; i < mTabCount; i++) {
             View tabView = mTabsContainer.getChildAt(i);
-//            tabView.setPadding((int) mTabPadding, 0, (int) mTabPadding, 0);
+            tabView.setPadding((int) mTabPadding, 0, (int) mTabPadding, 0);
             TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
             tv_tab_title.setTextColor(i == mCurrentTab ? mTextSelectColor : mTextUnselectColor);
-            if (i == mCurrentTab) {
-                tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, getmTextSelectsize());
-            } else {
-                tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextsize);
-            }
+            tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextsize);
 //            tv_tab_title.setPadding((int) mTabPadding, 0, (int) mTabPadding, 0);
             if (mTextAllCaps) {
                 tv_tab_title.setText(tv_tab_title.getText().toString().toUpperCase());
@@ -360,34 +286,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             if (mIconVisible) {
                 iv_tab_icon.setVisibility(View.VISIBLE);
                 CustomTabEntity tabEntity = mTabEntitys.get(i);
-                if (i == mCurrentTab) {
-                    if (tabEntity.getTabSelectedIconByString() != null && !tabEntity.getTabSelectedIconByString()
-                            .trim().isEmpty() && !tabEntity.getTabSelectedIconByString().trim().equals("")) {
-                        String url = tabEntity.getTabSelectedIconByString().trim();
-                        if (!tabEntity.getTabSelectedIconByString().trim().startsWith("http://")
-                                && !tabEntity.getTabSelectedIconByString().trim().startsWith("https://")) {
-                            url = UrlConstants.getServiceBaseUrl() + tabEntity.getTabSelectedIconByString().trim();
-                        }
-                        Glide.with(mContext).load(url).placeholder(tabEntity.getTabSelectedIcon())
-                                .error(tabEntity.getTabSelectedIcon()).into(iv_tab_icon);
-                    } else {
-                        iv_tab_icon.setImageResource(tabEntity.getTabSelectedIcon());
-                    }
-                } else {
-                    if (tabEntity.getTabUnSelectedIconByString() != null &&
-                            !tabEntity.getTabUnSelectedIconByString().trim().isEmpty() &&
-                            !tabEntity.getTabUnSelectedIconByString().trim().equals("")) {
-                        String url = tabEntity.getTabUnSelectedIconByString().trim();
-                        if (!tabEntity.getTabUnSelectedIconByString().trim().startsWith("http://")
-                                && !tabEntity.getTabUnSelectedIconByString().trim().startsWith("https://")) {
-                            url = UrlConstants.getServiceBaseUrl() + tabEntity.getTabUnSelectedIconByString().trim();
-                        }
-                        Glide.with(mContext).load(url).placeholder(tabEntity.getTabUnselectedIcon())
-                                .error(tabEntity.getTabUnselectedIcon()).into(iv_tab_icon);
-                    } else {
-                        iv_tab_icon.setImageResource(tabEntity.getTabUnselectedIcon());
-                    }
-                }
+                iv_tab_icon.setImageResource(i == mCurrentTab ? tabEntity.getTabSelectedIcon() : tabEntity.getTabUnselectedIcon());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         mIconWidth <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) mIconWidth,
                         mIconHeight <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) mIconHeight);
@@ -416,34 +315,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             tab_title.setTextColor(isSelect ? mTextSelectColor : mTextUnselectColor);
             ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
             CustomTabEntity tabEntity = mTabEntitys.get(i);
-            if (isSelect) {
-                if (tabEntity.getTabSelectedIconByString() != null && !tabEntity.getTabSelectedIconByString()
-                        .trim().isEmpty() && !tabEntity.getTabSelectedIconByString().trim().equals("")) {
-                    String url = tabEntity.getTabSelectedIconByString().trim();
-                    if (!tabEntity.getTabSelectedIconByString().trim().startsWith("http://")
-                            && !tabEntity.getTabSelectedIconByString().trim().startsWith("https://")) {
-                        url = UrlConstants.getServiceBaseUrl() + tabEntity.getTabSelectedIconByString().trim();
-                    }
-                    Glide.with(mContext).load(url).placeholder(tabEntity.getTabSelectedIcon())
-                            .error(tabEntity.getTabSelectedIcon()).into(iv_tab_icon);
-                } else {
-                    iv_tab_icon.setImageResource(tabEntity.getTabSelectedIcon());
-                }
-            } else {
-                if (tabEntity.getTabUnSelectedIconByString() != null &&
-                        !tabEntity.getTabUnSelectedIconByString().trim().isEmpty() &&
-                        !tabEntity.getTabUnSelectedIconByString().trim().equals("")) {
-                    String url = tabEntity.getTabUnSelectedIconByString().trim();
-                    if (!tabEntity.getTabUnSelectedIconByString().trim().startsWith("http://")
-                            && !tabEntity.getTabUnSelectedIconByString().trim().startsWith("https://")) {
-                        url = UrlConstants.getServiceBaseUrl() + tabEntity.getTabUnSelectedIconByString().trim();
-                    }
-                    Glide.with(mContext).load(url).placeholder(tabEntity.getTabUnselectedIcon())
-                            .error(tabEntity.getTabUnselectedIcon()).into(iv_tab_icon);
-                } else {
-                    iv_tab_icon.setImageResource(tabEntity.getTabUnselectedIcon());
-                }
-            }
+            iv_tab_icon.setImageResource(isSelect ? tabEntity.getTabSelectedIcon() : tabEntity.getTabUnselectedIcon());
             if (mTextBold == TEXT_BOLD_WHEN_SELECT) {
                 tab_title.getPaint().setFakeBoldText(isSelect);
             }
@@ -515,8 +387,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
 
     private boolean mIsFirstDraw = true;
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -596,38 +466,11 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             if (mIndicatorHeight > 0) {
                 mIndicatorDrawable.setColor(mIndicatorColor);
                 if (mIndicatorGravity == Gravity.BOTTOM) {
-
-                    if (isGradient()) {//渐变
-                        //设置渐变
-                        mIndicatorDrawable.setColors(getColors());
-                        mIndicatorDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-                    } else {
-                        mIndicatorDrawable.setColor(mIndicatorColor);
-                    }
-                    if(isIndicatorTextMiddle()){
-                        mIndicatorDrawable.setBounds(paddingLeft + (int) mIndicatorMarginLeft + mIndicatorRect.left,
-                                height - (int) mIndicatorHeight - (int) mIndicatorMarginBottom - dp2px(12),
-                                paddingLeft + mIndicatorRect.right - (int) mIndicatorMarginRight,
-                                height - (int) mIndicatorMarginBottom - dp2px(12));
-                    }else{
-                        mIndicatorDrawable.setBounds(paddingLeft + (int) mIndicatorMarginLeft + mIndicatorRect.left,
-                                height - (int) mIndicatorHeight - (int) mIndicatorMarginBottom,
-                                paddingLeft + mIndicatorRect.right - (int) mIndicatorMarginRight,
-                                height - (int) mIndicatorMarginBottom);
-                    }
-
-//                    mIndicatorDrawable.setBounds(paddingLeft + (int) mIndicatorMarginLeft + mIndicatorRect.left,
-//                            height - (int) mIndicatorHeight - (int) mIndicatorMarginBottom,
-//                            paddingLeft + mIndicatorRect.right - (int) mIndicatorMarginRight,
-//                            height - (int) mIndicatorMarginBottom);
+                    mIndicatorDrawable.setBounds(paddingLeft + (int) mIndicatorMarginLeft + mIndicatorRect.left,
+                            height - (int) mIndicatorHeight - (int) mIndicatorMarginBottom,
+                            paddingLeft + mIndicatorRect.right - (int) mIndicatorMarginRight,
+                            height - (int) mIndicatorMarginBottom);
                 } else {
-                    if (isGradient()) {//渐变
-                        //设置渐变
-                        mIndicatorDrawable.setColors(getColors());
-                        mIndicatorDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-                    } else {
-                        mIndicatorDrawable.setColor(mIndicatorColor);
-                    }
                     mIndicatorDrawable.setBounds(paddingLeft + (int) mIndicatorMarginLeft + mIndicatorRect.left,
                             (int) mIndicatorMarginTop,
                             paddingLeft + mIndicatorRect.right - (int) mIndicatorMarginRight,
@@ -978,36 +821,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             mInitSetMap.put(position, true);
         }
     }
-    /**
-     * 显示未读消息
-     *
-     * @param position 显示tab位置
-     * @param num      num小于等于0显示红点,num大于0显示数字
-     */
-    public void showMsgCircle(int position, int num) {
-        if (position >= mTabCount) {
-            position = mTabCount - 1;
-        }
 
-        View tabView = mTabsContainer.getChildAt(position);
-        MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
-        if (tipView != null) {
-            UnreadMsgUtils.showCircle(tipView, num);
-
-            if (mInitSetMap.get(position) != null && mInitSetMap.get(position)) {
-                return;
-            }
-
-            if (!mIconVisible) {
-                setMsgMargin(position, 2, 2);
-            } else {
-                setMsgMargin(position, 0,
-                        mIconGravity == Gravity.LEFT || mIconGravity == Gravity.RIGHT ? 4 : 0);
-            }
-
-            mInitSetMap.put(position, true);
-        }
-    }
     /**
      * 显示未读红点
      *
@@ -1071,9 +885,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         }
     }
 
-    /**
-     * 当前类只提供了少许设置未读消息属性的方法,可以通过该方法获取MsgView对象从而各种设置
-     */
+    /** 当前类只提供了少许设置未读消息属性的方法,可以通过该方法获取MsgView对象从而各种设置 */
     public MsgView getMsgView(int position) {
         if (position >= mTabCount) {
             position = mTabCount - 1;
@@ -1137,7 +949,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         return (int) (dp * scale + 0.5f);
     }
 
-    public int sp2px(float sp) {
+    protected int sp2px(float sp) {
         final float scale = this.mContext.getResources().getDisplayMetrics().scaledDensity;
         return (int) (sp * scale + 0.5f);
     }

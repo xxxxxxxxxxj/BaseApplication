@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
     //关闭Android Studio的PNG合法性检查,将Eclipse项目导入到Android studio 中 很多点9图出现问题解决方法：
     // 用来关闭Android Studio的PNG合法性检查的，直接不让它检查。
     aaptOptions.cruncherEnabled = false
