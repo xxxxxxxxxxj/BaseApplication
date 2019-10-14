@@ -1,5 +1,7 @@
 package com.example.baseapplication.mvp.presenter.base;
 
+import android.content.Context;
+
 import com.example.baseapplication.mvp.view.iview.base.IBaseView;
 
 /**
@@ -8,10 +10,16 @@ import com.example.baseapplication.mvp.view.iview.base.IBaseView;
  * description: Presenter基类
  * <a>https://www.jianshu.com/p/1f91cfd68d48</a>
  */
-public abstract class BasePresenter<V extends IBaseView>{
+public abstract class BasePresenter<V extends IBaseView> {
     protected V mIView;
+    protected Context mContext;
 
     public BasePresenter(V iView) {
+        mContext = mContext;
+    }
+
+    public BasePresenter(Context mContext, V iView) {
+        mContext = mContext;
         mIView = iView;
     }
 

@@ -129,4 +129,7 @@ dependencies {
     implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
     //通用适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
+    //Rxjava2 & RxAndroid2
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 }

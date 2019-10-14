@@ -1,19 +1,23 @@
 package com.example.baseapplication.mvp.view.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.entity.CheckVersionBean;
+import com.example.baseapplication.mvp.model.entity.TabEntity;
 import com.example.baseapplication.mvp.presenter.MainActivityPresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
+import com.example.baseapplication.mvp.view.fragment.MainFragment;
+import com.example.baseapplication.mvp.view.fragment.MyFragment;
+import com.example.baseapplication.mvp.view.fragment.PetCircleFragment;
+import com.example.baseapplication.mvp.view.fragment.ShopFragment;
 import com.example.baseapplication.mvp.view.iview.IMainActivityView;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.updateapputil.Callback;
@@ -24,27 +28,35 @@ import com.example.baseapplication.updateapputil.UpdateAppEvent;
 import com.example.baseapplication.updateapputil.UpdateUtil;
 import com.example.baseapplication.util.GetDeviceId;
 import com.example.baseapplication.util.StringUtil;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * 首页
  */
 public class MainActivity extends BaseActivity<MainActivityPresenter> implements IMainActivityView {
+    @BindView(R.id.ctl_main)
+    CommonTabLayout ctlMain;
     private DownloadProgressDialog progressDialog;
     private boolean isShow;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-    @BindView(R.id.tab)
-    TabLayout tab;
+    private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
+    private String[] mTitles = {"首页", "商城", "宠圈", "我的"};
+    private int[] mIconUnselectIds = {
+            R.mipmap.tab_home_normal, R.mipmap.tab_shop_normal,
+            R.mipmap.tab_petcircle_normal, R.mipmap.tab_my_normal};
+    private int[] mIconSelectIds = {
+            R.mipmap.tab_home_passed, R.mipmap.tab_shop_passed,
+            R.mipmap.tab_petcircle_passed, R.mipmap.tab_my_passed};
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+    private int currentIndex;
 
     @Override
     protected int getLayoutResID() {
@@ -58,7 +70,15 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
     @Override
     protected void setView(Bundle savedInstanceState) {
-
+        mFragments.add(new MainFragment());
+        mFragments.add(new ShopFragment());
+        mFragments.add(new PetCircleFragment());
+        mFragments.add(new MyFragment());
+        for (int i = 0; i < mTitles.length; i++) {
+            mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
+        }
+        ctlMain.setTabData(mTabEntities, this, R.id.fl_main, mFragments);
+        ctlMain.setCurrentTab(currentIndex);
     }
 
     @Override
@@ -85,12 +105,13 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
             public void onDeniedWithNeverAsk(String permissionName) {
                 showToast("请打开存储权限");
             }
-        }, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE});
+        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
     }
 
     @Override
     protected void loadData() {
-
+        showLoadDialog();
+        mPresenter.checkVersion();
     }
 
     @Override
@@ -107,13 +128,6 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSwipeBack(false);
-        initToolBar(toolbar, false, "");
-    }
-
-    @OnClick(R.id.fab)
-    public void fab(View view) {
-        showLoadDialog();
-        mPresenter.checkVersion();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -227,7 +241,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                     public void onDeniedWithNeverAsk(String permissionName) {
                                         showToast("请打开存储权限");
                                     }
-                                }, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE});
+                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
                             }
                         });
             } else if (checkVersionBean.getCompulsory() == 0) {
@@ -253,7 +267,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                     public void onDeniedWithNeverAsk(String permissionName) {
                                         showToast("请打开存储权限");
                                     }
-                                }, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE});
+                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
                             }
                         });
             }
