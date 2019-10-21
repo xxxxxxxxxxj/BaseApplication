@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.baseapplication.R;
+import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
 import com.example.baseapplication.mvp.view.widget.MProgressDialog;
@@ -387,15 +388,13 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
     @Override
     public void onDestroyView() {
+        RingLog.e("onDestroyView");
         super.onDestroyView();
-        //ButterKnife解绑
-        if (unbinder != null) unbinder.unbind();
-        isViewReady = false;
-        isLoaded = false;
     }
 
     @Override
     public void onDestroy() {
+        RingLog.e("onDestroy");
         super.onDestroy();
         if (isUseEventBus() && EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
@@ -404,5 +403,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
             mPresenter.destroy();
             mPresenter = null;
         }
+        //ButterKnife解绑
+        if (unbinder != null) unbinder.unbind();
+        isViewReady = false;
+        isLoaded = false;
     }
 }

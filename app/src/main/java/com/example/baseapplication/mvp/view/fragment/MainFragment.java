@@ -1,7 +1,5 @@
 package com.example.baseapplication.mvp.view.fragment;
 
-import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -61,11 +59,7 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
     @Override
     protected void initView() {
         for (int i = 0; i < mTitles.length; i++) {
-            NewsFragment newsFragment = new NewsFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("index", i);
-            newsFragment.setArguments(bundle);
-            mFragments.add(newsFragment);
+            mFragments.add(new NewsFragment(i));
         }
         mAdapter = new MyPagerAdapter(mActivity.getSupportFragmentManager(), mFragments, mTitles);
         viewPager.setAdapter(mAdapter);

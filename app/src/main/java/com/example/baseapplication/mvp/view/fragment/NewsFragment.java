@@ -22,9 +22,14 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements INe
     TextView tvNewsfrag;
     private int index;
 
+    public NewsFragment(int index) {
+        super();
+        this.index = index;
+    }
+
     @Override
     protected NewsFragPresenter createPresenter() {
-        return new NewsFragPresenter(getContext(),this);
+        return new NewsFragPresenter(getContext(), this);
     }
 
     @Override
@@ -49,7 +54,6 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements INe
 
     @Override
     protected void initData() {
-        index = getArguments().getInt("index", 0);
     }
 
     @Override

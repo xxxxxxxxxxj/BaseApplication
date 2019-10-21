@@ -2,6 +2,7 @@ package com.example.baseapplication.app;
 
 import android.content.Context;
 
+import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.util.GetDeviceId;
 import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.SystemUtil;
@@ -342,7 +343,8 @@ public class UrlConstants {
                 + android.os.Build.VERSION.RELEASE);
         headers.put("petTimeStamp", String.valueOf(System.currentTimeMillis()));
         headers.put("phone", SharedPreferenceUtil.getInstance(mContext).getString("cellphone", ""));
-        headers.put("system", "android" + SystemUtil.getCurrentVersion(mContext));
+        headers.put("system", "android_" + SystemUtil.getCurrentVersion(mContext));
+        RingLog.e("headers = "+headers.toString());
         return headers;
     }
 }

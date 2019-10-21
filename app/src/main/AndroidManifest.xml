@@ -43,10 +43,10 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="design_width_in_dp"
-            android:value="540" />
+            android:value="360" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="960" />
+            android:value="640" />
 
         <activity android:name=".mvp.view.activity.MainActivity">
             <intent-filter>

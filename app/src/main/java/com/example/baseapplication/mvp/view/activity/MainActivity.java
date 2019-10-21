@@ -223,6 +223,8 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
         RingLog.e("checkVersionSuccess() checkVersionBean = " + checkVersionBean);
         hideLoadDialog();
         if (checkVersionBean != null) {
+            checkVersionBean.setUrl("http://3g.163.com/links/4636");
+            checkVersionBean.setCompulsory(0);
             if (checkVersionBean.getCompulsory() == 1) {
                 // 强制升级
                 UpdateUtil.showForceUpgradeDialog(mContext, checkVersionBean.getContent(),

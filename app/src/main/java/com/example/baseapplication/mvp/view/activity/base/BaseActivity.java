@@ -143,7 +143,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         mSwipeBackLayout.setEdgeSize(200);//滑动删除的效果只能从边界滑动才有效果，如果要扩大touch的范围，可以调用这个方法
         setSwipeBackEnable(isSwipeBackEnable);
         mActivity = this;
-        mContext = getApplicationContext();
+        mContext = this;
         if (mAllowFullScreen) {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
