@@ -16,7 +16,7 @@ import com.example.baseapplication.mvp.view.iview.IMyFragView;
 public class MyFragment extends BaseFragment<MyFragPresenter> implements IMyFragView {
     @Override
     protected MyFragPresenter createPresenter() {
-        return new MyFragPresenter(this);
+        return new MyFragPresenter(getContext(),this);
     }
 
     @Override

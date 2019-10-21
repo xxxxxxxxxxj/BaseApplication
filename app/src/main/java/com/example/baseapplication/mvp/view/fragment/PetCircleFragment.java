@@ -16,7 +16,7 @@ import com.example.baseapplication.mvp.view.iview.IPetCircleFragView;
 public class PetCircleFragment extends BaseFragment<PetCircleFragPresenter> implements IPetCircleFragView {
     @Override
     protected PetCircleFragPresenter createPresenter() {
-        return new PetCircleFragPresenter(this);
+        return new PetCircleFragPresenter(getContext(),this);
     }
 
     @Override

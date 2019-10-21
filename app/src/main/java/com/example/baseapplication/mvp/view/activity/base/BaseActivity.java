@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +13,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
@@ -38,7 +39,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
  * <p>Title:${type_name}</p>
- * <p>Description:</p>
+ * <p>Description:Activity的基类</p>
  * <p>Company:北京昊唐科技有限公司</p>
  *
  * @author 徐俊
@@ -48,7 +49,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     /**
      * 是否沉浸状态栏
      **/
-    private boolean isSetStatusBar = true;
+    private boolean isSetStatusBar = false;
     /**
      * 是否允许全屏
      **/

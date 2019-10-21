@@ -338,7 +338,8 @@ public class UrlConstants {
         headers.put("imei", GetDeviceId.readDeviceID(mContext));
         headers.put("phoneModel", android.os.Build.BRAND + " "
                 + android.os.Build.MODEL);
-        headers.put("phoneSystemVersion", GetDeviceId.readDeviceID(mContext));
+        headers.put("phoneSystemVersion", "Android "
+                + android.os.Build.VERSION.RELEASE);
         headers.put("petTimeStamp", String.valueOf(System.currentTimeMillis()));
         headers.put("phone", SharedPreferenceUtil.getInstance(mContext).getString("cellphone", ""));
         headers.put("system", "android" + SystemUtil.getCurrentVersion(mContext));

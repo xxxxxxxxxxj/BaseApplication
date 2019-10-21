@@ -1,5 +1,7 @@
 package com.example.baseapplication.mvp.presenter;
 
+import android.content.Context;
+
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.iview.IShopFragView;
 
@@ -12,7 +14,7 @@ import com.example.baseapplication.mvp.view.iview.IShopFragView;
  * @date zhoujunxia on 2019-10-14 19:16
  */
 public class ShopFragPresenter extends BasePresenter<IShopFragView> {
-    public ShopFragPresenter(IShopFragView iShopFragView) {
-        super(iShopFragView);
+    public ShopFragPresenter(Context mContext, IShopFragView iShopFragView) {
+        super(mContext, iShopFragView);
     }
 }

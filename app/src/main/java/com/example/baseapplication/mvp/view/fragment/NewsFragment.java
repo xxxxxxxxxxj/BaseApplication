@@ -24,7 +24,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements INe
 
     @Override
     protected NewsFragPresenter createPresenter() {
-        return new NewsFragPresenter(this);
+        return new NewsFragPresenter(getContext(),this);
     }
 
     @Override

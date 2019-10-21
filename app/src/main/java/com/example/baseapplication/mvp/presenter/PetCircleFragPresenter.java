@@ -1,5 +1,7 @@
 package com.example.baseapplication.mvp.presenter;
 
+import android.content.Context;
+
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.iview.IPetCircleFragView;
 
@@ -12,7 +14,7 @@ import com.example.baseapplication.mvp.view.iview.IPetCircleFragView;
  * @date zhoujunxia on 2019-10-14 19:13
  */
 public class PetCircleFragPresenter extends BasePresenter<IPetCircleFragView> {
-    public PetCircleFragPresenter(IPetCircleFragView iPetCircleFragView) {
-        super(iPetCircleFragView);
+    public PetCircleFragPresenter(Context mContext, IPetCircleFragView iPetCircleFragView) {
+        super(mContext, iPetCircleFragView);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.baseapplication.mvp.presenter;
 
+import android.content.Context;
+
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.iview.IMyFragView;
 
@@ -12,7 +14,7 @@ import com.example.baseapplication.mvp.view.iview.IMyFragView;
  * @date zhoujunxia on 2019-10-14 19:13
  */
 public class MyFragPresenter extends BasePresenter<IMyFragView> {
-    public MyFragPresenter(IMyFragView iMyFragView) {
-        super(iMyFragView);
+    public MyFragPresenter(Context mContext, IMyFragView iMyFragView) {
+        super(mContext, iMyFragView);
     }
 }

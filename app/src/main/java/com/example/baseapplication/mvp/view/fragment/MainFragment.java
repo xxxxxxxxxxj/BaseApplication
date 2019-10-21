@@ -1,9 +1,9 @@
 package com.example.baseapplication.mvp.view.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.presenter.MainFragPresenter;
@@ -25,8 +25,6 @@ import butterknife.BindView;
  * @date zhoujunxia on 2019-10-14 19:04
  */
 public class MainFragment extends BaseFragment<MainFragPresenter> implements IMainFragView {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     @BindView(R.id.stl_main)
@@ -34,13 +32,15 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private final String[] mTitles = {
             "热门", "iOS", "Android"
+            , "前端", "后端", "设计", "工具资源",
+            "热门", "iOS", "Android"
             , "前端", "后端", "设计", "工具资源"
     };
     private MyPagerAdapter mAdapter;
 
     @Override
     protected MainFragPresenter createPresenter() {
-        return new MainFragPresenter(this);
+        return new MainFragPresenter(getContext(), this);
     }
 
     @Override
@@ -60,7 +60,6 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
 
     @Override
     protected void initView() {
-        initToolBar(toolbar, false, "");
         for (int i = 0; i < mTitles.length; i++) {
             NewsFragment newsFragment = new NewsFragment();
             Bundle bundle = new Bundle();

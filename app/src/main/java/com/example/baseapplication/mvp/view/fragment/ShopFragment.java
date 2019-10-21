@@ -16,7 +16,7 @@ import com.example.baseapplication.mvp.view.iview.IShopFragView;
 public class ShopFragment extends BaseFragment<ShopFragPresenter> implements IShopFragView {
     @Override
     protected ShopFragPresenter createPresenter() {
-        return new ShopFragPresenter(this);
+        return new ShopFragPresenter(getContext(),this);
     }
 
     @Override

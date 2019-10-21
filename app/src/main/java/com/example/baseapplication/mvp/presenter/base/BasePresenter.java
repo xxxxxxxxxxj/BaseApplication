@@ -15,12 +15,16 @@ public abstract class BasePresenter<V extends IBaseView> {
     protected Context mContext;
 
     public BasePresenter(V iView) {
-        mContext = mContext;
+        this.mIView = iView;
+    }
+
+    public BasePresenter(Context mContext) {
+        this.mContext = mContext;
     }
 
     public BasePresenter(Context mContext, V iView) {
-        mContext = mContext;
-        mIView = iView;
+        this.mContext = mContext;
+        this.mIView = iView;
     }
 
     public BasePresenter() {
@@ -30,6 +34,6 @@ public abstract class BasePresenter<V extends IBaseView> {
      * 释放引用，防止内存泄露
      */
     public void destroy() {
-        mIView = null;
+        this.mIView = null;
     }
 }

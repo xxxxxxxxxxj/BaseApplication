@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.baseapplication.R;
+import com.example.baseapplication.app.UrlConstants;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.entity.CheckVersionBean;
 import com.example.baseapplication.mvp.model.entity.TabEntity;
@@ -30,6 +32,7 @@ import com.example.baseapplication.util.GetDeviceId;
 import com.example.baseapplication.util.StringUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.zhouyou.http.EasyHttp;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -93,6 +96,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
             public void onGranted(String permissionName) {
                 if (StringUtil.isEmpty(GetDeviceId.readDeviceID(mContext))) {
                     GetDeviceId.saveDeviceID(mContext);
+                    EasyHttp.getInstance().addCommonHeaders(UrlConstants.getHeaders(mActivity));//设置全局公共头
                 }
             }
 
@@ -121,7 +125,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
     @Override
     protected MainActivityPresenter createPresenter() {
-        return new MainActivityPresenter(this);
+        return new MainActivityPresenter(this,this);
     }
 
     @Override
@@ -216,6 +220,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
     @Override
     public void checkVersionSuccess(CheckVersionBean checkVersionBean) {
+        RingLog.e("checkVersionSuccess() checkVersionBean = " + checkVersionBean);
         hideLoadDialog();
         if (checkVersionBean != null) {
             if (checkVersionBean.getCompulsory() == 1) {
