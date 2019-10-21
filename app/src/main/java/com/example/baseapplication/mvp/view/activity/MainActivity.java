@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -60,6 +61,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
             R.mipmap.tab_petcircle_passed, R.mipmap.tab_my_passed};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private int currentIndex;
+    private long exitTime;
 
     @Override
     protected int getLayoutResID() {
@@ -125,7 +127,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
     @Override
     protected MainActivityPresenter createPresenter() {
-        return new MainActivityPresenter(this,this);
+        return new MainActivityPresenter(this, this);
     }
 
     @Override
@@ -248,7 +250,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                     public void onDeniedWithNeverAsk(String permissionName) {
                                         showToast("请打开存储权限");
                                     }
-                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
                             }
                         });
             } else if (checkVersionBean.getCompulsory() == 0) {
@@ -274,7 +276,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                     public void onDeniedWithNeverAsk(String permissionName) {
                                         showToast("请打开存储权限");
                                     }
-                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
                             }
                         });
             }
@@ -285,5 +287,27 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     public void checkVersionFail(int status, String desc) {
         hideLoadDialog();
         RingLog.e("checkVersionFail() status = " + status + "---desc = " + desc);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN
+                && event.getRepeatCount() == 0) {
+            exit();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    private void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            showToast("再按一次退出程序");
+            exitTime = System.currentTimeMillis();
+        } else {
+            onDestroy();
+            this.finish();
+            System.exit(0);
+        }
     }
 }
