@@ -18,6 +18,9 @@ android {
                 arguments = [eventBusIndex: "com.example.baseapplication.MyEventBusIndex"]
             }
         }
+        manifestPlaceholders = [
+                qq_id: ""
+        ]
     }
     signingConfigs {// 自动化打包配置
         config {
@@ -60,6 +63,7 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['assets']
         }
     }
     packagingOptions {//打包时的相关配置
@@ -93,8 +97,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    //倒计时控件
+    //网络请求
     implementation project(':rxeasyhttp')
+    //倒计时控件
     implementation project(':countdown_library')
     //新手引导控件
     implementation project(':guideview')
@@ -113,7 +118,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     //EventBus事件总线
     implementation 'org.greenrobot:eventbus:3.1.1'
-    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.1.1'//用于eventbus在编译时生成加速用的Index文件
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.1.1'
+//用于eventbus在编译时生成加速用的Index文件
     //资源绑定
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'//用于butterknife在编译时根据注解生成相关文件
@@ -136,4 +142,12 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
     //下拉刷新、上拉加载
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+    //AgentWeb 是一个基于的 Android WebView ，极度容易使用以及功能强大的库
+    implementation 'com.just.agentweb:agentweb:4.1.2' // (必选)
+    implementation 'com.just.agentweb:filechooser:4.1.2'// (可选)
+    implementation 'com.download.library:Downloader:4.1.2'// (可选)
+    //json解析
+    implementation 'com.google.code.gson:gson:2.8.6'
+    //底部弹框控件
+    implementation 'me.shaohui:bottomdialog:1.1.9'
 }
