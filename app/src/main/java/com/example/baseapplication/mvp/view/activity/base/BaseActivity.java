@@ -158,9 +158,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         activityListManager = new ActivityListManager();
         mProgressDialog = new MProgressDialog(this);
         mPresenter = createPresenter();
-        initView(savedInstanceState);
-        setView(savedInstanceState);
-        initData(savedInstanceState);
+        initData(getIntent().getExtras());
+        initView(getIntent().getExtras());
+        setView(getIntent().getExtras());
         initEvent();
         loadData();
     }

@@ -132,4 +132,8 @@ dependencies {
     //Rxjava2 & RxAndroid2
     implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    //广告图片轮播控件
+    implementation 'com.youth.banner:banner:1.4.10'
+    //下拉刷新、上拉加载
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 }

@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -376,6 +377,37 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, int resTitle) {
         initToolBar(toolbar, homeAsUpEnabled, getString(resTitle));
+    }
+
+    protected View setEmptyViewBase(int flag, String msg, int resId, View.OnClickListener OnClickListener) {//1.无网络2.无数据或数据错误
+        View emptyView = View.inflate(mActivity, R.layout.recycler_emptyview, null);
+        ImageView iv_emptyview_img = (ImageView) emptyView.findViewById(R.id.iv_emptyview_img);
+        TextView tv_emptyview_desc = (TextView) emptyView.findViewById(R.id.tv_emptyview_desc);
+        Button btn_emptyview = (Button) emptyView.findViewById(R.id.btn_emptyview);
+        if (flag == 1) {
+            btn_emptyview.setVisibility(View.VISIBLE);
+            btn_emptyview.setOnClickListener(OnClickListener);
+        } else if (flag == 2) {
+            btn_emptyview.setVisibility(View.GONE);
+        }
+        setText(tv_emptyview_desc, msg, "", View.VISIBLE, View.VISIBLE);
+        iv_emptyview_img.setImageResource(resId);
+        return emptyView;
+    }
+
+    protected View setEmptyViewBase(int flag, String msg, View.OnClickListener OnClickListener) {//1.无网络2.无数据或数据错误
+        View emptyView = View.inflate(mActivity, R.layout.recycler_emptyview, null);
+        ImageView iv_emptyview_img = (ImageView) emptyView.findViewById(R.id.iv_emptyview_img);
+        TextView tv_emptyview_desc = (TextView) emptyView.findViewById(R.id.tv_emptyview_desc);
+        Button btn_emptyview = (Button) emptyView.findViewById(R.id.btn_emptyview);
+        if (flag == 1) {
+            btn_emptyview.setVisibility(View.VISIBLE);
+            btn_emptyview.setOnClickListener(OnClickListener);
+        } else if (flag == 2) {
+            btn_emptyview.setVisibility(View.GONE);
+        }
+        setText(tv_emptyview_desc, msg, "", View.VISIBLE, View.VISIBLE);
+        return emptyView;
     }
 
     @Override

@@ -5,10 +5,35 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Space;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.toast.CustomToastStyle;
 import com.example.baseapplication.toast.RingToast;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshKernel;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.internal.ArrowDrawable;
+import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
+import com.scwang.smartrefresh.layout.util.SmartUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -30,6 +55,149 @@ import javax.net.ssl.SSLSession;
 public class MApplication extends Application {
     // IWXAPI 是第三方app和微信通信的openApi接口
     private IWXAPI api;
+
+    //static 代码段可以防止内存泄露
+    static {
+        //启用矢量图兼容
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //设置全局默认配置（优先级最低，会被其他设置覆盖）
+        SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
+            @Override
+            public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
+                //全局设置（优先级最低）
+                layout.setEnableAutoLoadMore(true);
+                layout.setEnableOverScrollDrag(false);
+                layout.setEnableOverScrollBounce(true);
+                layout.setEnableLoadMoreWhenContentNotFull(true);
+                layout.setEnableScrollContentWhenRefreshed(true);
+                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);
+            }
+        });
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
+                return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+            }
+        });
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                //指定为经典Footer，默认是 BallPulseFooter
+                return new ClassicsFooter(context).setDrawableSize(20);
+            }
+        });
+    }
+
+    public static class ClassicsHeader extends LinearLayout implements RefreshHeader {
+
+        private TextView mHeaderText;//标题文本
+        private ImageView mArrowView;//下拉箭头
+        private ImageView mProgressView;//刷新动画视图
+        private ProgressDrawable mProgressDrawable;//刷新动画
+
+        public ClassicsHeader(Context context) {
+            this(context, null);
+        }
+
+        public ClassicsHeader(Context context, AttributeSet attrs) {
+            super(context, attrs, 0);
+            setGravity(Gravity.CENTER);
+            mHeaderText = new TextView(context);
+            mProgressDrawable = new ProgressDrawable();
+            mArrowView = new ImageView(context);
+            mProgressView = new ImageView(context);
+            mProgressView.setImageDrawable(mProgressDrawable);
+            mArrowView.setImageDrawable(new ArrowDrawable());
+            addView(mProgressView, SmartUtil.dp2px(20), SmartUtil.dp2px(20));
+            addView(mArrowView, SmartUtil.dp2px(20), SmartUtil.dp2px(20));
+            addView(new Space(context), SmartUtil.dp2px(20), SmartUtil.dp2px(20));
+            addView(mHeaderText, LinearLayout.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            setMinimumHeight(SmartUtil.dp2px(60));
+        }
+
+        @NonNull
+        public View getView() {
+            return this;//真实的视图就是自己，不能返回null
+        }
+
+        @NonNull
+        @Override
+        public SpinnerStyle getSpinnerStyle() {
+            return SpinnerStyle.Translate;//指定为平移，不能null
+        }
+
+        @Override
+        public void setPrimaryColors(int... colors) {
+
+        }
+
+        @Override
+        public void onInitialized(@NonNull RefreshKernel kernel, int height, int maxDragHeight) {
+
+        }
+
+        @Override
+        public void onMoving(boolean isDragging, float percent, int offset, int height, int maxDragHeight) {
+
+        }
+
+        @Override
+        public void onReleased(@NonNull RefreshLayout refreshLayout, int height, int maxDragHeight) {
+
+        }
+
+        @Override
+        public void onStartAnimator(@NonNull RefreshLayout layout, int height, int maxDragHeight) {
+            mProgressDrawable.start();//开始动画
+        }
+
+        @Override
+        public int onFinish(@NonNull RefreshLayout layout, boolean success) {
+            mProgressDrawable.stop();//停止动画
+            mProgressView.setVisibility(GONE);//隐藏动画
+            if (success) {
+                mHeaderText.setText("刷新完成");
+            } else {
+                mHeaderText.setText("刷新失败");
+            }
+            return 500;//延迟500毫秒之后再弹回
+        }
+
+        @Override
+        public void onHorizontalDrag(float percentX, int offsetX, int offsetMax) {
+
+        }
+
+        @Override
+        public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+            switch (newState) {
+                case None:
+                case PullDownToRefresh:
+                    mHeaderText.setText("下拉开始刷新");
+                    mArrowView.setVisibility(VISIBLE);//显示下拉箭头
+                    mProgressView.setVisibility(GONE);//隐藏动画
+                    mArrowView.animate().rotation(0);//还原箭头方向
+                    break;
+                case Refreshing:
+                    mHeaderText.setText("正在刷新");
+                    mProgressView.setVisibility(VISIBLE);//显示加载动画
+                    mArrowView.setVisibility(GONE);//隐藏箭头
+                    break;
+                case ReleaseToRefresh:
+                    mHeaderText.setText("释放立即刷新");
+                    mArrowView.animate().rotation(180);//显示箭头改为朝上
+                    break;
+            }
+        }
+
+        @Override
+        public boolean isSupportHorizontalDrag() {
+            return false;
+        }
+    }
 
     @Override
     public void onCreate() {

@@ -1,10 +1,11 @@
 package com.example.baseapplication.mvp.view.adapter;
 
-import android.content.Context;
-import androidx.viewpager.widget.PagerAdapter;
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
 import com.example.baseapplication.photoview.PhotoView;
@@ -22,9 +23,9 @@ import java.util.List;
  */
 public class PhotoViewPagerAdapter extends PagerAdapter {
     private List<ImageInfo> imgList;
-    private Context context;
+    private Activity context;
 
-    public PhotoViewPagerAdapter(Context context, List<ImageInfo> imgList) {
+    public PhotoViewPagerAdapter(Activity context, List<ImageInfo> imgList) {
         this.imgList = imgList;
         this.context = context;
     }
@@ -45,6 +46,12 @@ public class PhotoViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         PhotoView photoView = new PhotoView(context);
+        photoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.finish();
+            }
+        });
         photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         GlideUtil.displayImage(context, imgList.get(position).getImgUrl(), photoView);
         //把图片添加到container中
