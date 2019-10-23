@@ -16,7 +16,11 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.core.app.ActivityOptionsCompat;
+
+import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
 import com.example.baseapplication.photoview.PhotoViewActivity;
 
@@ -138,13 +142,25 @@ public class SystemUtil {
     }
 
     //查看大图
-    public static void photoView(Context context, int position, List<ImageInfo> imgList) {
-        Intent intent = new Intent();
-        intent.setClass(context, PhotoViewActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
-        bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
+    public static void photoView(Activity context, int position, List<ImageInfo> imgList, View view) {
+        if (Build.VERSION.SDK_INT < 21) {
+            Intent intent = new Intent();
+            intent.setClass(context, PhotoViewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
+            bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
+        } else {
+            Intent intent = new Intent();
+            intent.setClass(context, PhotoViewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
+            bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
+            intent.putExtras(bundle);
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(context, view, context.getString(R.string.transition_test));
+            context.startActivity(intent, options.toBundle());
+        }
     }
 }

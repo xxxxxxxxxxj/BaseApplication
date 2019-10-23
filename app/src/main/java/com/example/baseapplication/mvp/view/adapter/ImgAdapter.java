@@ -1,5 +1,6 @@
 package com.example.baseapplication.mvp.view.adapter;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -24,13 +25,15 @@ import java.util.List;
  * @date zhoujunxia on 2019-10-23 12:50
  */
 public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private Activity mActivity;
     private List<String> pathList = new ArrayList<String>();
     private int imgWidth;
     private int imgHeight;
     private List<ImageInfo> imgList = new ArrayList<ImageInfo>();
 
-    public ImgAdapter(int layoutResId, List<String> data, int imgWidth, int imgHeight) {
+    public ImgAdapter(Activity mActivity, int layoutResId, List<String> data, int imgWidth, int imgHeight) {
         super(layoutResId, data);
+        this.mActivity = mActivity;
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
         pathList.clear();
@@ -63,7 +66,7 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         iv_item_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SystemUtil.photoView(mContext, helper.getLayoutPosition(), imgList);
+                SystemUtil.photoView(mActivity, helper.getLayoutPosition(), imgList, v);
             }
         });
     }

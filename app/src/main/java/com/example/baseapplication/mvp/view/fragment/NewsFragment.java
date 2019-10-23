@@ -84,7 +84,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
     protected void initView() {
         rvNewsfrag.setHasFixedSize(true);
         rvNewsfrag.setLayoutManager(new LinearLayoutManager(mActivity));
-        postAdapter = new PostAdapter(R.layout.item_newsfrag, postList);
+        postAdapter = new PostAdapter(mActivity, R.layout.item_newsfrag, postList);
         View top = getLayoutInflater().inflate(R.layout.newsfrag_top_banner, (ViewGroup) rvNewsfrag.getParent(), false);
         banner_newsfrag = (Banner) top.findViewById(R.id.banner_newsfrag);
         postAdapter.addHeaderView(top);
@@ -116,7 +116,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
     protected void loadData() {
         showLoadDialog();
         bannerParams.clear();
-        bannerParams.put("category", "2");
+        bannerParams.put("category", "3");
         mPresenter.getBanner(bannerParams);
         refresh();
     }

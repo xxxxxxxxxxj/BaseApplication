@@ -1,5 +1,6 @@
 package com.example.baseapplication.mvp.view.adapter;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,8 +27,11 @@ import java.util.List;
  * @date zhoujunxia on 2019-10-23 11:28
  */
 public class PostAdapter extends BaseQuickAdapter<PostBean, BaseViewHolder> {
-    public PostAdapter(int layoutResId, List<PostBean> data) {
+    private Activity mActivity;
+
+    public PostAdapter(Activity mActivity, int layoutResId, List<PostBean> data) {
         super(layoutResId, data);
+        this.mActivity = mActivity;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class PostAdapter extends BaseQuickAdapter<PostBean, BaseViewHolder> {
                 NoScollFullGridLayoutManager noScollFullGridLayoutManager = new NoScollFullGridLayoutManager(rv_item_newsfrag_img, mContext, 3, GridLayoutManager.VERTICAL, false);
                 noScollFullGridLayoutManager.setScrollEnabled(false);
                 rv_item_newsfrag_img.setLayoutManager(noScollFullGridLayoutManager);
-                ImgAdapter imgAdapter = new ImgAdapter(R.layout.item_img, item.getMedia(), 197, 137);
+                ImgAdapter imgAdapter = new ImgAdapter(mActivity,R.layout.item_img, item.getMedia(), 197, 137);
                 rv_item_newsfrag_img.setAdapter(imgAdapter);
             } else {
                 rv_item_newsfrag_img.setVisibility(View.GONE);

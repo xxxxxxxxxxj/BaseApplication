@@ -1,4 +1,5 @@
 <resources>
+    <string name="transition_test">test</string>
     <string name="app_name" translatable="false">BaseApplication</string>
     <string name="simple_view_behavior" translatable="false">com.lzy.demo.ui.SimpleViewBehavior</string>
     <string name="translate_up_down_behavior" translatable="false">com.lzy.demo.ui.TranslateUpDownBehavior</string>
