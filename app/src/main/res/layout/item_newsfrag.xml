@@ -74,12 +74,13 @@
                 android:layout_toLeftOf="@id/ll_item_newsfrag_time"
                 android:gravity="center_vertical">
 
-                <ImageView
+                <com.example.baseapplication.mvp.view.widget.NiceImageView
                     android:id="@+id/iv_item_newsfrag_userimg"
                     android:layout_width="20dip"
                     android:layout_height="20dip"
                     android:layout_marginRight="5dip"
                     android:scaleType="fitXY"
+                    app:is_circle="true"
                     android:src="@mipmap/ic_image_load_circle" />
 
                 <TextView

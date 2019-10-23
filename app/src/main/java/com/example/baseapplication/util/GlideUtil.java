@@ -38,28 +38,6 @@ public class GlideUtil {
         }
     }
 
-    public static void displayImageNoDefault(Context mContext, String imgUrl,
-                                             ImageView imageView) {
-        if (StringUtil.isNotEmpty(imgUrl)) {
-            if (!imgUrl.startsWith("http://")
-                    && !imgUrl.startsWith("https://")) {
-                imgUrl = UrlConstants.getServiceBaseUrl() + imgUrl;
-            }
-            if (imgUrl.toUpperCase().endsWith(".GIF")) {
-                Glide.with(mContext)
-                        .asGif()
-                        .load(imgUrl)
-                        .fitCenter()
-                        .into(imageView);
-            } else {
-                Glide.with(mContext)
-                        .load(imgUrl)
-                        .fitCenter()
-                        .into(imageView);
-            }
-        }
-    }
-
     public static void displayImage(Context mContext, String imgUrl,
                                     ImageView imageView, int imgWidth, int imgHeight) {
         if (StringUtil.isNotEmpty(imgUrl)) {

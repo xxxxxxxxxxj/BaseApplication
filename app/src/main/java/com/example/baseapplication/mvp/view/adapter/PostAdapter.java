@@ -2,7 +2,6 @@ package com.example.baseapplication.mvp.view.adapter;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.model.entity.PostBean;
+import com.example.baseapplication.mvp.view.widget.NiceImageView;
 import com.example.baseapplication.mvp.view.widget.NoScollFullGridLayoutManager;
 import com.example.baseapplication.util.GlideUtil;
 import com.example.baseapplication.util.StringUtil;
@@ -40,10 +40,10 @@ public class PostAdapter extends BaseQuickAdapter<PostBean, BaseViewHolder> {
         RecyclerView rv_item_newsfrag_img = helper.getView(R.id.rv_item_newsfrag_img);
         TextView tv_item_newsfrag_time = helper.getView(R.id.tv_item_newsfrag_time);
         TextView tv_item_newsfrag_num = helper.getView(R.id.tv_item_newsfrag_num);
-        ImageView iv_item_newsfrag_userimg = helper.getView(R.id.iv_item_newsfrag_userimg);
+        NiceImageView iv_item_newsfrag_userimg = helper.getView(R.id.iv_item_newsfrag_userimg);
         TextView tv_item_newsfrag_name = helper.getView(R.id.tv_item_newsfrag_name);
         if (item != null) {
-            GlideUtil.displayImageNoDefault(mContext, item.getHeadImg(), iv_item_newsfrag_userimg);
+            GlideUtil.displayImage(mContext, item.getHeadImg(), iv_item_newsfrag_userimg);
             if (item.getMedia() != null && item.getMedia().size() > 0) {
                 rv_item_newsfrag_img.setVisibility(View.VISIBLE);
                 rv_item_newsfrag_img.setHasFixedSize(true);
