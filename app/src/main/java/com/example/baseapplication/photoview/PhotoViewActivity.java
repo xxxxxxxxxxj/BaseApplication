@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.baseapplication.R;
-import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
@@ -40,8 +39,6 @@ public class PhotoViewActivity extends BaseActivity {
     protected void initData(Bundle savedInstanceState) {
         prePosition = savedInstanceState.getInt(KEY_PHOTOVIEW_POSITION);
         imgList = (List<ImageInfo>) savedInstanceState.getSerializable(KEY_PHOTOVIEW_IMGLIST);
-        RingLog.e("prePosition = " + prePosition);
-        RingLog.e("imgList = " + imgList);
     }
 
     @Override

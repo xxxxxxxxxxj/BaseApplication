@@ -8,9 +8,12 @@ import android.widget.ImageView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
+import com.example.baseapplication.photoview.OnPhotoTapListener;
 import com.example.baseapplication.photoview.PhotoView;
+import com.example.baseapplication.photoview.PhotoViewAttacher;
 import com.example.baseapplication.util.GlideUtil;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -23,11 +26,12 @@ import java.util.List;
  */
 public class PhotoViewPagerAdapter extends PagerAdapter {
     private List<ImageInfo> imgList;
-    private Activity context;
+    private Activity mActivity;
+    private File photoViewFile;
 
-    public PhotoViewPagerAdapter(Activity context, List<ImageInfo> imgList) {
+    public PhotoViewPagerAdapter(Activity mActivity, List<ImageInfo> imgList) {
         this.imgList = imgList;
-        this.context = context;
+        this.mActivity = mActivity;
     }
 
     @Override
@@ -45,15 +49,17 @@ public class PhotoViewPagerAdapter extends PagerAdapter {
     //返回要显示的条目内容
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        PhotoView photoView = new PhotoView(context);
-        photoView.setOnClickListener(new View.OnClickListener() {
+        PhotoView photoView = new PhotoView(mActivity);
+
+        PhotoViewAttacher mAttacher = photoView.getAttacher();
+        mAttacher.setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override
-            public void onClick(View v) {
-                context.finish();
+            public void onPhotoTap(ImageView view, float x, float y) {
+                mActivity.finish();
             }
         });
         photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        GlideUtil.displayImage(context, imgList.get(position).getImgUrl(), photoView);
+        GlideUtil.displayImage(mActivity, imgList.get(position).getImgUrl(), photoView);
         //把图片添加到container中
         container.addView(photoView);
         //把图片返回给框架，用来缓存

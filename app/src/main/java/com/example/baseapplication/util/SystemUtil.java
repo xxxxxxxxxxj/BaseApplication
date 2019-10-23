@@ -143,7 +143,7 @@ public class SystemUtil {
 
     //查看大图
     public static void photoView(Activity context, int position, List<ImageInfo> imgList, View view) {
-        if (Build.VERSION.SDK_INT < 21) {
+        //if (Build.VERSION.SDK_INT < 21) {
             Intent intent = new Intent();
             intent.setClass(context, PhotoViewActivity.class);
             Bundle bundle = new Bundle();
@@ -151,7 +151,7 @@ public class SystemUtil {
             bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
             intent.putExtras(bundle);
             context.startActivity(intent);
-        } else {
+        /*} else {
             Intent intent = new Intent();
             intent.setClass(context, PhotoViewActivity.class);
             Bundle bundle = new Bundle();
@@ -161,6 +161,6 @@ public class SystemUtil {
             ActivityOptionsCompat options = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(context, view, context.getString(R.string.transition_test));
             context.startActivity(intent, options.toBundle());
-        }
+        }*/
     }
 }
