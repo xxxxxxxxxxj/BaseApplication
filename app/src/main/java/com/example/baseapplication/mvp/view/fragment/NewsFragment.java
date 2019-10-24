@@ -312,4 +312,8 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
             }
         }
     }
+
+    public void autoRefresh() {
+        srlNewsfrag.autoRefresh();
+    }
 }

@@ -4,11 +4,13 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.baseapplication.R;
+import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.MainFragPresenter;
 import com.example.baseapplication.mvp.view.adapter.MyPagerAdapter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.IMainFragView;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,7 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
             , "前端", "后端", "设计", "工具资源"
     };
     private MyPagerAdapter mAdapter;
+    private int currentTabIndex;
 
     @Override
     protected MainFragPresenter createPresenter() {
@@ -64,6 +67,8 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
         mAdapter = new MyPagerAdapter(mActivity.getSupportFragmentManager(), mFragments, mTitles);
         viewPager.setAdapter(mAdapter);
         stlMain.setViewPager(viewPager);
+        stlMain.setCurrentTab(currentTabIndex);
+        viewPager.setCurrentItem(currentTabIndex);
     }
 
     @Override
@@ -73,7 +78,40 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
 
     @Override
     protected void initEvent() {
+        stlMain.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                RingLog.e("TAG", "onTabSelect position = " + position);
+                currentTabIndex = position;
+                viewPager.setCurrentItem(position);
+            }
 
+            @Override
+            public void onTabReselect(int position) {
+                RingLog.e("TAG", "ponTabReselect position = " + position);
+                if (currentTabIndex == position) {//刷新
+                    NewsFragment fragment = (NewsFragment) mAdapter.getItem(position);
+                    fragment.autoRefresh();
+                }
+            }
+        });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                currentTabIndex = position;
+                stlMain.setCurrentTab(currentTabIndex);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
