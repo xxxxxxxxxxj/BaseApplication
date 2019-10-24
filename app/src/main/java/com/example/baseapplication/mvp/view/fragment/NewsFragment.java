@@ -134,7 +134,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
                                     break;
                                 /*优酷*/
                                 case 5:
-                                    url = "http://m.youku.com/video/id_XODEzMjU1MTI4.html";
+                                    url = "http://www.iqiyi.com/dianshiju/";
                                     break;
                                 /*淘宝*/
                                 case 6:

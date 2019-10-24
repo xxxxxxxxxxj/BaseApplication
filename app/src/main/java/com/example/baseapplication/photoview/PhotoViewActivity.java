@@ -111,8 +111,10 @@ public class PhotoViewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setAllowFullScreen(true);
+        setScreenRoate(true);
+        setSteepStatusBar(true);
         super.onCreate(savedInstanceState);
         setSwipeBack(false);
-        setAllowFullScreen(true);
     }
 }

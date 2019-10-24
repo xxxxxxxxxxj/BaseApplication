@@ -58,10 +58,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      * 是否允许旋转屏幕
      **/
     private boolean isAllowScreenRoate = false;
-    /**
-     * 是否允许侧滑退出
-     **/
-    private boolean isSwipeBackEnable = true;
 
     /**
      * 返回页面布局id
@@ -136,17 +132,17 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (mAllowFullScreen) {
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
+        }
         super.onCreate(savedInstanceState);
         mSwipeBackLayout = getSwipeBackLayout();
         //设置滑动方向，可设置EDGE_LEFT, EDGE_RIGHT, EDGE_ALL, EDGE_BOTTOM
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         mSwipeBackLayout.setEdgeSize(200);//滑动删除的效果只能从边界滑动才有效果，如果要扩大touch的范围，可以调用这个方法
-        setSwipeBackEnable(isSwipeBackEnable);
         mActivity = this;
         mContext = this;
-        if (mAllowFullScreen) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-        }
         if (isSetStatusBar) {
             steepStatusBar();
         }
@@ -385,7 +381,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      * @param isSwipeBackEnable
      */
     protected void setSwipeBack(boolean isSwipeBackEnable) {
-        this.isSwipeBackEnable = isSwipeBackEnable;
+        setSwipeBackEnable(isSwipeBackEnable);
     }
 
     /**
@@ -429,21 +425,27 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         }
     }
 
-    /** 获取主题色 */
+    /**
+     * 获取主题色
+     */
     protected int getColorPrimary() {
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
         return typedValue.data;
     }
 
-    /** 获取深主题色 */
+    /**
+     * 获取深主题色
+     */
     protected int getDarkColorPrimary() {
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
         return typedValue.data;
     }
 
-    /** 初始化 Toolbar */
+    /**
+     * 初始化 Toolbar
+     */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
