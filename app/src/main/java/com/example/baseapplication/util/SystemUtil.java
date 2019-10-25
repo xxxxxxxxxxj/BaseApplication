@@ -16,16 +16,14 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.core.app.ActivityOptionsCompat;
-
-import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
 import com.example.baseapplication.photoview.PhotoViewActivity;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -142,25 +140,29 @@ public class SystemUtil {
     }
 
     //查看大图
-    public static void photoView(Activity context, int position, List<ImageInfo> imgList, View view) {
-        //if (Build.VERSION.SDK_INT < 21) {
-            Intent intent = new Intent();
-            intent.setClass(context, PhotoViewActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
-            bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
-            intent.putExtras(bundle);
-            context.startActivity(intent);
-        /*} else {
-            Intent intent = new Intent();
-            intent.setClass(context, PhotoViewActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
-            bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
-            intent.putExtras(bundle);
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(context, view, context.getString(R.string.transition_test));
-            context.startActivity(intent, options.toBundle());
-        }*/
+    public static void photoView(Activity context, int position, List<ImageInfo> imgList) {
+        Intent intent = new Intent();
+        intent.setClass(context, PhotoViewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
+        bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    public static List<File> pathToFile(List<String> pathList) {
+        List<File> fileList = new ArrayList<File>();
+        for (int i = 0; i < pathList.size(); i++) {
+            fileList.add(new File(pathList.get(i)));
+        }
+        return fileList;
+    }
+
+    public static List<String> fileToPath(List<File> fileList) {
+        List<String> pathList = new ArrayList<String>();
+        for (int i = 0; i < fileList.size(); i++) {
+            pathList.add(fileList.get(i).getAbsolutePath());
+        }
+        return pathList;
     }
 }

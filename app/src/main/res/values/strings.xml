@@ -3,4 +3,5 @@
     <string name="app_name" translatable="false">BaseApplication</string>
     <string name="simple_view_behavior" translatable="false">com.lzy.demo.ui.SimpleViewBehavior</string>
     <string name="translate_up_down_behavior" translatable="false">com.lzy.demo.ui.TranslateUpDownBehavior</string>
+    <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
 </resources>

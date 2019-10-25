@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.baseapplication.R;
-import com.example.baseapplication.app.UrlConstants;
 
 /**
  * Glide图片加载工具类
@@ -15,10 +14,6 @@ public class GlideUtil {
     public static void displayImage(Context mContext, String imgUrl,
                                     ImageView imageView) {
         if (StringUtil.isNotEmpty(imgUrl)) {
-            if (!imgUrl.startsWith("http://")
-                    && !imgUrl.startsWith("https://")) {
-                imgUrl = UrlConstants.getServiceBaseUrl() + imgUrl;
-            }
             if (imgUrl.toUpperCase().endsWith(".GIF")) {
                 Glide.with(mContext)
                         .asGif()
@@ -41,10 +36,6 @@ public class GlideUtil {
     public static void displayImage(Context mContext, String imgUrl,
                                     ImageView imageView, int imgWidth, int imgHeight) {
         if (StringUtil.isNotEmpty(imgUrl)) {
-            if (!imgUrl.startsWith("http://")
-                    && !imgUrl.startsWith("https://")) {
-                imgUrl = UrlConstants.getServiceBaseUrl() + imgUrl;
-            }
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.override(imgWidth, imgHeight);
             if (imgUrl.toUpperCase().endsWith(".GIF")) {

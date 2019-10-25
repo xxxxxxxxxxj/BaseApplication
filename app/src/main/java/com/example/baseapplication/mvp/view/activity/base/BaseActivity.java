@@ -1,16 +1,20 @@
 package com.example.baseapplication.mvp.view.activity.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +23,10 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.baseapplication.R;
+import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
+import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
+import com.example.baseapplication.mvp.view.widget.GifSizeFilter;
 import com.example.baseapplication.mvp.view.widget.MProgressDialog;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
@@ -29,13 +36,28 @@ import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.StringUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.util.List;
+
 import butterknife.ButterKnife;
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import top.zibin.luban.Luban;
 
 /**
  * <p>Title:${type_name}</p>
@@ -130,6 +152,26 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      */
     private SwipeBackLayout mSwipeBackLayout;
 
+    private CompositeDisposable mDisposable;
+    /**
+     * Luban压缩回调
+     */
+    public BaseFragment.OnLuBanSuccessListener onLuBanSuccessListener = null;
+
+    public interface OnLuBanSuccessListener {
+        public void OnLuBanSuccess(List<File> list);
+    }
+
+    public void setOnLuBanSuccessListener(
+            BaseFragment.OnLuBanSuccessListener onLuBanSuccessListener) {
+        this.onLuBanSuccessListener = onLuBanSuccessListener;
+    }
+
+    /**
+     * Luban压缩返回码
+     */
+    public static final int REQUEST_CODE_CHOOSE = 23;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (mAllowFullScreen) {
@@ -141,6 +183,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         //设置滑动方向，可设置EDGE_LEFT, EDGE_RIGHT, EDGE_ALL, EDGE_BOTTOM
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         mSwipeBackLayout.setEdgeSize(200);//滑动删除的效果只能从边界滑动才有效果，如果要扩大touch的范围，可以调用这个方法
+        mDisposable = new CompositeDisposable();
         mActivity = this;
         mContext = this;
         if (isSetStatusBar) {
@@ -456,6 +499,123 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         initToolBar(toolbar, homeAsUpEnabled, getString(resTitle));
     }
 
+    protected View setEmptyViewBase(int flag, String msg, int resId, View.OnClickListener OnClickListener) {//1.无网络2.无数据或数据错误
+        View emptyView = View.inflate(mActivity, R.layout.recycler_emptyview, null);
+        ImageView iv_emptyview_img = (ImageView) emptyView.findViewById(R.id.iv_emptyview_img);
+        TextView tv_emptyview_desc = (TextView) emptyView.findViewById(R.id.tv_emptyview_desc);
+        Button btn_emptyview = (Button) emptyView.findViewById(R.id.btn_emptyview);
+        if (flag == 1) {
+            btn_emptyview.setVisibility(View.VISIBLE);
+            btn_emptyview.setOnClickListener(OnClickListener);
+        } else if (flag == 2) {
+            btn_emptyview.setVisibility(View.GONE);
+        }
+        setText(tv_emptyview_desc, msg, "", View.VISIBLE, View.VISIBLE);
+        iv_emptyview_img.setImageResource(resId);
+        return emptyView;
+    }
+
+    protected View setEmptyViewBase(int flag, String msg, View.OnClickListener OnClickListener) {//1.无网络2.无数据或数据错误
+        View emptyView = View.inflate(mActivity, R.layout.recycler_emptyview, null);
+        ImageView iv_emptyview_img = (ImageView) emptyView.findViewById(R.id.iv_emptyview_img);
+        TextView tv_emptyview_desc = (TextView) emptyView.findViewById(R.id.tv_emptyview_desc);
+        Button btn_emptyview = (Button) emptyView.findViewById(R.id.btn_emptyview);
+        if (flag == 1) {
+            btn_emptyview.setVisibility(View.VISIBLE);
+            btn_emptyview.setOnClickListener(OnClickListener);
+        } else if (flag == 2) {
+            btn_emptyview.setVisibility(View.GONE);
+        }
+        setText(tv_emptyview_desc, msg, "", View.VISIBLE, View.VISIBLE);
+        return emptyView;
+    }
+
+    protected void goPhoto() {
+        requestEachCombined(new PermissionListener() {
+            @Override
+            public void onGranted(String permissionName) {
+                Matisse.from(mActivity)
+                        .choose(MimeType.ofImage(), false)
+                        .countable(true)
+                        .capture(true)
+                        .captureStrategy(
+                                new CaptureStrategy(true, "com.example.baseapplication.fileProvider", "test"))
+                        .maxSelectable(9)
+                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .gridExpectedSize(
+                                getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new GlideEngine())
+                        .setOnSelectedListener((uriList, pathList) -> {
+                            Log.e("onSelected", "onSelected: pathList=" + pathList);
+                        })
+                        .showSingleMediaType(true)
+                        .originalEnable(true)
+                        .maxOriginalSize(10)
+                        .autoHideToolbarOnSingleTap(true)
+                        .setOnCheckedListener(isChecked -> {
+                            Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                        })
+                        .forResult(REQUEST_CODE_CHOOSE);
+            }
+
+            @Override
+            public void onDenied(String permissionName) {
+                showToast("请打开存储权限");
+            }
+
+            @Override
+            public void onDeniedWithNeverAsk(String permissionName) {
+                showToast("请打开存储权限");
+            }
+        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+    }
+
+    protected <T> void withRx(final List<T> photos) {
+        showLoadDialog();
+        mDisposable.add(Flowable.just(photos)
+                .observeOn(Schedulers.io())
+                .map(new Function<List<T>, List<File>>() {
+                    @Override
+                    public List<File> apply(@NonNull List<T> list) throws Exception {
+                        return Luban.with(mActivity)
+                                .setTargetDir(getPath())
+                                .load(list)
+                                .get();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        RingLog.e(throwable.getMessage());
+                    }
+                })
+                .onErrorResumeNext(Flowable.<List<File>>empty())
+                .subscribe(new Consumer<List<File>>() {
+                    @Override
+                    public void accept(@NonNull List<File> list) {
+                        hideLoadDialog();
+                        onLuBanSuccessListener.OnLuBanSuccess(list);
+                    }
+                }));
+    }
+
+    private String getPath() {
+        String path = "";
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//外部存储卡
+            path = Environment.getExternalStorageDirectory() + "/Luban/image/";
+        } else {
+            path = mActivity.getFilesDir() + "/Luban/image/";
+        }
+        File file = new File(path);
+        if (file.mkdirs()) {
+            return path;
+        }
+        return path;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -467,6 +627,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mDisposable.clear();
         ButterKnife.bind(this).unbind();
         if (isUseEventBus() && EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);

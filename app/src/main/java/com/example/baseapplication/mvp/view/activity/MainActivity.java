@@ -3,11 +3,14 @@ package com.example.baseapplication.mvp.view.activity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.baseapplication.R;
@@ -15,6 +18,7 @@ import com.example.baseapplication.app.UrlConstants;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.entity.CheckVersionBean;
 import com.example.baseapplication.mvp.model.entity.TabEntity;
+import com.example.baseapplication.mvp.model.event.MatisseDataEvent;
 import com.example.baseapplication.mvp.presenter.MainActivityPresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
 import com.example.baseapplication.mvp.view.fragment.MainFragment;
@@ -33,13 +37,16 @@ import com.example.baseapplication.util.GetDeviceId;
 import com.example.baseapplication.util.StringUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.zhihu.matisse.Matisse;
 import com.zhouyou.http.EasyHttp;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -308,6 +315,16 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
             onDestroy();
             this.finish();
             System.exit(0);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ShopFragment.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            List<Uri> uris = Matisse.obtainResult(data);
+            List<String> strings = Matisse.obtainPathResult(data);
+            EventBus.getDefault().post(new MatisseDataEvent(uris, strings));
         }
     }
 }

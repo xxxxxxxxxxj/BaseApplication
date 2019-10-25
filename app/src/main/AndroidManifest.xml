@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.baseapplication">
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 安装apk所需权限 -->
@@ -76,6 +77,15 @@
             android:exported="true"
             android:launchMode="singleTop" />
 
+        <!--<provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.zhihu.matisse.sample.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>-->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.baseapplication.fileProvider"

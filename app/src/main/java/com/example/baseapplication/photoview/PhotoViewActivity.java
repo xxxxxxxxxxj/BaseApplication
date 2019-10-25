@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.baseapplication.R;
+import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
@@ -64,6 +65,9 @@ public class PhotoViewActivity extends BaseActivity {
             //将图片添加到线性布局中
             points.addView(view);
         }
+        RingLog.e("prePosition = " + prePosition);
+        RingLog.e("points.getChildAt(prePosition) = " + points.getChildAt(prePosition));
+        RingLog.e("imgList.size() = " + imgList.size());
         points.getChildAt(prePosition).setBackgroundResource(R.drawable.point_white);
         viewPager.setCurrentItem(prePosition);
     }

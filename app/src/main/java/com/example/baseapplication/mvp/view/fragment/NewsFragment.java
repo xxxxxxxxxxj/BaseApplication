@@ -205,7 +205,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
         bannerParams.clear();
         bannerParams.put("category", "3");
         mPresenter.getBanner(bannerParams);
-        refresh();
+        autoRefresh();
     }
 
     private void refresh() {

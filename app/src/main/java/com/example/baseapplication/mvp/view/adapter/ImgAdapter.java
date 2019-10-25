@@ -2,12 +2,12 @@ package com.example.baseapplication.mvp.view.adapter;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
+import com.example.baseapplication.mvp.view.widget.NiceImageView;
 import com.example.baseapplication.util.DensityUtil;
 import com.example.baseapplication.util.GlideUtil;
 import com.example.baseapplication.util.ScreenUtil;
@@ -26,7 +26,6 @@ import java.util.List;
  */
 public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     private Activity mActivity;
-    private List<String> pathList = new ArrayList<String>();
     private int imgWidth;
     private int imgHeight;
     private List<ImageInfo> imgList = new ArrayList<ImageInfo>();
@@ -36,25 +35,15 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         this.mActivity = mActivity;
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
-        pathList.clear();
         imgList.clear();
         for (int i = 0; i < mData.size(); i++) {
-            pathList.add(mData.get(i));
             imgList.add(new ImageInfo(mData.get(i)));
-        }
-    }
-
-    public ImgAdapter(int layoutResId, List<String> data) {
-        super(layoutResId, data);
-        pathList.clear();
-        for (int i = 0; i < mData.size(); i++) {
-            pathList.add(mData.get(i));
         }
     }
 
     @Override
     protected void convert(final BaseViewHolder helper, String item) {
-        ImageView iv_item_img = helper.getView(R.id.iv_item_img);
+        NiceImageView iv_item_img = helper.getView(R.id.iv_item_img);
         if (imgWidth > 0 && imgHeight > 0) {
             int windowWidth = ScreenUtil.getScreenWidth(mContext);
             int localImgWidth = (windowWidth - DensityUtil.dp2px(mContext, 70)) / 3;
@@ -66,8 +55,16 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         iv_item_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SystemUtil.photoView(mActivity, helper.getLayoutPosition(), imgList, v);
+                SystemUtil.photoView(mActivity, helper.getLayoutPosition(), imgList);
             }
         });
+    }
+
+    public void setImgData(List<String> data) {
+        imgList.clear();
+        for (int i = 0; i < data.size(); i++) {
+            imgList.add(new ImageInfo(data.get(i)));
+        }
+        notifyDataSetChanged();
     }
 }

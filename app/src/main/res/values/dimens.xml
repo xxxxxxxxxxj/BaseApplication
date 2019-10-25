@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="grid_expected_size">120dp</dimen>
     <dimen name="crop__bar_height">48dp</dimen>
     <dimen name="TITLE_SIZE">18sp</dimen>
     <dimen name="TITLE_SIZE_SECOND">18sp</dimen>

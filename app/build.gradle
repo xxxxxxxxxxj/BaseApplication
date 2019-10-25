@@ -118,11 +118,12 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     //EventBus事件总线
     implementation 'org.greenrobot:eventbus:3.1.1'
+    //用于eventbus在编译时生成加速用的Index文件
     annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.1.1'
-//用于eventbus在编译时生成加速用的Index文件
     //资源绑定
     implementation 'com.jakewharton:butterknife:10.2.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'//用于butterknife在编译时根据注解生成相关文件
+    //用于butterknife在编译时根据注解生成相关文件
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     //文件下载控件，支持断点续传，用于检测更新apk
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
     //微信SDK
@@ -150,4 +151,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     //底部弹框控件
     implementation 'me.shaohui:bottomdialog:1.1.9'
+    //知乎图片选择框架，支持选择GIF图和视频
+    implementation project(':matisse')
+    //可能是最接近微信朋友圈的图片压缩算法
+    implementation 'top.zibin:Luban:1.1.8'
 }
