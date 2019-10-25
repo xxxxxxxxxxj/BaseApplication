@@ -11,13 +11,13 @@ import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.event.MatisseDataEvent;
 import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
+import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
 import com.example.baseapplication.mvp.view.adapter.ImgAdapter;
 import com.example.baseapplication.mvp.view.adapter.ShopAdapter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.IShopFragView;
 import com.example.baseapplication.mvp.view.widget.GridSpacingItemDecoration;
 import com.example.baseapplication.mvp.view.widget.NoScollFullGridLayoutManager;
-import com.example.baseapplication.util.DensityUtil;
 import com.example.baseapplication.util.FileSizeUtil;
 import com.example.baseapplication.util.SystemUtil;
 
@@ -90,7 +90,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                 NoScollFullGridLayoutManager(rvShopfragItem, mActivity, 3, GridLayoutManager.VERTICAL, false);
         noScollFullGridLayoutManager1.setScrollEnabled(false);
         rvShopfragImg.setLayoutManager(noScollFullGridLayoutManager1);
-        imgAdapter = new ImgAdapter(mActivity, R.layout.item_img, imgList, DensityUtil.dp2px(mActivity, 120), DensityUtil.dp2px(mActivity, 120));
+        imgAdapter = new ImgAdapter(mActivity, R.layout.item_img, imgList,40);
         rvShopfragImg.setAdapter(imgAdapter);
         rvShopfragImg.addItemDecoration(new GridSpacingItemDecoration(3,
                 getResources().getDimensionPixelSize(R.dimen.horizontalSpacing10),
@@ -125,6 +125,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         goPhoto();
                         break;
                     case 1:
+                        startActivity(ScanCodeActivity.class);
                         break;
                     default:
                         break;

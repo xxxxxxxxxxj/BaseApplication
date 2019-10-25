@@ -155,4 +155,6 @@ dependencies {
     implementation project(':matisse')
     //可能是最接近微信朋友圈的图片压缩算法
     implementation 'top.zibin:Luban:1.1.8'
+    //二维码扫描功能
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
 }

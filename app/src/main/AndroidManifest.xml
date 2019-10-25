@@ -43,10 +43,11 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".mvp.view.activity.ScanCodeActivity"></activity>
         <activity
             android:name=".mvp.view.activity.WebViewActivity"
             android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true"></activity>
+            android:hardwareAccelerated="true" />
 
         <meta-data
             android:name="design_width_in_dp"
@@ -76,8 +77,8 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-
-        <!--<provider
+        <!--
+<provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.zhihu.matisse.sample.fileprovider"
             android:exported="false"
@@ -85,7 +86,8 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public"></meta-data>
-        </provider>-->
+        </provider>
+        -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.baseapplication.fileProvider"

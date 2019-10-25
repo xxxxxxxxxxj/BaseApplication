@@ -25,16 +25,14 @@ import java.util.List;
  * @date zhoujunxia on 2019-10-23 12:50
  */
 public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private final float offSet;
     private Activity mActivity;
-    private int imgWidth;
-    private int imgHeight;
     private List<ImageInfo> imgList = new ArrayList<ImageInfo>();
 
-    public ImgAdapter(Activity mActivity, int layoutResId, List<String> data, int imgWidth, int imgHeight) {
+    public ImgAdapter(Activity mActivity, int layoutResId, List<String> data, float offSet) {
         super(layoutResId, data);
         this.mActivity = mActivity;
-        this.imgWidth = imgWidth;
-        this.imgHeight = imgHeight;
+        this.offSet = offSet;
         imgList.clear();
         for (int i = 0; i < mData.size(); i++) {
             imgList.add(new ImageInfo(mData.get(i)));
@@ -44,14 +42,10 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     @Override
     protected void convert(final BaseViewHolder helper, String item) {
         NiceImageView iv_item_img = helper.getView(R.id.iv_item_img);
-        if (imgWidth > 0 && imgHeight > 0) {
-            int windowWidth = ScreenUtil.getScreenWidth(mContext);
-            int localImgWidth = (windowWidth - DensityUtil.dp2px(mContext, 70)) / 3;
-            int localImgHeight = localImgWidth * imgHeight / imgWidth;
-            GlideUtil.displayImage(mContext, item, iv_item_img, localImgWidth, localImgHeight);
-        } else {
-            GlideUtil.displayImage(mContext, item, iv_item_img);
-        }
+        int windowWidth = ScreenUtil.getScreenWidth(mContext);
+        int imgWidth = (windowWidth - DensityUtil.dp2px(mContext, offSet)) / 3;
+        int imgHeight = imgWidth;
+        GlideUtil.displayImage(mContext, item, iv_item_img, imgWidth, imgHeight);
         iv_item_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.model.entity.PostBean;
+import com.example.baseapplication.mvp.view.widget.GridSpacingItemDecoration;
 import com.example.baseapplication.mvp.view.widget.NiceImageView;
 import com.example.baseapplication.mvp.view.widget.NoScollFullGridLayoutManager;
 import com.example.baseapplication.util.GlideUtil;
@@ -51,8 +52,14 @@ public class PostAdapter extends BaseQuickAdapter<PostBean, BaseViewHolder> {
                 NoScollFullGridLayoutManager noScollFullGridLayoutManager = new NoScollFullGridLayoutManager(rv_item_newsfrag_img, mContext, 3, GridLayoutManager.VERTICAL, false);
                 noScollFullGridLayoutManager.setScrollEnabled(false);
                 rv_item_newsfrag_img.setLayoutManager(noScollFullGridLayoutManager);
-                ImgAdapter imgAdapter = new ImgAdapter(mActivity,R.layout.item_img, item.getMedia(), 197, 137);
+                ImgAdapter imgAdapter = new ImgAdapter(mActivity, R.layout.item_img, item.getMedia(), 70);
                 rv_item_newsfrag_img.setAdapter(imgAdapter);
+                if (rv_item_newsfrag_img.getItemDecorationCount() <= 0) {
+                    rv_item_newsfrag_img.addItemDecoration(new GridSpacingItemDecoration(3,
+                            mContext.getResources().getDimensionPixelSize(R.dimen.horizontalSpacing10),
+                            mContext.getResources().getDimensionPixelSize(R.dimen.horizontalSpacing10),
+                            false));
+                }
             } else {
                 rv_item_newsfrag_img.setVisibility(View.GONE);
             }
