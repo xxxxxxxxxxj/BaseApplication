@@ -34,14 +34,14 @@ android {
         //android代码编译成apk后如果没有进行任何防护措施是很容易被反编译的，并且反编译的结果甚至就是简单的源码，
         // 带来的损失可大可小。幸好，AndroidStudio提供编译代码加密，即ProGuard。
         release {
-            minifyEnabled true//是否进行代码混淆
+            minifyEnabled false//是否进行代码混淆
             /*proguardFiles 代码加密原则 有两个文件对，getDefaultProguardFile(‘proguard-android.txt’)表示默认文件，
             这个文件是sdk自带的，有一些通用的配置；但是如果apk需要更加严格的加密，我们可以在’proguard-rules.pro’文件中进行更加详尽的配置。*/
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             //是否清理无用资源,如果我们需要移除项目无用资源，就必须同时打开混淆配置
-            shrinkResources true
+            shrinkResources false
             //是否启用zipAlign压缩
-            zipAlignEnabled true
+            zipAlignEnabled false
             pseudoLocalesEnabled true//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
             signingConfig signingConfigs.config//设置签名信息
         }
