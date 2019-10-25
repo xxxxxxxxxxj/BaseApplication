@@ -137,25 +137,11 @@ public class ScanCodeActivity extends BaseActivity {
                         @Override
                         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
                             RingToast.show("解析成功,结果为 = " + result);
-                            Intent resultIntent = new Intent();
-                            Bundle bundle = new Bundle();
-                            bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
-                            bundle.putString(CodeUtils.RESULT_STRING, result);
-                            resultIntent.putExtras(bundle);
-                            ScanCodeActivity.this.setResult(RESULT_OK, resultIntent);
-                            ScanCodeActivity.this.finish();
                         }
 
                         @Override
                         public void onAnalyzeFailed() {
                             RingToast.show("解析错误");
-                            Intent resultIntent = new Intent();
-                            Bundle bundle = new Bundle();
-                            bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_FAILED);
-                            bundle.putString(CodeUtils.RESULT_STRING, "解析错误");
-                            resultIntent.putExtras(bundle);
-                            ScanCodeActivity.this.setResult(RESULT_OK, resultIntent);
-                            ScanCodeActivity.this.finish();
                         }
                     });
                 } catch (Exception e) {
