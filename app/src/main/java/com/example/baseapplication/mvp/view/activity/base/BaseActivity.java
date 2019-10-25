@@ -530,7 +530,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         return emptyView;
     }
 
-    protected void goPhoto() {
+    protected void goPhoto(int maxSelectable) {
         requestEachCombined(new PermissionListener() {
             @Override
             public void onGranted(String permissionName) {
@@ -540,7 +540,46 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
                         .capture(true)
                         .captureStrategy(
                                 new CaptureStrategy(true, "com.example.baseapplication.fileProvider", "test"))
-                        .maxSelectable(9)
+                        .maxSelectable(maxSelectable)
+                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .gridExpectedSize(
+                                getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new GlideEngine())
+                        .setOnSelectedListener((uriList, pathList) -> {
+                            Log.e("onSelected", "onSelected: pathList=" + pathList);
+                        })
+                        .showSingleMediaType(true)
+                        .originalEnable(true)
+                        .maxOriginalSize(10)
+                        .autoHideToolbarOnSingleTap(true)
+                        .setOnCheckedListener(isChecked -> {
+                            Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                        })
+                        .forResult(REQUEST_CODE_CHOOSE);
+            }
+
+            @Override
+            public void onDenied(String permissionName) {
+                showToast("请打开存储权限");
+            }
+
+            @Override
+            public void onDeniedWithNeverAsk(String permissionName) {
+                showToast("请打开存储权限");
+            }
+        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+    }
+
+    protected void goPhotoSingle() {
+        requestEachCombined(new PermissionListener() {
+            @Override
+            public void onGranted(String permissionName) {
+                Matisse.from(mActivity)
+                        .choose(MimeType.ofImage(), false)
+                        .countable(true)
+                        .maxSelectable(1)
                         .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                         .gridExpectedSize(
                                 getResources().getDimensionPixelSize(R.dimen.grid_expected_size))

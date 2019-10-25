@@ -321,7 +321,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ShopFragment.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
             List<String> strings = Matisse.obtainPathResult(data);
             EventBus.getDefault().post(new MatisseDataEvent(uris, strings));

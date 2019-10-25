@@ -1,5 +1,6 @@
 package com.example.baseapplication.mvp.view.fragment;
 
+import android.Manifest;
 import android.net.Uri;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.IShopFragView;
 import com.example.baseapplication.mvp.view.widget.GridSpacingItemDecoration;
 import com.example.baseapplication.mvp.view.widget.NoScollFullGridLayoutManager;
+import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.util.FileSizeUtil;
 import com.example.baseapplication.util.SystemUtil;
 
@@ -90,7 +92,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                 NoScollFullGridLayoutManager(rvShopfragItem, mActivity, 3, GridLayoutManager.VERTICAL, false);
         noScollFullGridLayoutManager1.setScrollEnabled(false);
         rvShopfragImg.setLayoutManager(noScollFullGridLayoutManager1);
-        imgAdapter = new ImgAdapter(mActivity, R.layout.item_img, imgList,40);
+        imgAdapter = new ImgAdapter(mActivity, R.layout.item_img, imgList, 40);
         rvShopfragImg.setAdapter(imgAdapter);
         rvShopfragImg.addItemDecoration(new GridSpacingItemDecoration(3,
                 getResources().getDimensionPixelSize(R.dimen.horizontalSpacing10),
@@ -122,10 +124,25 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
                     case 0:
-                        goPhoto();
+                        goPhoto(9);
                         break;
                     case 1:
-                        startActivity(ScanCodeActivity.class);
+                        requestEachCombined(new PermissionListener() {
+                            @Override
+                            public void onGranted(String permissionName) {
+                                startActivity(ScanCodeActivity.class);
+                            }
+
+                            @Override
+                            public void onDenied(String permissionName) {
+                                showToast("请打开相机权限");
+                            }
+
+                            @Override
+                            public void onDeniedWithNeverAsk(String permissionName) {
+                                showToast("请打开相机权限");
+                            }
+                        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
                         break;
                     default:
                         break;

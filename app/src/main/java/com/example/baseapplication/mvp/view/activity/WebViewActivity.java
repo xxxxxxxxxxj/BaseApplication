@@ -101,7 +101,7 @@ public class WebViewActivity extends BaseActivity {
                 .useDefaultIndicator(-1, 3)//设置进度条颜色与高度，-1为默认值，高度为2，单位为dp。
                 .setAgentWebWebSettings(getSettings())//设置 IAgentWebSettings。
                 .setWebViewClient(mWebViewClient)//WebViewClient ， 与 WebView 使用一致 ，但是请勿获取WebView调用setWebViewClient(xx)方法了,会覆盖AgentWeb DefaultWebClient,同时相应的中间件也会失效。
-                .setWebChromeClient(new CommonWebChromeClient()) //WebChromeClient
+                .setWebChromeClient(mWebChromeClient) //WebChromeClient
                 .setPermissionInterceptor(mPermissionInterceptor) //权限拦截 2.0.0 加入。
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK) //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
                 .setAgentWebUIController(new UIController(mActivity)) //自定义UI  AgentWeb3.0.0 加入。

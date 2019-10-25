@@ -50,7 +50,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/iv_webview_share"

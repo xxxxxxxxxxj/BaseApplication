@@ -11,6 +11,12 @@ import com.just.agentweb.WebChromeClient;
  * @since 1.0.0
  */
 public class CommonWebChromeClient extends WebChromeClient {
+
+	@Override
+	public void onReceivedTitle(WebView view, String title) {
+		super.onReceivedTitle(view, title);
+	}
+
 	@Override
 	public void onProgressChanged(WebView view, int newProgress) {
 		  super.onProgressChanged(view, newProgress);
