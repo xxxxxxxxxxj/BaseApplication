@@ -123,7 +123,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     /**
      * 加载提示框
      */
-    private MProgressDialog mProgressDialog;
+    protected MProgressDialog mProgressDialog;
     /**
      * 业务处理类
      */

@@ -2,6 +2,9 @@ package com.example.baseapplication.mvp.view.fragment;
 
 import android.Manifest;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.baseapplication.R;
+import com.example.baseapplication.app.AppConfig;
 import com.example.baseapplication.log.RingLog;
+import com.example.baseapplication.mvp.model.entity.ALiPayResult;
 import com.example.baseapplication.mvp.model.event.MatisseDataEvent;
+import com.example.baseapplication.mvp.model.event.WXPayResultEvent;
 import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
 import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
 import com.example.baseapplication.mvp.view.adapter.ImgAdapter;
@@ -20,7 +26,9 @@ import com.example.baseapplication.mvp.view.iview.IShopFragView;
 import com.example.baseapplication.mvp.view.widget.GridSpacingItemDecoration;
 import com.example.baseapplication.mvp.view.widget.NoScollFullGridLayoutManager;
 import com.example.baseapplication.permission.PermissionListener;
+import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.util.FileSizeUtil;
+import com.example.baseapplication.util.PayUtils;
 import com.example.baseapplication.util.SystemUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -30,6 +38,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -46,7 +55,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragItem;
     @BindView(R.id.rv_shopfrag_img)
     RecyclerView rvShopfragImg;
-    private final String[] mTitles = {"Matisse", "zxing"};
+    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付"};
     private ShopAdapter shopAdapter;
     private List<String> imgList = new ArrayList<String>();
     private ImgAdapter imgAdapter;
@@ -144,6 +153,12 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                             }
                         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
                         break;
+                    case 2:
+                        PayUtils.weChatPayment(mActivity, "", "", "", "", "", "", "", mProgressDialog);
+                        break;
+                    case 3:
+                        PayUtils.payByAliPay(mActivity, "", mHandler);
+                        break;
                     default:
                         break;
                 }
@@ -153,6 +168,41 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
     @Override
     protected void loadData() {
+
+    }
+
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case AppConfig.ALI_SDK_PAY_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    ALiPayResult payResult = new ALiPayResult((Map<String, String>) msg.obj);
+                    /**
+                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        RingLog.e("支付成功");
+                        RingToast.show("支付成功");
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        RingLog.e("支付失败");
+                        RingToast.show("支付失败");
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    };
+
+    @Subscribe
+    public void onWXPayResult(WXPayResultEvent baseResp) {
 
     }
 
