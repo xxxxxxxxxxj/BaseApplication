@@ -327,14 +327,13 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                     List<String> strings = Matisse.obtainPathResult(data);
                     EventBus.getDefault().post(new MatisseDataEvent(uris, strings));
                     break;
-                case ShopFragment.REQUESTCODE_VIDEO://拍摄视频返回
-                    int flag = data.getIntExtra("flag", 0);
-                    String path = data.getStringExtra("path");
-                    ArrayList<String> strings1 = new ArrayList<>();
-                    strings1.add(path);
-                    EventBus.getDefault().post(new MatisseDataEvent(null, strings1));
-                    break;
             }
+        } else if (resultCode == CameraActivity.RESULTCODE_VIDEO) {//拍摄视频返回
+            int flag = data.getIntExtra("flag", 0);
+            String path = data.getStringExtra("path");
+            ArrayList<String> strings1 = new ArrayList<>();
+            strings1.add(path);
+            EventBus.getDefault().post(new MatisseDataEvent(null, strings1));
         }
     }
 }

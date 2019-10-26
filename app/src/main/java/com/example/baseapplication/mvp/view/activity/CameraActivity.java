@@ -29,6 +29,7 @@ import butterknife.BindView;
 public class CameraActivity extends BaseActivity {
     @BindView(R.id.jcameraview)
     JCameraView jCameraView;
+    public static final int RESULTCODE_VIDEO = 100;
 
     @Override
     protected int getLayoutResID() {
@@ -45,7 +46,6 @@ public class CameraActivity extends BaseActivity {
         //设置视频保存路径
         jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_BOTH);
-        jCameraView.setTip("JCameraView Tip");
         jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
         jCameraView.setErrorLisenter(new ErrorListener() {
             @Override
@@ -72,7 +72,7 @@ public class CameraActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
                 intent.putExtra("flag", 1);
-                setResult(RESULT_OK, intent);
+                setResult(RESULTCODE_VIDEO, intent);
                 finish();
             }
 
@@ -84,7 +84,7 @@ public class CameraActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
                 intent.putExtra("flag", 2);
-                setResult(RESULT_OK, intent);
+                setResult(RESULTCODE_VIDEO, intent);
                 finish();
             }
         });

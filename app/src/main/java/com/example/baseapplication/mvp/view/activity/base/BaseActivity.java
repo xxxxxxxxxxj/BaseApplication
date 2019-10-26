@@ -539,7 +539,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
                         .countable(true)
                         .capture(true)
                         .captureStrategy(
-                                new CaptureStrategy(true, mActivity.getPackageName()+".fileProvider", "test"))
+                                new CaptureStrategy(true, mActivity.getPackageName() + ".fileProvider", "test"))
                         .maxSelectable(maxSelectable)
                         .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                         .gridExpectedSize(
