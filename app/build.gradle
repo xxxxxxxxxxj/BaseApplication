@@ -157,4 +157,6 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
     //二维码扫描功能
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    //仿微信拍照Android控件（轻触拍照，长按摄像）
+    implementation project(':camera')
 }

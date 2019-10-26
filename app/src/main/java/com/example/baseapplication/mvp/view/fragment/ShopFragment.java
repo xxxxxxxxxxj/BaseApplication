@@ -18,6 +18,7 @@ import com.example.baseapplication.mvp.model.entity.ALiPayResult;
 import com.example.baseapplication.mvp.model.event.MatisseDataEvent;
 import com.example.baseapplication.mvp.model.event.WXPayResultEvent;
 import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
+import com.example.baseapplication.mvp.view.activity.CameraActivity;
 import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
 import com.example.baseapplication.mvp.view.adapter.ImgAdapter;
 import com.example.baseapplication.mvp.view.adapter.ShopAdapter;
@@ -51,11 +52,12 @@ import butterknife.BindView;
  * @date zhoujunxia on 2019-10-14 19:09
  */
 public class ShopFragment extends BaseFragment<ShopFragPresenter> implements IShopFragView {
+    public static final int REQUESTCODE_VIDEO = 100;
     @BindView(R.id.rv_shopfrag_item)
     RecyclerView rvShopfragItem;
     @BindView(R.id.rv_shopfrag_img)
     RecyclerView rvShopfragImg;
-    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付"};
+    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频"};
     private ShopAdapter shopAdapter;
     private List<String> imgList = new ArrayList<String>();
     private ImgAdapter imgAdapter;
@@ -158,6 +160,26 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         break;
                     case 3:
                         PayUtils.payByAliPay(mActivity, "", mHandler);
+                        break;
+                    case 4:
+                        requestEachCombined(new PermissionListener() {
+                            @Override
+                            public void onGranted(String permissionName) {
+                                startActivityForResult(CameraActivity.class, null, REQUESTCODE_VIDEO);
+                            }
+
+                            @Override
+                            public void onDenied(String permissionName) {
+                                showToast("请打开相机权限");
+                            }
+
+                            @Override
+                            public void onDeniedWithNeverAsk(String permissionName) {
+                                showToast("请打开相机权限");
+                            }
+                        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.RECORD_AUDIO,
+                                Manifest.permission.CAMERA});
                         break;
                     default:
                         break;

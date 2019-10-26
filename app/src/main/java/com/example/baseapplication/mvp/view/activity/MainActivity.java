@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -152,7 +151,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                 if (event.getIsUpgrade() == 0 && isShow) {
 
                 } else {
-                    Log.e("TAG", "下载中...soFarBytes = " + soFarBytes + "---totalBytes = " + totalBytes);
+                    RingLog.e("下载中...soFarBytes = " + soFarBytes + "---totalBytes = " + totalBytes);
                     if (progressDialog != null && progressDialog.isShowing()) {
 
                     } else {
@@ -173,7 +172,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                     progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Log.e("TAG", "onDismiss");
+                            RingLog.e("onDismiss");
                             isShow = true;
                         }
                     });
@@ -321,10 +320,21 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> uris = Matisse.obtainResult(data);
-            List<String> strings = Matisse.obtainPathResult(data);
-            EventBus.getDefault().post(new MatisseDataEvent(uris, strings));
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CHOOSE://选择照片返回
+                    List<Uri> uris = Matisse.obtainResult(data);
+                    List<String> strings = Matisse.obtainPathResult(data);
+                    EventBus.getDefault().post(new MatisseDataEvent(uris, strings));
+                    break;
+                case ShopFragment.REQUESTCODE_VIDEO://拍摄视频返回
+                    int flag = data.getIntExtra("flag", 0);
+                    String path = data.getStringExtra("path");
+                    ArrayList<String> strings1 = new ArrayList<>();
+                    strings1.add(path);
+                    EventBus.getDefault().post(new MatisseDataEvent(null, strings1));
+                    break;
+            }
         }
     }
 }
