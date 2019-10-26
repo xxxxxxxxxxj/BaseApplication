@@ -77,20 +77,10 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-        <!--
-<provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.zhihu.matisse.sample.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths_public"></meta-data>
-        </provider>
-        -->
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.baseapplication.fileProvider"
+            android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -98,5 +88,4 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
 </manifest>

@@ -539,7 +539,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
                         .countable(true)
                         .capture(true)
                         .captureStrategy(
-                                new CaptureStrategy(true, "com.example.baseapplication.fileProvider", "test"))
+                                new CaptureStrategy(true, mActivity.getPackageName()+".fileProvider", "test"))
                         .maxSelectable(maxSelectable)
                         .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                         .gridExpectedSize(
@@ -562,14 +562,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
 
             @Override
             public void onDenied(String permissionName) {
-                showToast("请打开存储权限");
+                showToast("请打开存储和相机权限");
             }
 
             @Override
             public void onDeniedWithNeverAsk(String permissionName) {
-                showToast("请打开存储权限");
+                showToast("请打开存储和相机权限");
             }
-        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
     }
 
     protected void goPhotoSingle() {
@@ -601,14 +601,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
 
             @Override
             public void onDenied(String permissionName) {
-                showToast("请打开存储权限");
+                showToast("请打开存储和相机权限");
             }
 
             @Override
             public void onDeniedWithNeverAsk(String permissionName) {
-                showToast("请打开存储权限");
+                showToast("请打开存储和相机权限");
             }
-        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
     }
 
     protected <T> void withRx(final List<T> photos) {

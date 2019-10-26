@@ -14,4 +14,8 @@
     <external-path
         name="external"
         path="pics" />
+    //matisse使用
+    <external-path
+        name="my_images"
+        path="Pictures" />
 </paths>
