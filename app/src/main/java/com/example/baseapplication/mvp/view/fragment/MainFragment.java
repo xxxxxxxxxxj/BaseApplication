@@ -90,8 +90,7 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
             public void onTabReselect(int position) {
                 RingLog.e("TAG", "ponTabReselect position = " + position);
                 if (currentTabIndex == position) {//刷新
-                    NewsFragment fragment = (NewsFragment) mAdapter.getItem(position);
-                    fragment.autoRefresh();
+                    autoRefresh();
                 }
             }
         });
@@ -112,6 +111,11 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
 
             }
         });
+    }
+
+    public void autoRefresh() {
+        NewsFragment fragment = (NewsFragment) mAdapter.getItem(currentTabIndex);
+        fragment.autoRefresh();
     }
 
     @Override

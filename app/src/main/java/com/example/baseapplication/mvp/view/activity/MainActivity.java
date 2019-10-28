@@ -36,6 +36,7 @@ import com.example.baseapplication.util.GetDeviceId;
 import com.example.baseapplication.util.StringUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.zhihu.matisse.Matisse;
 import com.zhouyou.http.EasyHttp;
 
@@ -99,6 +100,21 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
     @Override
     protected void initEvent() {
+        ctlMain.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                RingLog.e("TAG", "onTabSelect position = " + position);
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+                RingLog.e("TAG", "ponTabReselect position = " + position);
+                if (position == 0) {//刷新
+                    MainFragment mainFragment = (MainFragment) getSupportFragmentManager().getFragments().get(position);
+                    mainFragment.autoRefresh();
+                }
+            }
+        });
         requestEachCombined(new PermissionListener() {
             @Override
             public void onGranted(String permissionName) {
