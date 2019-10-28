@@ -32,6 +32,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textIsSelectable="false" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

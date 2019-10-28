@@ -159,4 +159,6 @@ dependencies {
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
     //仿微信拍照Android控件（轻触拍照，长按摄像）
     implementation project(':camera')
+    //Android平台下的富文本解析器，支持Html和Markdown
+    implementation 'com.zzhoujay.richtext:richtext:3.0.8'
 }
