@@ -513,6 +513,7 @@ public class WebViewActivity extends BaseActivity {
             case R.id.iv_webview_share:
                 ShareBottomDialog dialog = new ShareBottomDialog(WebViewActivity.this);
                 dialog.setUuid(localUuid);
+                dialog.setDimAmount(0.5f);
                 dialog.setShareInfo(localTitle, localContent, localUrl, localImg);
                 dialog.setType(1);
                 dialog.completeUrl(WebViewActivity.this);

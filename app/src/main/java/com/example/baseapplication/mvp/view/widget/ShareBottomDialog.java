@@ -13,12 +13,13 @@ import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.StringUtil;
 import com.example.baseapplication.util.SystemUtil;
 
-import me.shaohui.bottomdialog.BaseBottomDialog;
+import me.shaohui.bottomdialog.BottomDialog;
+
 /**
  * Created by shaohui on 2016/12/10.
  */
 
-public class ShareBottomDialog extends BaseBottomDialog implements View.OnClickListener {
+public class ShareBottomDialog extends BottomDialog implements View.OnClickListener {
     protected final static String TAG = ShareBottomDialog.class.getSimpleName();
     private String mTitle;
     private String mSummary;
