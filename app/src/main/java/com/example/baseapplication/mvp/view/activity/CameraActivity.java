@@ -91,7 +91,7 @@ public class CameraActivity extends BaseActivity {
         jCameraView.setLeftClickListener(new ClickListener() {
             @Override
             public void onClick() {
-                CameraActivity.this.finish();
+                finish();
             }
         });
         jCameraView.setRightClickListener(new ClickListener() {
@@ -131,9 +131,7 @@ public class CameraActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setAllowFullScreen(true);
-        setScreenRoate(true);
         super.onCreate(savedInstanceState);
-        setSwipeBack(false);
     }
 
     @Override

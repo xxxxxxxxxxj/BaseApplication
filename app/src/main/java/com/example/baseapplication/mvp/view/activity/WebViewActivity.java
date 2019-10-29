@@ -31,7 +31,6 @@ import com.download.library.DownloadingListener;
 import com.download.library.Extra;
 import com.download.library.ResourceRequest;
 import com.example.baseapplication.R;
-import com.example.baseapplication.agentweb.CommonWebChromeClient;
 import com.example.baseapplication.agentweb.MiddlewareChromeClient;
 import com.example.baseapplication.agentweb.MiddlewareWebViewClient;
 import com.example.baseapplication.agentweb.UIController;
@@ -301,7 +300,7 @@ public class WebViewActivity extends BaseActivity {
      */
     public String getUrl() {
         String target = "";
-        if (StringUtil.isEmpty(target = getIntent().getStringExtra(URL_KEY))) {
+        if (StringUtil.isEmpty(target = getIntent().getExtras().getString(URL_KEY))) {
             target = AppConfig.URL;
         }
         return target;
@@ -513,7 +512,6 @@ public class WebViewActivity extends BaseActivity {
             case R.id.iv_webview_share:
                 ShareBottomDialog dialog = new ShareBottomDialog(WebViewActivity.this);
                 dialog.setUuid(localUuid);
-                dialog.setDimAmount(0.5f);
                 dialog.setShareInfo(localTitle, localContent, localUrl, localImg);
                 dialog.setType(1);
                 dialog.completeUrl(WebViewActivity.this);

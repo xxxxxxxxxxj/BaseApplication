@@ -1,6 +1,5 @@
 package com.example.baseapplication.mvp.view.fragment;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,7 +14,6 @@ import com.example.baseapplication.mvp.model.entity.BannerBean;
 import com.example.baseapplication.mvp.model.entity.PostBean;
 import com.example.baseapplication.mvp.model.entity.ShareMapBean;
 import com.example.baseapplication.mvp.presenter.NewsFragPresenter;
-import com.example.baseapplication.mvp.view.activity.WebViewActivity;
 import com.example.baseapplication.mvp.view.adapter.PostAdapter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.INewsFragView;
@@ -175,11 +173,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
                                 default:
                                     break;
                             }
-                            Intent intent = new Intent(mActivity, WebViewActivity.class);
-                            //intent.putExtra(WebViewActivity.URL_KEY, shareMap.getUrl1());
-                            intent.putExtra(WebViewActivity.URL_KEY, url);
-                            intent.putExtra("uuid", postBean.getUuid());
-                            startActivity(intent);
+                            JumpToUtil.jumpTo(mActivity, 2, url);
                         }
                     }
                 }
@@ -314,6 +308,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
     }
 
     public void autoRefresh() {
+        srlNewsfrag.scrollTo(0,0);
         srlNewsfrag.autoRefresh();
     }
 }

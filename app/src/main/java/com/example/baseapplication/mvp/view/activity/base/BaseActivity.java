@@ -77,9 +77,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      **/
     private boolean mAllowFullScreen = false;
     /**
-     * 是否允许旋转屏幕
+     * 是否禁止旋转屏幕
      **/
-    private boolean isAllowScreenRoate = false;
+    private boolean isAllowScreenRoate = true;
 
     /**
      * 返回页面布局id
@@ -446,7 +446,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     }
 
     /**
-     * [是否允许屏幕旋转]
+     * [是否禁止旋转屏幕]
      *
      * @param isAllowScreenRoate
      */

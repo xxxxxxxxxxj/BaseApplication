@@ -72,8 +72,8 @@ public class ScanCodeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setAllowFullScreen(true);
         super.onCreate(savedInstanceState);
-        setSwipeBack(false);
     }
 
     /**
