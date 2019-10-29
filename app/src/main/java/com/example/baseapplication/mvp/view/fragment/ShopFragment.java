@@ -6,8 +6,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,8 +32,11 @@ import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.IShopFragView;
 import com.example.baseapplication.mvp.view.widget.GridSpacingItemDecoration;
 import com.example.baseapplication.mvp.view.widget.NoScollFullGridLayoutManager;
+import com.example.baseapplication.mvp.view.widget.popup.QMUIListPopup;
+import com.example.baseapplication.mvp.view.widget.popup.QMUIPopup;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
+import com.example.baseapplication.util.DensityUtil;
 import com.example.baseapplication.util.FileSizeUtil;
 import com.example.baseapplication.util.PayUtils;
 import com.example.baseapplication.util.SystemUtil;
@@ -41,10 +49,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * <p>Title:${type_name}</p>
@@ -60,7 +71,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragItem;
     @BindView(R.id.rv_shopfrag_img)
     RecyclerView rvShopfragImg;
-    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText"};
+    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层"};
     @BindView(R.id.text)
     TextView text;
     private ShopAdapter shopAdapter;
@@ -141,6 +152,8 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
             "</code></pre>\n" +
             "<p><em>by zzhoujay</em></p>\n" +
             "</article>";
+    private QMUIPopup mNormalPopup;
+    private QMUIListPopup mListPopup;
 
     @Override
     protected ShopFragPresenter createPresenter() {
@@ -278,11 +291,75 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                                 })
                                 .into(text);
                         break;
+                    case 6:
+                        initNormalPopupIfNeed();
+                        mNormalPopup.setAnimStyle(QMUIPopup.ANIM_GROW_FROM_CENTER);
+                        mNormalPopup.setPreferredDirection(QMUIPopup.DIRECTION_BOTTOM);
+                        mNormalPopup.show(rvShopfragItem.getChildAt(6));
+                        break;
+                    case 7:
+                        initListPopupIfNeed();
+                        mListPopup.setAnimStyle(QMUIPopup.ANIM_GROW_FROM_CENTER);
+                        mListPopup.setPreferredDirection(QMUIPopup.DIRECTION_TOP);
+                        mListPopup.show(rvShopfragItem.getChildAt(7));
+                        break;
                     default:
                         break;
                 }
             }
         });
+    }
+
+    private void initNormalPopupIfNeed() {
+        if (mNormalPopup == null) {
+            mNormalPopup = new QMUIPopup(getContext(), QMUIPopup.DIRECTION_NONE);
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(mNormalPopup.generateLayoutParam(
+                    DensityUtil.dp2px(getContext(), 250),
+                    WRAP_CONTENT
+            ));
+            textView.setLineSpacing(DensityUtil.dp2px(getContext(), 4), 1.0f);
+            int padding = DensityUtil.dp2px(getContext(), 20);
+            textView.setPadding(padding, padding, padding, padding);
+            textView.setText("Popup 可以设置其位置以及显示和隐藏的动画");
+            textView.setTextColor(ContextCompat.getColor(getContext(), R.color.a666666));
+            mNormalPopup.setContentView(textView);
+            mNormalPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    RingToast.show("普通浮层消失啦");
+                }
+            });
+        }
+    }
+
+    private void initListPopupIfNeed() {
+        if (mListPopup == null) {
+            String[] listItems = new String[]{
+                    "Item 1",
+                    "Item 2",
+                    "Item 3",
+                    "Item 4",
+                    "Item 5",
+            };
+            List<String> data = new ArrayList<>();
+            Collections.addAll(data, listItems);
+            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_item, data);
+            mListPopup = new QMUIListPopup(getContext(), QMUIPopup.DIRECTION_NONE, adapter);
+            mListPopup.create(DensityUtil.dp2px(getContext(), 250), DensityUtil.dp2px(getContext(), 200), new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Toast.makeText(getActivity(), "Item " + (i + 1), Toast.LENGTH_SHORT).show();
+                    mListPopup.dismiss();
+                }
+            });
+            mListPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    RingToast.show("列表浮层消失啦");
+                }
+            });
+        }
     }
 
     @Override

@@ -27,7 +27,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    implementation('com.android.support:appcompat-v7:25.3.0') { exclude module: 'support-v4' }
+    implementation('androidx.appcompat:appcompat:1.0.0') { exclude module: 'support-v4' }
 }
 def siteUrl = 'https://github.com/CJT2325/CameraView'   // 项目的主页
 def gitUrl = 'https://github.com/CJT2325/CameraView.git'   // Git仓库的url

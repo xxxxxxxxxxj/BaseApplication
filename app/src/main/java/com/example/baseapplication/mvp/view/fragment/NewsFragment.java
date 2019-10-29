@@ -308,7 +308,12 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
     }
 
     public void autoRefresh() {
-        rvNewsfrag.scrollToPosition(0);
-        srlNewsfrag.autoRefresh();
+        rvNewsfrag.post(new Runnable() {
+            @Override
+            public void run() {
+                rvNewsfrag.scrollToPosition(0);
+                srlNewsfrag.autoRefresh();
+            }
+        });
     }
 }
