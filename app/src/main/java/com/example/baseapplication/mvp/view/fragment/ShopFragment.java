@@ -341,6 +341,15 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                     "Item 3",
                     "Item 4",
                     "Item 5",
+                    "Item 5",
+                    "Item 5",
+                    "Item 5",
+                    "Item 5",
+                    "Item 5",
+                    "Item 5",
+                    "Item 5",
+                    "Item 5",
+                    "Item 5",
             };
             List<String> data = new ArrayList<>();
             Collections.addAll(data, listItems);
