@@ -7,7 +7,7 @@ import android.os.Message;
 import com.alipay.sdk.app.PayTask;
 import com.example.baseapplication.app.AppConfig;
 import com.example.baseapplication.log.RingLog;
-import com.example.baseapplication.mvp.view.widget.MProgressDialog;
+import com.example.baseapplication.mvp.view.widget.tipdialog.QMUITipDialog;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -33,7 +33,7 @@ public class PayUtils {
     public static void weChatPayment(Activity activity, String appId,
                                      String partnerId, String prepayId, String packageValue,
                                      String nonceStr, String timeStamp, String sign,
-                                     MProgressDialog pDialog) {
+                                     QMUITipDialog tipDialog) {
         PayReq payReq = new PayReq();
         payReq.appId = appId;
         payReq.partnerId = partnerId;
@@ -45,8 +45,8 @@ public class PayUtils {
         IWXAPI createWXAPI = WXAPIFactory.createWXAPI(activity, AppConfig.WX_ID);
         createWXAPI.registerApp(appId);
         createWXAPI.sendReq(payReq);
-        if (pDialog != null) {
-            pDialog.dismiss();
+        if (tipDialog != null) {
+            tipDialog.dismiss();
         }
     }
 

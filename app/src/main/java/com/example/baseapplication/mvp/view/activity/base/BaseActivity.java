@@ -27,7 +27,7 @@ import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.widget.GifSizeFilter;
-import com.example.baseapplication.mvp.view.widget.MProgressDialog;
+import com.example.baseapplication.mvp.view.widget.tipdialog.QMUITipDialog;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.util.ActivityListManager;
@@ -123,7 +123,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     /**
      * 加载提示框
      */
-    protected MProgressDialog mProgressDialog;
+    protected QMUITipDialog tipDialog;
+    private QMUITipDialog.Builder tipDialogBuilder;
     /**
      * 业务处理类
      */
@@ -195,7 +196,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         setContentView(getLayoutResID());
         spUtil = SharedPreferenceUtil.getInstance(this);
         activityListManager = new ActivityListManager();
-        mProgressDialog = new MProgressDialog(this);
+        tipDialogBuilder = new QMUITipDialog.Builder(mActivity)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("正在加载...");
+        tipDialog = tipDialogBuilder.create();
         mPresenter = createPresenter();
         initData(getIntent().getExtras());
         initView(getIntent().getExtras());
@@ -234,15 +238,23 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
 
     // 显示加载提示框
     protected void showLoadDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) return;
-        mProgressDialog.showDialog();
+        hideLoadDialog();
+        tipDialogBuilder.setTipWord("正在加载...");
+        tipDialog = tipDialogBuilder.create();
+        tipDialog.show();
+    }
+
+    // 显示加载提示框
+    protected void showLoadDialog(CharSequence tipWord) {
+        hideLoadDialog();
+        tipDialogBuilder.setTipWord(tipWord);
+        tipDialog = tipDialogBuilder.create();
+        tipDialog.show();
     }
 
     // 隐藏加载提示框
     protected void hideLoadDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
+        tipDialog.dismiss();
     }
 
     //glide加载图片

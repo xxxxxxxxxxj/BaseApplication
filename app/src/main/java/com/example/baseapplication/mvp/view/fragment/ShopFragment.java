@@ -71,7 +71,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragItem;
     @BindView(R.id.rv_shopfrag_img)
     RecyclerView rvShopfragImg;
-    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层"};
+    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层", "加载框", "提示框", "自定义提示框"};
     @BindView(R.id.text)
     TextView text;
     private ShopAdapter shopAdapter;
@@ -252,7 +252,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
                         break;
                     case 2:
-                        PayUtils.weChatPayment(mActivity, "", "", "", "", "", "", "", mProgressDialog);
+                        PayUtils.weChatPayment(mActivity, "", "", "", "", "", "", "", tipDialog);
                         break;
                     case 3:
                         PayUtils.payByAliPay(mActivity, "", mHandler);
@@ -302,6 +302,33 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         mListPopup.setAnimStyle(QMUIPopup.ANIM_GROW_FROM_CENTER);
                         mListPopup.setPreferredDirection(QMUIPopup.DIRECTION_TOP);
                         mListPopup.show(rvShopfragItem.getChildAt(7));
+                        break;
+                    case 8:
+                        showLoadDialog();
+                        rvShopfragItem.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideLoadDialog();
+                            }
+                        }, 1500);
+                        break;
+                    case 9:
+                        showLoadDialog("正在压缩...");
+                        rvShopfragItem.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideLoadDialog();
+                            }
+                        }, 1500);
+                        break;
+                    case 10:
+                        showLoadDialog("正在上传...");
+                        rvShopfragItem.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideLoadDialog();
+                            }
+                        }, 1500);
                         break;
                     default:
                         break;
