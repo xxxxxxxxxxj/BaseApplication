@@ -2,6 +2,7 @@ package com.example.baseapplication.mvp.view.adapter;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -44,7 +45,11 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         int windowWidth = QMUIDisplayHelper.getScreenWidth(mContext);
         int imgWidth = (windowWidth - QMUIDisplayHelper.dp2px(mContext, (int) offSet)) / 3;
         int imgHeight = imgWidth;
-        GlideUtil.displayImage(mContext, item, iv_item_img, imgWidth, imgHeight);
+        ViewGroup.LayoutParams layoutParams = iv_item_img.getLayoutParams();
+        layoutParams.width = imgWidth;
+        layoutParams.height = imgHeight;
+        iv_item_img.setLayoutParams(layoutParams);
+        GlideUtil.displayImage(mContext, item, iv_item_img);
         iv_item_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
