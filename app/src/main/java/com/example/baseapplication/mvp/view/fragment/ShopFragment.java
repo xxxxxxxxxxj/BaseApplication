@@ -71,7 +71,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragItem;
     @BindView(R.id.rv_shopfrag_img)
     RecyclerView rvShopfragImg;
-    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层", "加载框", "提示框", "自定义提示框"};
+    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层", "加载框", "提示框", "自定义提示框", "对话框1", "对话框2", "对话框3", "对话框4", "对话框5", "对话框6", "对话框7", "对话框8", "对话框9", "对话框10"};
     @BindView(R.id.text)
     TextView text;
     private ShopAdapter shopAdapter;
@@ -247,7 +247,6 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
                             @Override
                             public void onDeniedWithNeverAsk(String permissionName) {
-                                showToast("请打开相机权限");
                             }
                         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
                         break;
@@ -271,7 +270,6 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
                             @Override
                             public void onDeniedWithNeverAsk(String permissionName) {
-                                showToast("请打开相机权限");
                             }
                         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                 Manifest.permission.RECORD_AUDIO,

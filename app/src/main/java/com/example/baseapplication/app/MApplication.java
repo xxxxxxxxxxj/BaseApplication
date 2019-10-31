@@ -1,6 +1,5 @@
 package com.example.baseapplication.app;
 
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
@@ -52,7 +52,7 @@ import javax.net.ssl.SSLSession;
  * @author 徐俊
  * @date XJ on 2018/4/11 11:28
  */
-public class MApplication extends Application {
+public class MApplication extends MultiDexApplication {
     // IWXAPI 是第三方app和微信通信的openApi接口
     private IWXAPI api;
 

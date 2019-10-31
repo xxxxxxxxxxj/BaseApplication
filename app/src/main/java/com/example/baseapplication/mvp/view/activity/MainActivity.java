@@ -131,7 +131,6 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
             @Override
             public void onDeniedWithNeverAsk(String permissionName) {
-                showToast("请打开存储权限");
             }
         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
     }
@@ -270,7 +269,6 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
                                     @Override
                                     public void onDeniedWithNeverAsk(String permissionName) {
-                                        showToast("请打开存储权限");
                                     }
                                 }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
                             }
@@ -296,7 +294,6 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
                                     @Override
                                     public void onDeniedWithNeverAsk(String permissionName) {
-                                        showToast("请打开存储权限");
                                     }
                                 }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
                             }

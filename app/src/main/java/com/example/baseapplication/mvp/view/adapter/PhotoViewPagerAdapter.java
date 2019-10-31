@@ -8,10 +8,10 @@ import android.widget.ImageView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
-import com.example.baseapplication.photoview.OnPhotoTapListener;
-import com.example.baseapplication.photoview.PhotoView;
-import com.example.baseapplication.photoview.PhotoViewAttacher;
 import com.example.baseapplication.util.GlideUtil;
+import com.github.chrisbanes.photoview.OnPhotoTapListener;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 import java.io.File;
 import java.util.List;

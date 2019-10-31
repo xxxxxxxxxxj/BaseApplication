@@ -6,13 +6,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Bundle;
 
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
-import com.example.baseapplication.photoview.PhotoViewActivity;
 
 import java.io.File;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,13 +58,13 @@ public class CommonUtil {
 
     //查看大图
     public static void photoView(Activity context, int position, List<ImageInfo> imgList) {
-        Intent intent = new Intent();
+        /*Intent intent = new Intent();
         intent.setClass(context, PhotoViewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
         bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
         intent.putExtras(bundle);
-        context.startActivity(intent);
+        context.startActivity(intent);*/
     }
 
     public static List<File> pathToFile(List<String> pathList) {
