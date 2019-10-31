@@ -33,10 +33,14 @@ import com.example.baseapplication.updateapputil.DownloadProgressDialog;
 import com.example.baseapplication.updateapputil.UpdateAppEvent;
 import com.example.baseapplication.updateapputil.UpdateUtil;
 import com.example.baseapplication.util.GetDeviceId;
+import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.StringUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.zhihu.matisse.Matisse;
 import com.zhouyou.http.EasyHttp;
 
@@ -131,6 +135,13 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
             @Override
             public void onDeniedWithNeverAsk(String permissionName) {
+                MessageDialog.show(mActivity, "请打开存储权限", "确定要打开存储权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View v) {
+                        QMUIDeviceHelper.goToPermissionManager(mActivity);
+                        return false;
+                    }
+                });
             }
         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
     }
@@ -269,6 +280,13 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
                                     @Override
                                     public void onDeniedWithNeverAsk(String permissionName) {
+                                        MessageDialog.show(mActivity, "请打开存储权限", "确定要打开存储权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                                            @Override
+                                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                                QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                                return false;
+                                            }
+                                        });
                                     }
                                 }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
                             }
@@ -294,6 +312,13 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
                                     @Override
                                     public void onDeniedWithNeverAsk(String permissionName) {
+                                        MessageDialog.show(mActivity, "请打开存储权限", "确定要打开存储权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                                            @Override
+                                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                                QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                                return false;
+                                            }
+                                        });
                                     }
                                 }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
                             }

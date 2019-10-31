@@ -39,7 +39,12 @@ import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.FileSizeUtil;
 import com.example.baseapplication.util.PayUtils;
+import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.QMUIDisplayHelper;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.util.DialogSettings;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
@@ -71,7 +76,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragItem;
     @BindView(R.id.rv_shopfrag_img)
     RecyclerView rvShopfragImg;
-    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层", "加载框", "提示框", "自定义提示框", "对话框1", "对话框2", "对话框3", "对话框4", "对话框5", "对话框6", "对话框7", "对话框8", "对话框9", "对话框10"};
+    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框"};
     @BindView(R.id.text)
     TextView text;
     private ShopAdapter shopAdapter;
@@ -247,6 +252,13 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
                             @Override
                             public void onDeniedWithNeverAsk(String permissionName) {
+                                MessageDialog.show(mActivity, "请打开相机权限", "确定要打开相机权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                                    @Override
+                                    public boolean onClick(BaseDialog baseDialog, View v) {
+                                        QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                        return false;
+                                    }
+                                });
                             }
                         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
                         break;
@@ -270,6 +282,13 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
                             @Override
                             public void onDeniedWithNeverAsk(String permissionName) {
+                                MessageDialog.show(mActivity, "请打开相机权限", "确定要打开相机权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                                    @Override
+                                    public boolean onClick(BaseDialog baseDialog, View v) {
+                                        QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                        return false;
+                                    }
+                                });
                             }
                         }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                 Manifest.permission.RECORD_AUDIO,
@@ -327,6 +346,54 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                                 hideLoadDialog();
                             }
                         }, 1500);
+                        break;
+                    case 11:
+                        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
+                        DialogSettings.theme = DialogSettings.THEME.LIGHT;
+                        DialogSettings.tipTheme = DialogSettings.THEME.DARK;
+                        MessageDialog.show(mActivity, "请打开相机权限", "确定要打开相机权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                            @Override
+                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                return false;
+                            }
+                        });
+                        break;
+                    case 12:
+                        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
+                        DialogSettings.theme = DialogSettings.THEME.DARK;
+                        DialogSettings.tipTheme = DialogSettings.THEME.LIGHT;
+                        MessageDialog.show(mActivity, "请打开相机权限", "确定要打开相机权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                            @Override
+                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                return false;
+                            }
+                        });
+                        break;
+                    case 13:
+                        DialogSettings.style = DialogSettings.STYLE.STYLE_MATERIAL;
+                        DialogSettings.theme = DialogSettings.THEME.LIGHT;
+                        DialogSettings.tipTheme = DialogSettings.THEME.DARK;
+                        MessageDialog.show(mActivity, "请打开相机权限", "确定要打开相机权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                            @Override
+                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                return false;
+                            }
+                        });
+                        break;
+                    case 14:
+                        DialogSettings.style = DialogSettings.STYLE.STYLE_MATERIAL;
+                        DialogSettings.theme = DialogSettings.THEME.DARK;
+                        DialogSettings.tipTheme = DialogSettings.THEME.LIGHT;
+                        MessageDialog.show(mActivity, "请打开相机权限", "确定要打开相机权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                            @Override
+                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                QMUIDeviceHelper.goToPermissionManager(mActivity);
+                                return false;
+                            }
+                        });
                         break;
                     default:
                         break;

@@ -118,6 +118,8 @@ dependencies {
     implementation project(':matisse')
     //仿微信拍照Android控件（轻触拍照，长按摄像）
     implementation project(':camera')
+    //空祖家的对话框(支持iOS风格和MD风格)
+    implementation project(':dialog')
     //RxPermission权限申请
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     //Glide图片加载

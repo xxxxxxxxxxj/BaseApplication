@@ -20,6 +20,7 @@ import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.toast.CustomToastStyle;
 import com.example.baseapplication.toast.RingToast;
+import com.kongzue.dialog.util.BaseDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -260,5 +261,12 @@ public class MApplication extends MultiDexApplication {
                 api.registerApp(AppConfig.WX_ID);
             }
         }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+    }
+
+    //彻底清空所有 Kongzue Dialog V3 使用的内存句柄：
+    @Override
+    public void onTerminate() {
+        BaseDialog.unload();
+        super.onTerminate();
     }
 }

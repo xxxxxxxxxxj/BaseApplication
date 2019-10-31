@@ -1,7 +1,6 @@
 package com.example.baseapplication.mvp.view.activity.base;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -147,7 +146,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     /**
      * 上下文
      */
-    protected Activity mActivity;
+    protected BaseActivity mActivity;
     /**
      * 侧滑退出操作类
      */
