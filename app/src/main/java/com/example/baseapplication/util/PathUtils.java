@@ -12,7 +12,7 @@ import android.provider.MediaStore;
 
 /**
  * <p>Title:${type_name}</p>
- * <p>Description:</p>
+ * <p>Description:通过Uri获取文件路径</p>
  * <p>Company:北京昊唐科技有限公司</p>
  *
  * @author 徐俊

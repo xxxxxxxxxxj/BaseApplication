@@ -12,13 +12,14 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.os.Build;
+import android.util.AttributeSet;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
-import android.util.AttributeSet;
 
 import com.example.baseapplication.R;
-import com.example.baseapplication.util.DensityUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 
 /**
  * 圆角或者圆形图片控件
@@ -289,7 +290,7 @@ public class NiceImageView extends AppCompatImageView {
     }
 
     public void setBorderWidth(int borderWidth) {
-        this.borderWidth = DensityUtil.dp2px(context, borderWidth);
+        this.borderWidth = QMUIDisplayHelper.dp2px(context, borderWidth);
         calculateRadiiAndRectF(false);
     }
 
@@ -299,7 +300,7 @@ public class NiceImageView extends AppCompatImageView {
     }
 
     public void setInnerBorderWidth(int innerBorderWidth) {
-        this.innerBorderWidth = DensityUtil.dp2px(context, innerBorderWidth);
+        this.innerBorderWidth = QMUIDisplayHelper.dp2px(context, innerBorderWidth);
         clearInnerBorderWidth();
         invalidate();
     }
@@ -310,27 +311,27 @@ public class NiceImageView extends AppCompatImageView {
     }
 
     public void setCornerRadius(int cornerRadius) {
-        this.cornerRadius = DensityUtil.dp2px(context, cornerRadius);
+        this.cornerRadius = QMUIDisplayHelper.dp2px(context, cornerRadius);
         calculateRadiiAndRectF(false);
     }
 
     public void setCornerTopLeftRadius(int cornerTopLeftRadius) {
-        this.cornerTopLeftRadius = DensityUtil.dp2px(context, cornerTopLeftRadius);
+        this.cornerTopLeftRadius = QMUIDisplayHelper.dp2px(context, cornerTopLeftRadius);
         calculateRadiiAndRectF(true);
     }
 
     public void setCornerTopRightRadius(int cornerTopRightRadius) {
-        this.cornerTopRightRadius = DensityUtil.dp2px(context, cornerTopRightRadius);
+        this.cornerTopRightRadius = QMUIDisplayHelper.dp2px(context, cornerTopRightRadius);
         calculateRadiiAndRectF(true);
     }
 
     public void setCornerBottomLeftRadius(int cornerBottomLeftRadius) {
-        this.cornerBottomLeftRadius = DensityUtil.dp2px(context, cornerBottomLeftRadius);
+        this.cornerBottomLeftRadius = QMUIDisplayHelper.dp2px(context, cornerBottomLeftRadius);
         calculateRadiiAndRectF(true);
     }
 
     public void setCornerBottomRightRadius(int cornerBottomRightRadius) {
-        this.cornerBottomRightRadius = DensityUtil.dp2px(context, cornerBottomRightRadius);
+        this.cornerBottomRightRadius = QMUIDisplayHelper.dp2px(context, cornerBottomRightRadius);
         calculateRadiiAndRectF(true);
     }
 

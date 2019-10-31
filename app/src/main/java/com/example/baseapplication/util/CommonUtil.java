@@ -2,16 +2,22 @@ package com.example.baseapplication.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.view.TouchDelegate;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Bundle;
 
+import com.example.baseapplication.mvp.model.entity.ImageInfo;
+import com.example.baseapplication.photoview.PhotoViewActivity;
+
+import java.io.File;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
+import java.util.List;
 
 /**
  * author：   zp
@@ -20,64 +26,64 @@ import java.util.Random;
  * modify by  ljy
  */
 public class CommonUtil {
-
     /**
-     * 根据输入法状态打开或隐藏输入法
-     *
-     * @param context 上下文
-     */
-    public static void toggleSoftInput(Context context) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    /**
-     * 隐藏输入键盘
+     * 拨打电话
      *
      * @param context
-     * @param view
+     * @param phone
      */
-    public static void hideSoftInput(Context context, View view) {
-        if (view != null) {
-            InputMethodManager inputmanger = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    public static void cellPhone(Context context, String phone) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.DIAL");
+        intent.setData(Uri.parse("tel:" + phone));
+        context.startActivity(intent);
+    }
+
+    /**
+     * 检测wifi是否连接
+     */
+    public static boolean isWifiConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                return true;
+            }
         }
+        return false;
     }
 
-    /**
-     * 移除焦点
-     *
-     * @param view view
-     */
-    public static void removeFocus(View view) {
-        view.setFocusable(true);
-        view.setFocusableInTouchMode(true);
+    public static boolean isConnected(Context context) {
+        ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = conn.getActiveNetworkInfo();
+        return (info != null && info.isConnected());
     }
 
-    /**
-     * 获取随机字符串
-     *
-     * @param len
-     * @return
-     */
-    public static String getRandomString(int len) {
-        String returnStr;
-        char[] ch = new char[len];
-        Random rd = new Random();
-        for (int i = 0; i < len; i++) {
-            ch[i] = (char) (rd.nextInt(9) + 97);
+    //查看大图
+    public static void photoView(Activity context, int position, List<ImageInfo> imgList) {
+        Intent intent = new Intent();
+        intent.setClass(context, PhotoViewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
+        bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    public static List<File> pathToFile(List<String> pathList) {
+        List<File> fileList = new ArrayList<File>();
+        for (int i = 0; i < pathList.size(); i++) {
+            fileList.add(new File(pathList.get(i)));
         }
-        returnStr = new String(ch);
-        return returnStr;
+        return fileList;
     }
 
-    /**
-     * 对当前屏幕进行截屏操作
-     */
-    public static Bitmap captureScreen(Activity activity) {
-        activity.getWindow().getDecorView().setDrawingCacheEnabled(true);
-        Bitmap bmp = activity.getWindow().getDecorView().getDrawingCache();
-        return bmp;
+    public static List<String> fileToPath(List<File> fileList) {
+        List<String> pathList = new ArrayList<String>();
+        for (int i = 0; i < fileList.size(); i++) {
+            pathList.add(fileList.get(i).getAbsolutePath());
+        }
+        return pathList;
     }
 
     /**
@@ -101,27 +107,5 @@ public class CommonUtil {
         int resultBegin = c.compareTo(c1);
         int resultEnd = c.compareTo(c2);
         return resultBegin > 0 && resultEnd < 0;
-    }
-
-    /**
-     * description 增加view的触摸范围
-     */
-    public static void expandViewTouchDelegate(final View view, final int top, final int bottom, final int left, final int right) {
-        ((View) view.getParent()).post(new Runnable() {
-            @Override
-            public void run() {
-                Rect bounds = new Rect();
-                view.setEnabled(true);
-                view.getHitRect(bounds);
-                bounds.top -= top;
-                bounds.bottom += bottom;
-                bounds.left -= left;
-                bounds.right += right;
-                TouchDelegate touchDelegate = new TouchDelegate(bounds, view);
-                if (View.class.isInstance(view.getParent())) {
-                    ((View) view.getParent()).setTouchDelegate(touchDelegate);
-                }
-            }
-        });
     }
 }

@@ -7,7 +7,7 @@ import android.os.Message;
 import com.alipay.sdk.app.PayTask;
 import com.example.baseapplication.app.AppConfig;
 import com.example.baseapplication.log.RingLog;
-import com.example.baseapplication.mvp.view.widget.tipdialog.QMUITipDialog;
+import com.example.baseapplication.mvp.view.widget.dialog.QMUITipDialog;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;

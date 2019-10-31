@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * <p>Title:${type_name}</p>
@@ -638,6 +639,22 @@ public class StringUtil {
         System.out.println(escapeXML);
     }
 
+    /**
+     * 获取随机字符串
+     *
+     * @param len
+     * @return
+     */
+    public static String getRandomString(int len) {
+        String returnStr;
+        char[] ch = new char[len];
+        Random rd = new Random();
+        for (int i = 0; i < len; i++) {
+            ch[i] = (char) (rd.nextInt(9) + 97);
+        }
+        returnStr = new String(ch);
+        return returnStr;
+    }
     public static void setText(TextView tv, String str, String defaultStr,
                                int visibilt, int defaultVisibilt) {
         if (str != null && !TextUtils.isEmpty(str)) {

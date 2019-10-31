@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.util.GetDeviceId;
+import com.example.baseapplication.util.QMUIPackageHelper;
 import com.example.baseapplication.util.SharedPreferenceUtil;
-import com.example.baseapplication.util.SystemUtil;
 import com.zhouyou.http.model.HttpHeaders;
 
 /**
@@ -343,7 +343,7 @@ public class UrlConstants {
                 + android.os.Build.VERSION.RELEASE);
         headers.put("petTimeStamp", String.valueOf(System.currentTimeMillis()));
         headers.put("phone", SharedPreferenceUtil.getInstance(mContext).getString("cellphone", ""));
-        headers.put("system", "android_" + SystemUtil.getCurrentVersion(mContext));
+        headers.put("system", "android_" + QMUIPackageHelper.getAppVersion(mContext));
         RingLog.e("headers = "+headers.toString());
         return headers;
     }

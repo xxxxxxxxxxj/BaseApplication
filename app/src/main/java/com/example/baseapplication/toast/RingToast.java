@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.baseapplication.util.DensityUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 
 /**
  * author : HJQ
@@ -53,12 +53,12 @@ public class RingToast {
                 textView = new TextView(context);
             }
             textView.setTextColor(mToastStyle.getTextColor());
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.sp2px(context, mToastStyle.getTextSize()));
-            textView.setPadding(DensityUtil.dp2px(context, mToastStyle.getPaddingLeft()), DensityUtil.dp2px(context, mToastStyle.getPaddingTop()), DensityUtil.dp2px(context,
-                    mToastStyle.getPaddingRight()), DensityUtil.dp2px(context, mToastStyle.getPaddingBottom()));
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, QMUIDisplayHelper.sp2px(context, (int) mToastStyle.getTextSize()));
+            textView.setPadding(QMUIDisplayHelper.dp2px(context, mToastStyle.getPaddingLeft()), QMUIDisplayHelper.dp2px(context, mToastStyle.getPaddingTop()), QMUIDisplayHelper.dp2px(context,
+                    mToastStyle.getPaddingRight()), QMUIDisplayHelper.dp2px(context, mToastStyle.getPaddingBottom()));
             GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(mToastStyle.getBackgroundColor());
-            drawable.setCornerRadius(DensityUtil.dp2px(context, mToastStyle.getCornerRadius()));
+            drawable.setCornerRadius(QMUIDisplayHelper.dp2px(context, mToastStyle.getCornerRadius()));
             //setBackground API版本兼容
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 textView.setBackground(drawable);

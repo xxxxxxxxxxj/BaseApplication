@@ -1,9 +1,11 @@
-package com.example.baseapplication.mvp.view.widget;
+package com.example.baseapplication.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * <p>Title:${type_name}</p>
@@ -77,5 +79,28 @@ public class SoftKeyBoardListener {
     public static void setListener(Activity activity, OnSoftKeyBoardChangeListener onSoftKeyBoardChangeListener) {
         SoftKeyBoardListener softKeyBoardListener = new SoftKeyBoardListener(activity);
         softKeyBoardListener.setOnSoftKeyBoardChangeListener(onSoftKeyBoardChangeListener);
+    }
+
+    /**
+     * 根据输入法状态打开或隐藏输入法
+     *
+     * @param context 上下文
+     */
+    public static void toggleSoftInput(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    /**
+     * 隐藏输入键盘
+     *
+     * @param context
+     * @param view
+     */
+    public static void hideSoftInput(Context context, View view) {
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

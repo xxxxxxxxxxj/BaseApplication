@@ -39,7 +39,7 @@ import android.widget.PopupWindow;
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 
-import com.example.baseapplication.util.ScreenUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 
 /**
  * 修改自 @author Lorensius W. L. T <lorenz@londatiga.net>
@@ -212,11 +212,11 @@ public abstract class QMUIBasePopup {
     }
 
     protected int makeWidthMeasureSpec(View view) {
-        return View.MeasureSpec.makeMeasureSpec(ScreenUtil.getScreenWidth(mContext), View.MeasureSpec.AT_MOST);
+        return View.MeasureSpec.makeMeasureSpec(QMUIDisplayHelper.getScreenWidth(mContext), View.MeasureSpec.AT_MOST);
     }
 
     protected int makeHeightMeasureSpec(View view) {
-        return View.MeasureSpec.makeMeasureSpec(ScreenUtil.getScreenHeight(mContext), View.MeasureSpec.AT_MOST);
+        return View.MeasureSpec.makeMeasureSpec(QMUIDisplayHelper.getScreenHeight(mContext), View.MeasureSpec.AT_MOST);
     }
 
 

@@ -36,10 +36,10 @@ import com.example.baseapplication.mvp.view.widget.popup.QMUIListPopup;
 import com.example.baseapplication.mvp.view.widget.popup.QMUIPopup;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
-import com.example.baseapplication.util.DensityUtil;
+import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.FileSizeUtil;
 import com.example.baseapplication.util.PayUtils;
-import com.example.baseapplication.util.SystemUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
@@ -222,7 +222,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                     RingLog.e("压缩后 = " + formatFileSize + "---路径 = " + list.get(i).getAbsolutePath());
                 }
                 imgList.clear();
-                imgList.addAll(SystemUtil.fileToPath(list));
+                imgList.addAll(CommonUtil.fileToPath(list));
                 imgAdapter.setImgData(imgList);
             }
         });
@@ -342,11 +342,11 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
             mNormalPopup = new QMUIPopup(getContext(), QMUIPopup.DIRECTION_NONE);
             TextView textView = new TextView(getContext());
             textView.setLayoutParams(mNormalPopup.generateLayoutParam(
-                    DensityUtil.dp2px(getContext(), 250),
+                    QMUIDisplayHelper.dp2px(getContext(), 250),
                     WRAP_CONTENT
             ));
-            textView.setLineSpacing(DensityUtil.dp2px(getContext(), 4), 1.0f);
-            int padding = DensityUtil.dp2px(getContext(), 20);
+            textView.setLineSpacing(QMUIDisplayHelper.dp2px(getContext(), 4), 1.0f);
+            int padding = QMUIDisplayHelper.dp2px(getContext(), 20);
             textView.setPadding(padding, padding, padding, padding);
             textView.setText("Popup 可以设置其位置以及显示和隐藏的动画");
             textView.setTextColor(ContextCompat.getColor(getContext(), R.color.a666666));
@@ -382,7 +382,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
             Collections.addAll(data, listItems);
             ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_item, data);
             mListPopup = new QMUIListPopup(getContext(), QMUIPopup.DIRECTION_NONE, adapter);
-            mListPopup.create(DensityUtil.dp2px(getContext(), 250), DensityUtil.dp2px(getContext(), 200), new AdapterView.OnItemClickListener() {
+            mListPopup.create(QMUIDisplayHelper.dp2px(getContext(), 250), QMUIDisplayHelper.dp2px(getContext(), 200), new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Toast.makeText(getActivity(), "Item " + (i + 1), Toast.LENGTH_SHORT).show();
@@ -454,7 +454,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                     RingLog.e("压缩前 = " + formatFileSize + "---路径 = " + strings.get(i));
                 }
                 //开启鲁班压缩
-                withRx(SystemUtil.pathToFile(strings));
+                withRx(CommonUtil.pathToFile(strings));
             }
         }
     }

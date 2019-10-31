@@ -27,7 +27,7 @@ import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.widget.GifSizeFilter;
-import com.example.baseapplication.mvp.view.widget.tipdialog.QMUITipDialog;
+import com.example.baseapplication.mvp.view.widget.dialog.QMUITipDialog;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.util.ActivityListManager;

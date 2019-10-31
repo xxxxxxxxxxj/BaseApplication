@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.baseapplication.mvp.view.widget.tipdialog;
+package com.example.baseapplication.mvp.view.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -36,7 +36,7 @@ import androidx.annotation.LayoutRes;
 import androidx.core.content.ContextCompat;
 
 import com.example.baseapplication.R;
-import com.example.baseapplication.util.DensityUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -160,7 +160,7 @@ public class QMUITipDialog extends Dialog {
             if (mCurrentIconType == ICON_TYPE_LOADING) {
                 QMUILoadingView loadingView = new QMUILoadingView(mContext);
                 loadingView.setColor(Color.WHITE);
-                loadingView.setSize(DensityUtil.dp2px(mContext, 32));
+                loadingView.setSize(QMUIDisplayHelper.dp2px(mContext, 32));
                 LinearLayout.LayoutParams loadingViewLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 loadingView.setLayoutParams(loadingViewLP);
                 contentWrap.addView(loadingView);
@@ -187,7 +187,7 @@ public class QMUITipDialog extends Dialog {
                 LinearLayout.LayoutParams tipViewLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
                 if (mCurrentIconType != ICON_TYPE_NOTHING) {
-                    tipViewLP.topMargin = DensityUtil.dp2px(mContext, 20);
+                    tipViewLP.topMargin = QMUIDisplayHelper.dp2px(mContext, 20);
                 }
                 tipView.setLayoutParams(tipViewLP);
 

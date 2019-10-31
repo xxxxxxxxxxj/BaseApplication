@@ -1,4 +1,4 @@
-package com.example.baseapplication.mvp.view.widget;
+package com.example.baseapplication.mvp.view.widget.dialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,9 +9,10 @@ import com.example.baseapplication.R;
 import com.example.baseapplication.app.AppConfig;
 import com.example.baseapplication.app.UrlConstants;
 import com.example.baseapplication.log.RingLog;
+import com.example.baseapplication.util.QMUIDeviceHelper;
+import com.example.baseapplication.util.QMUIPackageHelper;
 import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.StringUtil;
-import com.example.baseapplication.util.SystemUtil;
 
 import me.shaohui.bottomdialog.BottomDialog;
 
@@ -80,9 +81,9 @@ public class ShareBottomDialog extends BottomDialog implements View.OnClickListe
                 this.mTargetUrl = UrlConstants.getServiceBaseUrl() + this.mTargetUrl;
             }
             if (this.mTargetUrl.contains("?")) {
-                this.mTargetUrl = this.mTargetUrl + "&system=android_" + SystemUtil.getCurrentVersion(activity)
+                this.mTargetUrl = this.mTargetUrl + "&system=android_" + QMUIPackageHelper.getAppVersion(activity)
                         + "&imei="
-                        + SystemUtil.getIMEI(activity)
+                        + QMUIDeviceHelper.getIMEI(activity)
                         + "&phone="
                         + SharedPreferenceUtil.getInstance(activity).getString("cellphone", "") + "&phoneModel="
                         + android.os.Build.BRAND + " " + android.os.Build.MODEL
@@ -90,9 +91,9 @@ public class ShareBottomDialog extends BottomDialog implements View.OnClickListe
                         + android.os.Build.VERSION.RELEASE + "&petTimeStamp="
                         + System.currentTimeMillis();
             } else {
-                this.mTargetUrl = this.mTargetUrl + "?system=android_" + SystemUtil.getCurrentVersion(activity)
+                this.mTargetUrl = this.mTargetUrl + "?system=android_" + QMUIPackageHelper.getAppVersion(activity)
                         + "&imei="
-                        + SystemUtil.getIMEI(activity)
+                        + QMUIDeviceHelper.getIMEI(activity)
                         + "&phone="
                         + SharedPreferenceUtil.getInstance(activity).getString("cellphone", "") + "&phoneModel="
                         + android.os.Build.BRAND + " " + android.os.Build.MODEL

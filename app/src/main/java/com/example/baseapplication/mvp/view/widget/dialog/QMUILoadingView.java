@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.baseapplication.mvp.view.widget.tipdialog;
+package com.example.baseapplication.mvp.view.widget.dialog;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.NonNull;
 
 import com.example.baseapplication.R;
-import com.example.baseapplication.util.DensityUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 
 /**
  * 用于显示 Loading 的 {@link View}，支持颜色和大小的设置。
@@ -58,7 +58,7 @@ public class QMUILoadingView extends View {
     public QMUILoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.QMUILoadingView, defStyleAttr, 0);
-        mSize = array.getDimensionPixelSize(R.styleable.QMUILoadingView_qmui_loading_view_size, DensityUtil.dp2px(context, 32));
+        mSize = array.getDimensionPixelSize(R.styleable.QMUILoadingView_qmui_loading_view_size, QMUIDisplayHelper.dp2px(context, 32));
         mPaintColor = array.getInt(R.styleable.QMUILoadingView_android_color, Color.WHITE);
         array.recycle();
         initPaint();

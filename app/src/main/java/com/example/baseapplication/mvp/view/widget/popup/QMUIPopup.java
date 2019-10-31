@@ -29,7 +29,7 @@ import androidx.annotation.IntDef;
 import androidx.annotation.LayoutRes;
 
 import com.example.baseapplication.R;
-import com.example.baseapplication.util.DensityUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -282,7 +282,7 @@ public class QMUIPopup extends QMUIBasePopup {
     }
 
     protected int getRootLayoutRadius(Context context) {
-        return DensityUtil.dp2px(context, 5);
+        return QMUIDisplayHelper.dp2px(context, 5);
     }
 
     private void setViewVisibility(View view, boolean visible) {

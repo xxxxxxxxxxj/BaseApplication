@@ -8,10 +8,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.model.entity.ImageInfo;
 import com.example.baseapplication.mvp.view.widget.NiceImageView;
-import com.example.baseapplication.util.DensityUtil;
+import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.GlideUtil;
-import com.example.baseapplication.util.ScreenUtil;
-import com.example.baseapplication.util.SystemUtil;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +41,14 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     @Override
     protected void convert(final BaseViewHolder helper, String item) {
         NiceImageView iv_item_img = helper.getView(R.id.iv_item_img);
-        int windowWidth = ScreenUtil.getScreenWidth(mContext);
-        int imgWidth = (windowWidth - DensityUtil.dp2px(mContext, offSet)) / 3;
+        int windowWidth = QMUIDisplayHelper.getScreenWidth(mContext);
+        int imgWidth = (windowWidth - QMUIDisplayHelper.dp2px(mContext, (int) offSet)) / 3;
         int imgHeight = imgWidth;
         GlideUtil.displayImage(mContext, item, iv_item_img, imgWidth, imgHeight);
         iv_item_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SystemUtil.photoView(mActivity, helper.getLayoutPosition(), imgList);
+                CommonUtil.photoView(mActivity, helper.getLayoutPosition(), imgList);
             }
         });
     }

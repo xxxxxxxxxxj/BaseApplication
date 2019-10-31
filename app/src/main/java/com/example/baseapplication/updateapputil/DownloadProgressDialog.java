@@ -5,8 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.annotation.StyleRes;
-import androidx.appcompat.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -16,8 +14,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AlertDialog;
+
 import com.example.baseapplication.R;
-import com.example.baseapplication.util.ComputeUtil;
+import com.example.baseapplication.util.QMUILangHelper;
 
 import static android.app.ProgressDialog.STYLE_SPINNER;
 
@@ -119,7 +120,7 @@ public class DownloadProgressDialog extends AlertDialog {
                     }
                     double percent = (double) progress / (double) max;
                     Log.e("TAG", "percent = " + percent);
-                    SpannableString tmp = new SpannableString(ComputeUtil.formatDouble(ComputeUtil.mul(percent, 100)) + "%");
+                    SpannableString tmp = new SpannableString(QMUILangHelper.formatDouble(QMUILangHelper.mul(percent, 100)) + "%");
                     tmp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD),
                             0, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     mProgressPercent.setText(tmp);

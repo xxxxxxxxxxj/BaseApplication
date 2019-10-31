@@ -39,10 +39,11 @@ import com.example.baseapplication.app.UrlConstants;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
-import com.example.baseapplication.mvp.view.widget.ShareBottomDialog;
+import com.example.baseapplication.mvp.view.widget.dialog.ShareBottomDialog;
+import com.example.baseapplication.util.QMUIDeviceHelper;
+import com.example.baseapplication.util.QMUIPackageHelper;
 import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.StringUtil;
-import com.example.baseapplication.util.SystemUtil;
 import com.google.gson.Gson;
 import com.just.agentweb.AbsAgentWebSettings;
 import com.just.agentweb.AgentWeb;
@@ -147,9 +148,9 @@ public class WebViewActivity extends BaseActivity {
                     }
                     if (url.contains("?")) {
                         url = url
-                                + "&system=android_" + SystemUtil.getCurrentVersion(WebViewActivity.this)
+                                + "&system=android_" + QMUIPackageHelper.getAppVersion(WebViewActivity.this)
                                 + "&imei="
-                                + SystemUtil.getIMEI(WebViewActivity.this)
+                                + QMUIDeviceHelper.getIMEI(WebViewActivity.this)
                                 + "&phone="
                                 + SharedPreferenceUtil.getInstance(WebViewActivity.this).getString("cellphone", "") + "&phoneModel="
                                 + android.os.Build.BRAND + " " + android.os.Build.MODEL
@@ -158,9 +159,9 @@ public class WebViewActivity extends BaseActivity {
                                 + System.currentTimeMillis();
                     } else {
                         url = url
-                                + "?system=android_" + SystemUtil.getCurrentVersion(WebViewActivity.this)
+                                + "?system=android_" + QMUIPackageHelper.getAppVersion(WebViewActivity.this)
                                 + "&imei="
-                                + SystemUtil.getIMEI(WebViewActivity.this)
+                                + QMUIDeviceHelper.getIMEI(WebViewActivity.this)
                                 + "&phone="
                                 + SharedPreferenceUtil.getInstance(WebViewActivity.this).getString("cellphone", "") + "&phoneModel="
                                 + android.os.Build.BRAND + " " + android.os.Build.MODEL
