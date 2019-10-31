@@ -161,4 +161,6 @@ dependencies {
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
     //Android平台下的富文本解析器，支持Html和Markdown
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
+    //查看大图控件
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }
