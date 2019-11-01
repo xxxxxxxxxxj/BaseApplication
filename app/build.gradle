@@ -166,6 +166,6 @@ dependencies {
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
     //查看大图控件
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-    //当项目的总方法数查过65536个是，需要用到分包
+    //当项目的总方法数查过65536个时，需要用到分包
     implementation 'com.android.support:multidex:1.0.3'
 }
