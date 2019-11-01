@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.baseapplication.R;
-import com.example.baseapplication.mvp.model.entity.ImageInfo;
 import com.example.baseapplication.mvp.view.widget.NiceImageView;
 import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.GlideUtil;
@@ -27,7 +28,7 @@ import java.util.List;
 public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     private final float offSet;
     private Activity mActivity;
-    private List<ImageInfo> imgList = new ArrayList<ImageInfo>();
+    private List<Object> imgList = new ArrayList<Object>();
 
     public ImgAdapter(Activity mActivity, int layoutResId, List<String> data, float offSet) {
         super(layoutResId, data);
@@ -35,7 +36,7 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         this.offSet = offSet;
         imgList.clear();
         for (int i = 0; i < mData.size(); i++) {
-            imgList.add(new ImageInfo(mData.get(i)));
+            imgList.add(mData.get(i));
         }
     }
 
@@ -53,7 +54,8 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         iv_item_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtil.photoView(mActivity, helper.getLayoutPosition(), imgList);
+                RecyclerView recyclerView = (RecyclerView) helper.itemView.getParent();
+                CommonUtil.photoView(mActivity, iv_item_img, recyclerView, helper.getLayoutPosition(), imgList);
             }
         });
     }
@@ -61,7 +63,7 @@ public class ImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public void setImgData(List<String> data) {
         imgList.clear();
         for (int i = 0; i < data.size(); i++) {
-            imgList.add(new ImageInfo(data.get(i)));
+            imgList.add(data.get(i));
         }
         notifyDataSetChanged();
     }

@@ -34,6 +34,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-sdk tools:overrideLibrary="com.lxj.easyadapter" />
 
     <application
         android:name=".app.MApplication"

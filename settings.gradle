@@ -1,1 +1,1 @@
-include ':app', ':countdown_library', ':FlycoTabLayout_Lib', ':guideview', ':pickerview', ':wheelview', ':stagger_library', ':rxeasyhttp', ':FlycoTabLayout_Lib', ':matisse', ':camera', ':bottomdialog', ':dialog'
+include ':app', ':countdown_library', ':FlycoTabLayout_Lib', ':guideview', ':pickerview', ':wheelview', ':stagger_library', ':rxeasyhttp', ':FlycoTabLayout_Lib', ':matisse', ':camera', ':bottomdialog', ':dialog', ':library'

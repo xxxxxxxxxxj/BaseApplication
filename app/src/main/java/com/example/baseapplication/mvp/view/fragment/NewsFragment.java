@@ -16,7 +16,7 @@ import com.example.baseapplication.mvp.presenter.NewsFragPresenter;
 import com.example.baseapplication.mvp.view.adapter.PostAdapter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.INewsFragView;
-import com.example.baseapplication.util.GlideImageLoader;
+import com.example.baseapplication.mvp.view.widget.imageloader.BannerImageLoader;
 import com.example.baseapplication.util.JumpToUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -290,7 +290,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
             imgList.add(bannerList.get(i).getImg());
         }
         banner_newsfrag.setImages(imgList)
-                .setImageLoader(new GlideImageLoader())
+                .setImageLoader(new BannerImageLoader())
                 .setOnBannerListener(this)
                 .start();
     }

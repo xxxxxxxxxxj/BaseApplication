@@ -6,8 +6,19 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.widget.ImageView;
 
-import com.example.baseapplication.mvp.model.entity.ImageInfo;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.example.baseapplication.R;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -57,14 +68,29 @@ public class CommonUtil {
     }
 
     //查看大图
-    public static void photoView(Activity context, int position, List<ImageInfo> imgList) {
-        /*Intent intent = new Intent();
-        intent.setClass(context, PhotoViewActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt(PhotoViewActivity.KEY_PHOTOVIEW_POSITION, position);
-        bundle.putSerializable(PhotoViewActivity.KEY_PHOTOVIEW_IMGLIST, (Serializable) imgList);
-        intent.putExtras(bundle);
-        context.startActivity(intent);*/
+    public static void photoView(Activity context, ImageView imageView, RecyclerView recyclerView, int position, List<Object> imgList) {
+        new XPopup.Builder(context).asImageViewer(imageView, position, imgList, new OnSrcViewUpdateListener() {
+            @Override
+            public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
+                popupView.updateSrcView((ImageView) recyclerView.getChildAt(position));
+            }
+        }, new XPopupImageLoader() {
+            @Override
+            public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
+                //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
+                Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL)).placeholder(R.mipmap.ic_image_load).error(R.mipmap.ic_image_load).into(imageView);
+            }
+
+            @Override
+            public File getImageFile(@NonNull Context context, @NonNull Object uri) {
+                try {
+                    return Glide.with(context).downloadOnly().load(uri).submit().get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }).show();
     }
 
     public static List<File> pathToFile(List<String> pathList) {

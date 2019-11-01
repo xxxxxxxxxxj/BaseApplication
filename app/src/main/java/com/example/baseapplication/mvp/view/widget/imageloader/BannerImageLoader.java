@@ -1,4 +1,4 @@
-package com.example.baseapplication.util;
+package com.example.baseapplication.mvp.view.widget.imageloader;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -15,9 +15,9 @@ import com.youth.banner.loader.ImageLoader;
  * @author 徐俊
  * @date zhoujunxia on 2019-10-23 11:36
  */
-public class GlideImageLoader extends ImageLoader {
+public class BannerImageLoader extends ImageLoader {
 
-    public GlideImageLoader() {
+    public BannerImageLoader() {
     }
 
     @Override

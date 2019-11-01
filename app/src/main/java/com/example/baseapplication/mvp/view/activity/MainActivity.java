@@ -139,7 +139,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                     @Override
                     public boolean onClick(BaseDialog baseDialog, View v) {
                         QMUIDeviceHelper.goToPermissionManager(mActivity);
-                        return false;
+                        return true;
                     }
                 });
             }
@@ -284,7 +284,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                             @Override
                                             public boolean onClick(BaseDialog baseDialog, View v) {
                                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                                return false;
+                                                return true;
                                             }
                                         });
                                     }
@@ -316,7 +316,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                             @Override
                                             public boolean onClick(BaseDialog baseDialog, View v) {
                                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                                return false;
+                                                return true;
                                             }
                                         });
                                     }
