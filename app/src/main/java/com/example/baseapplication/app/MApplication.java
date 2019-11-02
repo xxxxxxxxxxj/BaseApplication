@@ -223,7 +223,7 @@ public class MApplication extends MultiDexApplication {
                 .setCacheDiskConverter(new SerializableDiskConverter())//默认缓存使用序列化转化
                 .setCacheMaxSize(50 * 1024 * 1024)//设置缓存大小为50M
                 .setCacheVersion(1)//缓存版本为1
-                .setHostnameVerifier(new UnSafeHostnameVerifier(UrlConstants.getServiceBaseUrl()))//全局访问规则
+                //.setHostnameVerifier(new UnSafeHostnameVerifier(UrlConstants.getServiceBaseUrl()))//全局访问规则
                 .setCertificates()//信任所有证书
                 //.addConverterFactory(GsonConverterFactory.create(gson))//本框架没有采用Retrofit的Gson转化，所以不用配置
                 .addCommonHeaders(UrlConstants.getHeaders(this));//设置全局公共头

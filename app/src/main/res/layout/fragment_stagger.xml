@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pla="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl_newsfrag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.huewu.pla.lib.MultiColumnListView
+            android:id="@+id/mclv_encyclopedias_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/af8f8f8"
+            android:paddingLeft="10dip"
+            android:paddingRight="5dip"
+            pla:plaColumnNumber="2"
+            pla:plaLandscapeColumnNumber="2" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

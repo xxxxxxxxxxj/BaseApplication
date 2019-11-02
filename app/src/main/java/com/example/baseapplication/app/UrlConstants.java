@@ -309,6 +309,14 @@ public class UrlConstants {
      * 71.相关文案配置
      */
     public static final String USER_CONFIG = "user/info/config";
+    /**
+     * 72.获取瀑布流title
+     */
+    public static final String GET_ENCYCLOPEDIAS_TITLE = "encyclopedia/queryEncyclopediaClassification";
+    /**
+     * 72.获取瀑布流内容
+     */
+    public static final String GET_ENCYCLOPEDIAS = "encyclopedia/queryEncyclopediaList";
 
     private static int getEnvironmental() {
         return AppConfig.environmental;//1.test环境---2.demo环境---3.线上环境
@@ -327,6 +335,26 @@ public class UrlConstants {
                 break;
             case 3://线上环境
                 url = "https://service.dzztrip.cn/api/";
+                break;
+            default:
+                break;
+        }
+        return url;
+    }
+
+    /**
+     * 获取带端口的IP地址
+     *
+     * @return
+     */
+    public static String getServiceBaseUrl1() {
+        String url = "";
+        switch (getEnvironmental()) {
+            case 2://demo环境
+                url = "https://demo.cwjia.cn/pet-api/";
+                break;
+            case 3://线上环境
+                url = "https://api.ichongwujia.com/";
                 break;
             default:
                 break;

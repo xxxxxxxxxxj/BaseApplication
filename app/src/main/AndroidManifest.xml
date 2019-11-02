@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.baseapplication">
 
+    <uses-sdk tools:overrideLibrary="com.lxj.easyadapter" />
+
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 安装apk所需权限 -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
@@ -34,7 +36,6 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-sdk tools:overrideLibrary="com.lxj.easyadapter" />
 
     <application
         android:name=".app.MApplication"
@@ -45,32 +46,30 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.view.activity.CameraActivity"></activity>
+        <activity android:name=".mvp.view.activity.StaggerActivity"></activity>
+        <activity android:name=".mvp.view.activity.CameraActivity" />
         <activity android:name=".mvp.view.activity.ScanCodeActivity" />
         <activity
             android:name=".mvp.view.activity.WebViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true" />
-        <!--适配刘海屏：对Application生效，意味着该应用的所有页面，
-        系统都不会做竖屏场景的特殊下移或者是横屏场景的右移特殊处理：-->
-        <!--适配华为（huawei）刘海屏-->
+        <!--
+适配刘海屏：对Application生效，意味着该应用的所有页面，
+        系统都不会做竖屏场景的特殊下移或者是横屏场景的右移特殊处理：
+        -->
+        <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"
-            android:value="true" />
-        <!--适配小米（xiaomi）刘海屏-->
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
             android:name="notch.config"
-            android:value="portrait|landscape" />
-        <!-- 适配vivo（vivo）刘海屏 -->
+            android:value="portrait|landscape" /> <!-- 适配vivo（vivo）刘海屏 -->
         <meta-data
             android:name="android.vendor.full_screen"
-            android:value="true" />
-
-        <!--适配全面屏：应用可以支持的最大纵横比-->
+            android:value="true" /> <!-- 适配全面屏：应用可以支持的最大纵横比 -->
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.4" />
-        <!--autosize：设计图的宽高，单位是dp-->
+            android:value="2.4" /> <!-- autosize：设计图的宽高，单位是dp -->
         <meta-data
             android:name="design_width_in_dp"
             android:value="360" />

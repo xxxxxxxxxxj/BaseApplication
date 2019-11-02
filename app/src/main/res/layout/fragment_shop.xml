@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_appointment_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_appointment_cart"
+        android:layout_width="35dip"
+        android:layout_height="35dip"
+        android:layout_marginLeft="15dip"
+        android:layout_marginBottom="15dip"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/icon_mx" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/iv_appointment_cart">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,6 +45,24 @@
                     android:layout_height="match_parent" />
             </RelativeLayout>
 
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/tv_upgrade_bottomdia_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                app:isShowDay="true"
+                app:isShowHour="true"
+                app:isShowMillisecond="true"
+                app:isShowMinute="true"
+                app:isShowSecond="true"
+                app:suffixGravity="center"
+                app:suffixTextColor="@color/colorPrimaryDark"
+                app:suffixTextSize="17sp"
+                app:timeTextColor="@color/colorPrimaryDark"
+                app:timeTextSize="20sp" />
+
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
@@ -40,4 +70,4 @@
                 android:textIsSelectable="false" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+</RelativeLayout>

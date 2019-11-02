@@ -1,14 +1,23 @@
 package com.example.baseapplication.mvp.view.fragment;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +25,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.blog.www.guideview.Guide;
+import com.blog.www.guideview.GuideBuilder;
 import com.example.baseapplication.R;
 import com.example.baseapplication.app.AppConfig;
 import com.example.baseapplication.log.RingLog;
@@ -26,12 +36,15 @@ import com.example.baseapplication.mvp.model.event.WXPayResultEvent;
 import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
 import com.example.baseapplication.mvp.view.activity.CameraActivity;
 import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
+import com.example.baseapplication.mvp.view.activity.StaggerActivity;
 import com.example.baseapplication.mvp.view.adapter.ImgAdapter;
 import com.example.baseapplication.mvp.view.adapter.ShopAdapter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
 import com.example.baseapplication.mvp.view.iview.IShopFragView;
+import com.example.baseapplication.mvp.view.widget.GiftCardComponent;
 import com.example.baseapplication.mvp.view.widget.GridSpacingItemDecoration;
 import com.example.baseapplication.mvp.view.widget.NoScollFullGridLayoutManager;
+import com.example.baseapplication.mvp.view.widget.dialog.WheelBottomDialog;
 import com.example.baseapplication.mvp.view.widget.popup.QMUIListPopup;
 import com.example.baseapplication.mvp.view.widget.popup.QMUIPopup;
 import com.example.baseapplication.permission.PermissionListener;
@@ -59,6 +72,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import cn.iwgang.countdownview.CountdownView;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -76,9 +90,19 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragItem;
     @BindView(R.id.rv_shopfrag_img)
     RecyclerView rvShopfragImg;
-    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层", "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框"};
+    private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层",
+            "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框",
+            "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画"};
     @BindView(R.id.text)
     TextView text;
+    @BindView(R.id.tv_upgrade_bottomdia_time)
+    CountdownView tvUpgradeBottomdiaTime;
+    @BindView(R.id.rl_appointment_root)
+    RelativeLayout rl_appointment_root;
+    @BindView(R.id.iv_appointment_cart)
+    ImageView iv_appointment_cart;
+    private ImageView beisaierImageView;
+    private float[] mCurrentPosition = new float[2];
     private ShopAdapter shopAdapter;
     private List<String> imgList = new ArrayList<String>();
     private ImgAdapter imgAdapter;
@@ -159,6 +183,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
             "</article>";
     private QMUIPopup mNormalPopup;
     private QMUIListPopup mListPopup;
+    private Guide guide;
 
     @Override
     protected ShopFragPresenter createPresenter() {
@@ -218,6 +243,12 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
     @Override
     protected void initEvent() {
+        tvUpgradeBottomdiaTime.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                RingToast.show("倒计时结束");
+            }
+        });
         setOnLuBanSuccessListener(new OnLuBanSuccessListener() {
             @Override
             public void OnLuBanSuccess(List<File> list) {
@@ -231,9 +262,9 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                 imgAdapter.setImgData(imgList);
             }
         });
-        shopAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        shopAdapter.setOnItemAddListener(new ShopAdapter.OnItemAddListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void OnItemAdd(int position, ImageView imageView) {
                 switch (position) {
                     case 0:
                         goPhoto(9);
@@ -395,12 +426,141 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                             }
                         });
                         break;
+                    case 15:
+                        showGuideView(rvShopfragItem.getChildAt(15));
+                        break;
+                    case 16:
+                        tvUpgradeBottomdiaTime.updateShow(10 * 3600 * 1000 * 1000);
+                        tvUpgradeBottomdiaTime.start(10 * 3600 * 1000 * 1000);
+                        break;
+                    case 17:
+                        WheelBottomDialog dialog = new WheelBottomDialog(mActivity);
+                        dialog.show(getFragmentManager());
+                        break;
+                    case 18:
+                        startActivity(StaggerActivity.class);
+                        break;
+                    case 19:
+                        beisaierImageView = imageView;
+                        addGoodToCar();
+                        break;
                     default:
                         break;
                 }
             }
         });
     }
+
+    private void addGoodToCar() {
+        final ImageView view = new ImageView(mActivity);
+        view.setImageResource(R.mipmap.icon_beisaier);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(56, 56);
+        rl_appointment_root.addView(view, layoutParams);
+
+        //二、计算动画开始/结束点的坐标的准备工作
+        //得到父布局的起始点坐标（用于辅助计算动画开始/结束时的点的坐标）
+        int[] parentLoc = new int[2];
+        rl_appointment_root.getLocationInWindow(parentLoc);
+
+        //得到商品图片的坐标（用于计算动画开始的坐标）
+        int startLoc[] = new int[2];
+        beisaierImageView.getLocationInWindow(startLoc);
+
+        //得到购物车图片的坐标(用于计算动画结束后的坐标)
+        int endLoc[] = new int[2];
+        iv_appointment_cart.getLocationInWindow(endLoc);
+
+        float startX = startLoc[0] - parentLoc[0] + beisaierImageView.getWidth() / 2;
+        float startY = startLoc[1] - parentLoc[1] + beisaierImageView.getHeight() / 2;
+
+        //商品掉落后的终点坐标：购物车起始点-父布局起始点+购物车图片的1/5
+        float toX = endLoc[0] - parentLoc[0] + iv_appointment_cart.getWidth() / 5;
+        float toY = endLoc[1] - parentLoc[1];
+
+        //开始绘制贝塞尔曲线
+        Path path = new Path();
+        path.moveTo(startX, startY);
+        //使用二次萨贝尔曲线：注意第一个起始坐标越大，贝塞尔曲线的横向距离就会越大，一般按照下面的式子取即可
+        path.quadTo((startX + toX) / 2, startY, toX, toY);
+        PathMeasure mPathMeasure = new PathMeasure(path, false);
+
+        //属性动画
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, mPathMeasure.getLength());
+        valueAnimator.setDuration(500);
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                mPathMeasure.getPosTan(value, mCurrentPosition, null);
+                view.setTranslationX(mCurrentPosition[0]);
+                view.setTranslationY(mCurrentPosition[1]);
+            }
+        });
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // 把移动的图片imageview从父布局里移除
+                rl_appointment_root.removeView(view);
+                //shopImg 开始一个放大动画
+                Animation scaleAnim = AnimationUtils.loadAnimation(mActivity, R.anim.shop_car_scale);
+                iv_appointment_cart.startAnimation(scaleAnim);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        valueAnimator.start();
+    }
+
+    public void showGuideView(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view).setAlpha(200)
+                .setHighTargetCorner(getResources().getDimensionPixelSize(R.dimen.dp_10))
+                .setExitAnimationId(android.R.anim.fade_out)
+                .setAutoDismiss(false)
+                .setOverlayTarget(false).setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                spUtil.saveBoolean("GUIDE_GIFTCARD", true);
+            }
+        });
+        builder.addComponent(new GiftCardComponent(getActivity(), clickListener));
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show(getActivity());
+    }
+
+    private View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.iv_guide_eattime2:
+                    //执行业务操作
+                    guide.dismiss();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     private void initNormalPopupIfNeed() {
         if (mNormalPopup == null) {
