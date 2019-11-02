@@ -124,6 +124,8 @@ dependencies {
     implementation project(':dialog')
     //功能强大，UI简洁，交互优雅的通用弹窗(主要用作查看大图)
     implementation project(':library')
+    //类似QQ空间，微信朋友圈，微博主页等，展示图片的九宫格控件
+    implementation project(':ninegridview')
     //RxPermission权限申请
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     //Glide图片加载
@@ -169,7 +171,7 @@ dependencies {
     //Android平台下的富文本解析器，支持Html和Markdown
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
     //当项目的总方法数查过65536个时，需要用到分包
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.0'
     //Android美团多渠道打包Walle集成
     implementation 'com.meituan.android.walle:library:1.1.6'
 }
