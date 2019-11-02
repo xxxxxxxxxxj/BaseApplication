@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+//Android美团多渠道打包Walle集成
+apply plugin: 'walle'
 android {
     compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
     //关闭Android Studio的PNG合法性检查,将Eclipse项目导入到Android studio 中 很多点9图出现问题解决方法：
@@ -168,4 +170,15 @@ dependencies {
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
     //当项目的总方法数查过65536个时，需要用到分包
     implementation 'com.android.support:multidex:1.0.3'
+    //Android美团多渠道打包Walle集成
+    implementation 'com.meituan.android.walle:library:1.1.6'
+}
+
+walle {
+    // 指定渠道包的输出路径
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels");
+    // 定制渠道包的APK的文件名称
+    apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk';
+    // 渠道配置文件
+    channelFile = new File("${project.getProjectDir()}/channel")
 }
