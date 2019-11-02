@@ -256,7 +256,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                                     @Override
                                     public boolean onClick(BaseDialog baseDialog, View v) {
                                         QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                        return true;
+                                        return false;
                                     }
                                 });
                             }
@@ -286,7 +286,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                                     @Override
                                     public boolean onClick(BaseDialog baseDialog, View v) {
                                         QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                        return true;
+                                        return false;
                                     }
                                 });
                             }
@@ -355,7 +355,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                             @Override
                             public boolean onClick(BaseDialog baseDialog, View v) {
                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                return true;
+                                return false;
                             }
                         });
                         break;
@@ -367,7 +367,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                             @Override
                             public boolean onClick(BaseDialog baseDialog, View v) {
                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                return true;
+                                return false;
                             }
                         });
                         break;
@@ -379,7 +379,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                             @Override
                             public boolean onClick(BaseDialog baseDialog, View v) {
                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                return true;
+                                return false;
                             }
                         });
                         break;
@@ -391,7 +391,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                             @Override
                             public boolean onClick(BaseDialog baseDialog, View v) {
                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                return true;
+                                return false;
                             }
                         });
                         break;

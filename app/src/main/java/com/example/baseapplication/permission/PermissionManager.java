@@ -1,6 +1,6 @@
 package com.example.baseapplication.permission;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -15,7 +15,7 @@ import io.reactivex.functions.Consumer;
 
 public class PermissionManager {
     //请求单个权限建议用这个
-    public void requestEach(Activity activity, final PermissionListener listener, String... permissions) {
+    public void requestEach(AppCompatActivity activity, final PermissionListener listener, String... permissions) {
         if (activity != null) {
             RxPermissions rxPermissions = new RxPermissions(activity);
             rxPermissions.requestEach(permissions).subscribe(new Consumer<Permission>() {
@@ -44,7 +44,7 @@ public class PermissionManager {
     }
 
     //请求多个权限建议用这个
-    public void requestEachCombined(Activity activity, final PermissionListener listener, String... permissions) {
+    public void requestEachCombined(AppCompatActivity activity, final PermissionListener listener, String... permissions) {
         if (activity != null) {
             RxPermissions rxPermissions = new RxPermissions(activity);
             rxPermissions.requestEachCombined(permissions).subscribe(new Consumer<Permission>() {

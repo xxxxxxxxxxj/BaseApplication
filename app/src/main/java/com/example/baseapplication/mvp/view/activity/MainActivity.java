@@ -286,11 +286,11 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                             @Override
                                             public boolean onClick(BaseDialog baseDialog, View v) {
                                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                                return true;
+                                                return false;
                                             }
                                         });
                                     }
-                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
+                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
                             }
                         });
             } else if (checkVersionBean.getCompulsory() == 0) {
@@ -318,11 +318,11 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                                             @Override
                                             public boolean onClick(BaseDialog baseDialog, View v) {
                                                 QMUIDeviceHelper.goToPermissionManager(mActivity);
-                                                return true;
+                                                return false;
                                             }
                                         });
                                     }
-                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.REQUEST_INSTALL_PACKAGES});
+                                }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
                             }
                         });
             }

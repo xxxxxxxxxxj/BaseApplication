@@ -127,7 +127,7 @@ dependencies {
     //类似QQ空间，微信朋友圈，微博主页等，展示图片的九宫格控件
     implementation project(':ninegridview')
     //RxPermission权限申请
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     //Glide图片加载
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
@@ -178,9 +178,9 @@ dependencies {
 
 walle {
     // 指定渠道包的输出路径
-    apkOutputFolder = new File("${project.buildDir}/outputs/channels");
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
     // 定制渠道包的APK的文件名称
-    apkFileNameFormat = '${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk';
+    apkFileNameFormat = '${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk'
     // 渠道配置文件
     channelFile = new File("${project.getProjectDir()}/channel")
 }
