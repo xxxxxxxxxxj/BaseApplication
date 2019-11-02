@@ -31,6 +31,7 @@ import butterknife.BindView;
  * @date zhoujunxia on 2019-11-02 18:47
  */
 public class EncyclopediasFragment extends BaseFragment<EncyclopediasFragPresenter> implements IEncyclopediasFragView {
+    private final int id;
     @BindView(R.id.mclv_encyclopedias_fragment)
     MultiColumnListView mclvEncyclopediasFragment;
     @BindView(R.id.srl_newsfrag)
@@ -40,6 +41,12 @@ public class EncyclopediasFragment extends BaseFragment<EncyclopediasFragPresent
     private List<Encyclopedias> list = new ArrayList<Encyclopedias>();
     private int pageSize = 10;
     private EncyclopediasAdapter<Encyclopedias> encyclopediasAdapter;
+
+    public EncyclopediasFragment(int id) {
+        super();
+        this.id = id;
+        RingLog.e("id = "+id);
+    }
 
     @Override
     protected EncyclopediasFragPresenter createPresenter() {
@@ -101,7 +108,7 @@ public class EncyclopediasFragment extends BaseFragment<EncyclopediasFragPresent
 
     private void setRequest() {
         postParams.clear();
-        postParams.put("classificationId", String.valueOf(getArguments().getInt("id", 0)));
+        postParams.put("classificationId", String.valueOf(id));
         postParams.put("page", String.valueOf(page));
         mPresenter.getEncyclopedias(postParams);
     }

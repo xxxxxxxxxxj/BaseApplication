@@ -27,8 +27,9 @@ public class EncyclopediasFragPresenter extends BasePresenter<IEncyclopediasFrag
         super(mContext, iEncyclopediasFragView);
     }
 
-    public void getEncyclopedias(Map<String, String> postParams) {
+    public void getEncyclopedias(Map<String, String> params) {
         EasyHttp.post(UrlConstants.GET_ENCYCLOPEDIAS)
+                .params(params)
                 .baseUrl(UrlConstants.getServiceBaseUrl1())
                 .execute(new SimpleCallBack<List<Encyclopedias>>() {
                     @Override

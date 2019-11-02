@@ -14,6 +14,7 @@ import com.example.baseapplication.mvp.view.adapter.ViewPagerAdapter;
 import com.example.baseapplication.mvp.view.fragment.EncyclopediasFragment;
 import com.example.baseapplication.mvp.view.iview.IStaggerActivityView;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
     ViewPager vpEncyclopedias;
     private int currentTabIndex;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
+    private ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected int getLayoutResID() {
@@ -54,7 +56,44 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
 
     @Override
     protected void initEvent() {
+        stlEncyclopedias.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                RingLog.e("TAG", "onTabSelect position = " + position);
+                currentTabIndex = position;
+                vpEncyclopedias.setCurrentItem(position);
+            }
 
+            @Override
+            public void onTabReselect(int position) {
+                RingLog.e("TAG", "ponTabReselect position = " + position);
+                if (currentTabIndex == position) {//刷新
+                    autoRefresh();
+                }
+            }
+        });
+        vpEncyclopedias.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                currentTabIndex = position;
+                stlEncyclopedias.setCurrentTab(currentTabIndex);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    public void autoRefresh() {
+        EncyclopediasFragment fragment = (EncyclopediasFragment) viewPagerAdapter.getItem(currentTabIndex);
+        fragment.autoRefresh();
     }
 
     @Override
@@ -86,13 +125,10 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
             List<EncyclopediasTitleBean.EncyclopediasTitle> encyclopediaClassifications = data.getEncyclopediaClassifications();
             if (encyclopediaClassifications != null && encyclopediaClassifications.size() > 0) {
                 for (int i = 0; i < encyclopediaClassifications.size(); i++) {
-                    EncyclopediasFragment encyclopediasFragment = new EncyclopediasFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", encyclopediaClassifications.get(i).getId());
-                    encyclopediasFragment.setArguments(bundle);
-                    mFragments.add(encyclopediasFragment);
+                    mFragments.add(new EncyclopediasFragment(encyclopediaClassifications.get(i).getId()));
                 }
-                vpEncyclopedias.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), mFragments, encyclopediaClassifications));
+                viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments, encyclopediaClassifications);
+                vpEncyclopedias.setAdapter(viewPagerAdapter);
                 stlEncyclopedias.setViewPager(vpEncyclopedias);
                 if (currentTabIndex < 0) {
                     currentTabIndex = 0;
