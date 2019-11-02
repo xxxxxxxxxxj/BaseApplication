@@ -544,7 +544,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     }
 
     protected <T> void withRx(final List<T> photos) {
-        showLoadDialog();
+        showLoadDialog("正在压缩...");
         mDisposable.add(Flowable.just(photos)
                 .observeOn(Schedulers.io())
                 .map(new Function<List<T>, List<File>>() {
