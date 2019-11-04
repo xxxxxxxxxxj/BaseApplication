@@ -14,7 +14,6 @@
             android:layout_height="54dip"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dip"
             android:layout_marginBottom="30dip"
             android:background="@mipmap/bg_red_jianbian_icon"
             android:text="确 定"
@@ -64,6 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:layout_marginBottom="30dip"
+                android:layout_marginTop="30dip"
                 android:orientation="horizontal">
 
                 <com.contrarywind.view.WheelView

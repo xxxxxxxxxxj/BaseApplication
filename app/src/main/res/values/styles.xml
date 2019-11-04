@@ -1,4 +1,14 @@
 <resources>
+
+    <style name="CollapsingTopBarLayoutExpanded">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="CollapsingTopBarLayoutCollapsed">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">17sp</item>
+    </style>
     <!--loadingdialog样式-->
     <style name="QMUI.TipDialog" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>

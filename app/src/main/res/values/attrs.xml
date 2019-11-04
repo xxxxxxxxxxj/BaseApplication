@@ -1,29 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- QMUICollapsingTopBarLayout start -->
+    <declare-styleable name="QMUICollapsingTopBarLayout">
+        <attr name="qmui_expandedTitleMargin" format="dimension"/>
+        <attr name="qmui_expandedTitleMarginStart" format="dimension"/>
+        <attr name="qmui_expandedTitleMarginTop" format="dimension"/>
+        <attr name="qmui_expandedTitleMarginEnd" format="dimension"/>
+        <attr name="qmui_expandedTitleMarginBottom" format="dimension"/>
+        <attr name="qmui_expandedTitleTextAppearance" format="reference"/>
+        <attr name="qmui_collapsedTitleTextAppearance" format="reference"/>
+        <attr name="qmui_contentScrim" format="color"/>
+        <attr name="qmui_statusBarScrim" format="color"/>
+        <attr name="qmui_topBarId" format="reference"/>
+        <attr name="qmui_scrimVisibleHeightTrigger" format="dimension"/>
+        <attr name="qmui_scrimAnimationDuration" format="integer"/>
+        <attr name="qmui_collapsedTitleGravity">
+            <flag name="top" value="0x30"/>
+            <flag name="bottom" value="0x50"/>
+            <flag name="left" value="0x03"/>
+            <flag name="right" value="0x05"/>
+            <flag name="center_vertical" value="0x10"/>
+            <flag name="fill_vertical" value="0x70"/>
+            <flag name="center_horizontal" value="0x01"/>
+            <flag name="center" value="0x11"/>
+            <flag name="start" value="0x00800003"/>
+            <flag name="end" value="0x00800005"/>
+        </attr>
+        <attr name="qmui_expandedTitleGravity">
+            <flag name="top" value="0x30"/>
+            <flag name="bottom" value="0x50"/>
+            <flag name="left" value="0x03"/>
+            <flag name="right" value="0x05"/>
+            <flag name="center_vertical" value="0x10"/>
+            <flag name="fill_vertical" value="0x70"/>
+            <flag name="center_horizontal" value="0x01"/>
+            <flag name="center" value="0x11"/>
+            <flag name="start" value="0x00800003"/>
+            <flag name="end" value="0x00800005"/>
+        </attr>
+        <attr name="qmui_titleEnabled" format="boolean"/>
+        <attr name="qmui_title"/>
+    </declare-styleable>
+    <declare-styleable name="QMUICollapsingTopBarLayout_Layout">
+        <attr name="qmui_layout_collapseMode">
+            <enum name="none" value="0"/>
+            <enum name="pin" value="1"/>
+            <enum name="parallax" value="2"/>
+        </attr>
+        <attr name="qmui_layout_collapseParallaxMultiplier" format="float"/>
+    </declare-styleable>
+    <!-- QMUICollapsingTopBarLayout end -->
+    <declare-styleable name="QMUITextAppearance">
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textColorHint"/>
+        <attr name="android:textStyle"/>
+        <attr name="android:typeface"/>
+        <attr name="textAllCaps"/>
+        <attr name="android:shadowColor"/>
+        <attr name="android:shadowDy"/>
+        <attr name="android:shadowDx"/>
+        <attr name="android:shadowRadius"/>
+    </declare-styleable>
+    <attr name="qmui_topbar_height" format="dimension"/>
+    <attr name="qmui_config_color_gray_1" format="color"/>
+    <attr name="qmui_config_color_gray_4" format="color"/>
+    <!--************ QMUITopBar ***********-->
+    <declare-styleable name="QMUITopBar">
+        <attr name="qmui_topbar_title_gravity" format="enum">
+            <enum name="left_center" value="19" />
+            <enum name="center" value="17" />
+        </attr>
+        <attr name="qmui_topbar_need_separator" format="boolean" />
+        <attr name="qmui_topbar_separator_color" format="color" />
+        <attr name="qmui_topbar_separator_height" format="dimension" />
+        <attr name="qmui_topbar_bg_color" format="color" />
+        <attr name="qmui_topbar_left_back_drawable_id" format="reference" />
+        <attr name="qmui_topbar_title_text_size" format="dimension" />
+        <attr name="qmui_topbar_title_text_size_with_subtitle" format="dimension" />
+        <attr name="qmui_topbar_subtitle_text_size" format="dimension" />
+        <attr name="qmui_topbar_title_color" format="color" />
+        <attr name="qmui_topbar_subtitle_color" format="color" />
+        <attr name="qmui_topbar_title_margin_horizontal_when_no_btn_aside" format="dimension" />
+        <attr name="qmui_topbar_title_container_padding_horizontal" format="dimension" />
+        <attr name="qmui_topbar_image_btn_width" format="dimension" />
+        <attr name="qmui_topbar_image_btn_height" format="dimension" />
+        <attr name="qmui_topbar_text_btn_padding_horizontal" format="dimension" />
+        <attr name="qmui_topbar_text_btn_color_state_list" format="reference" />
+        <attr name="qmui_topbar_text_btn_text_size" format="dimension" />
+    </declare-styleable>
+    <attr name="QMUITopBarStyle" format="reference" />
+    <attr name="qmui_alpha_pressed" format="float" />
+    <attr name="qmui_alpha_disabled" format="float" />
     <declare-styleable name="StickLayout_Layout">
         <!--是否粘性停留-->
-        <attr name="wkp_stick" format="boolean"/>
+        <attr name="wkp_stick" format="boolean" />
     </declare-styleable>
     <declare-styleable name="StickLayout">
         <!--是否开启滑动到最后一个控件的顶部，默认不开启-->
-        <attr name="wkp_canScrollToEndViewTop" format="boolean"/>
+        <attr name="wkp_canScrollToEndViewTop" format="boolean" />
     </declare-styleable>
     <declare-styleable name="QMUITextCommonStyleDef">
-        <attr name="android:textColor"/>
-        <attr name="android:textSize"/>
-        <attr name="android:background"/>
-        <attr name="android:gravity"/>
-        <attr name="android:paddingTop"/>
-        <attr name="android:paddingLeft"/>
-        <attr name="android:paddingRight"/>
-        <attr name="android:paddingBottom"/>
-        <attr name="android:singleLine"/>
-        <attr name="android:ellipsize"/>
-        <attr name="android:maxLines"/>
-        <attr name="android:lineSpacingExtra"/>
-        <attr name="android:drawablePadding"/>
-        <attr name="android:textColorHint"/>
-        <attr name="android:textStyle"/>
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:background" />
+        <attr name="android:gravity" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingBottom" />
+        <attr name="android:singleLine" />
+        <attr name="android:ellipsize" />
+        <attr name="android:maxLines" />
+        <attr name="android:lineSpacingExtra" />
+        <attr name="android:drawablePadding" />
+        <attr name="android:textColorHint" />
+        <attr name="android:textStyle" />
     </declare-styleable>
     <!--************ QMUILoading ***********-->
     <declare-styleable name="QMUILoadingView">

@@ -25,7 +25,6 @@ import butterknife.BindView;
  * 瀑布流界面
  */
 public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> implements IStaggerActivityView {
-
     @BindView(R.id.stl_encyclopedias)
     SlidingTabLayout stlEncyclopedias;
     @BindView(R.id.vp_encyclopedias)
@@ -46,7 +45,6 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
 
     @Override
     protected void setView(Bundle savedInstanceState) {
-
     }
 
     @Override

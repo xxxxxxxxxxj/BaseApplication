@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="qmui_config_color_separator">#DEE0E2</color>
     <color name="black">#000000</color>
     <color name="aE2364A">#E2364A</color>
     <color name="qmui_config_color_gray_5">#858C96</color>

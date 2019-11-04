@@ -24,7 +24,7 @@ public abstract class BaseBottomDialog extends DialogFragment {
 
     private static final String TAG = "base_bottom_dialog";
 
-    private static final float DEFAULT_DIM = 0.2f;
+    private static final float DEFAULT_DIM = 0.7f;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

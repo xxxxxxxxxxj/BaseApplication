@@ -43,13 +43,13 @@ import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 
+import com.example.baseapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +60,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2016-03-17
  */
 public class QMUIViewHelper {
+    private static final int[] APPCOMPAT_CHECK_ATTRS = {
+            R.attr.colorPrimary
+    };
+
+    public static void checkAppCompatTheme(Context context) {
+        TypedArray a = context.obtainStyledAttributes(APPCOMPAT_CHECK_ATTRS);
+        final boolean failed = !a.hasValue(0);
+        a.recycle();
+        if (failed) {
+            throw new IllegalArgumentException("You need to use a Theme.AppCompat theme "
+                    + "(or descendant) with the design library.");
+        }
+    }
 
     // copy from View.generateViewId for API <= 16
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
@@ -588,7 +601,6 @@ public class QMUIViewHelper {
             }
         }
     }
-
 
 
     /**
