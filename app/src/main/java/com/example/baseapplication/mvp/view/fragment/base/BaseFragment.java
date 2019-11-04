@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.baseapplication.R;
@@ -422,9 +423,29 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
      * 初始化 Toolbar
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitle(title);
+        toolbar.setTitleTextColor(ContextCompat.getColor(mActivity, R.color.white));
         mActivity.setSupportActionBar(toolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mActivity.finish();
+            }
+        });
+    }
+
+    /**
+     * 初始化 Toolbar
+     */
+    protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title, View.OnClickListener listener) {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setTitle(title);
+        toolbar.setTitleTextColor(ContextCompat.getColor(mActivity, R.color.white));
+        mActivity.setSupportActionBar(toolbar);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
+        toolbar.setNavigationOnClickListener(listener);
     }
 
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, int resTitle) {

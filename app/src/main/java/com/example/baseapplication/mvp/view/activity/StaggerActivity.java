@@ -1,7 +1,9 @@
 package com.example.baseapplication.mvp.view.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,6 +31,8 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
     SlidingTabLayout stlEncyclopedias;
     @BindView(R.id.vp_encyclopedias)
     ViewPager vpEncyclopedias;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private int currentTabIndex;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private ViewPagerAdapter viewPagerAdapter;
@@ -45,6 +49,7 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
 
     @Override
     protected void setView(Bundle savedInstanceState) {
+        initToolBar(toolbar, true, "宠物百科");
     }
 
     @Override
@@ -54,6 +59,12 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
 
     @Override
     protected void initEvent() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         stlEncyclopedias.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {

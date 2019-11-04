@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
@@ -501,9 +502,29 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      * 初始化 Toolbar
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitle(title);
+        toolbar.setTitleTextColor(ContextCompat.getColor(mActivity, R.color.white));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    /**
+     * 初始化 Toolbar
+     */
+    protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title, View.OnClickListener listener) {
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setTitle(title);
+        toolbar.setTitleTextColor(ContextCompat.getColor(mActivity, R.color.white));
+        mActivity.setSupportActionBar(toolbar);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
+        toolbar.setNavigationOnClickListener(listener);
     }
 
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, int resTitle) {

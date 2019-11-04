@@ -112,6 +112,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--状态栏颜色，默认使用colorPrimaryDark-->
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <!--ToolBar上的Title颜色-->
+        <item name="android:textColorPrimaryInverse">@color/white</item>
         <!--一般控件的选种效果默认采用该颜色-->
         <item name="colorAccent">@color/colorAccent</item>
         <!-- 设置activity切换动画 -->
