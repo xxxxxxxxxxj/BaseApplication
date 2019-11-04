@@ -124,8 +124,6 @@ dependencies {
     implementation project(':dialog')
     //功能强大，UI简洁，交互优雅的通用弹窗(主要用作查看大图)
     implementation project(':library')
-    //类似QQ空间，微信朋友圈，微博主页等，展示图片的九宫格控件
-    implementation project(':ninegridview')
     //RxPermission权限申请
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     //Glide图片加载
