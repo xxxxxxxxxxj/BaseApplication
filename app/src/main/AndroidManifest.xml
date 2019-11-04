@@ -46,13 +46,6 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.view.activity.StaggerActivity"></activity>
-        <activity android:name=".mvp.view.activity.CameraActivity" />
-        <activity android:name=".mvp.view.activity.ScanCodeActivity" />
-        <activity
-            android:name=".mvp.view.activity.WebViewActivity"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true" />
         <!--
 适配刘海屏：对Application生效，意味着该应用的所有页面，
         系统都不会做竖屏场景的特殊下移或者是横屏场景的右移特殊处理：
@@ -86,7 +79,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".photoview.PhotoViewActivity" />
+        <activity
+            android:name=".mvp.view.activity.FlashActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:path="/activitypath"
+                    android:port="8888"
+                    android:scheme="baseapp" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".mvp.view.activity.StickLayoutActivity" />
+        <activity android:name=".mvp.view.activity.StaggerActivity" />
+        <activity android:name=".mvp.view.activity.CameraActivity" />
+        <activity android:name=".mvp.view.activity.ScanCodeActivity" />
+        <activity
+            android:name=".mvp.view.activity.WebViewActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

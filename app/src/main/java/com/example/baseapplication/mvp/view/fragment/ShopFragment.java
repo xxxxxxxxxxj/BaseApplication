@@ -37,6 +37,7 @@ import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
 import com.example.baseapplication.mvp.view.activity.CameraActivity;
 import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
 import com.example.baseapplication.mvp.view.activity.StaggerActivity;
+import com.example.baseapplication.mvp.view.activity.StickLayoutActivity;
 import com.example.baseapplication.mvp.view.adapter.ImgAdapter;
 import com.example.baseapplication.mvp.view.adapter.ShopAdapter;
 import com.example.baseapplication.mvp.view.fragment.base.BaseFragment;
@@ -445,6 +446,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         addGoodToCar();
                         break;
                     case 20://StickLayout
+                        startActivity(StickLayoutActivity.class);
                         break;
                     case 21://当页浮窗
                         break;

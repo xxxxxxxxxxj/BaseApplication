@@ -1,7 +1,6 @@
 package com.example.baseapplication.mvp.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -59,12 +58,6 @@ public class StaggerActivity extends BaseActivity<StaggerActivityPresenter> impl
 
     @Override
     protected void initEvent() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
         stlEncyclopedias.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
