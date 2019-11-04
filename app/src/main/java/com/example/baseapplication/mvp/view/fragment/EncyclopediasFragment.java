@@ -50,7 +50,7 @@ public class EncyclopediasFragment extends BaseFragment<EncyclopediasFragPresent
 
     @Override
     protected EncyclopediasFragPresenter createPresenter() {
-        return new EncyclopediasFragPresenter(getContext(), this);
+        return new EncyclopediasFragPresenter(mActivity, this);
     }
 
     @Override

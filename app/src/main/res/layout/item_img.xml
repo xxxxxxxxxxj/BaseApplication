@@ -6,4 +6,4 @@
     android:layout_height="wrap_content"
     android:scaleType="centerCrop"
     android:src="@mipmap/ic_image_load"
-    app:corner_radius="@dimen/dp_0" />
+    app:corner_radius="@dimen/dp_5" />

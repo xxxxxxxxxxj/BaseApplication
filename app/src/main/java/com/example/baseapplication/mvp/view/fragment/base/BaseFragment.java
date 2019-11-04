@@ -183,7 +183,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         if (!isLoaded) {
             mDisposable = new CompositeDisposable();
             spUtil = SharedPreferenceUtil.getInstance(mActivity);
-            tipDialogBuilder = new QMUITipDialog.Builder(getContext())
+            tipDialogBuilder = new QMUITipDialog.Builder(mActivity)
                     .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
                     .setTipWord("正在加载...");
             tipDialog = tipDialogBuilder.create();

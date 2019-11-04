@@ -41,7 +41,7 @@ public class MainFragment extends BaseFragment<MainFragPresenter> implements IMa
 
     @Override
     protected MainFragPresenter createPresenter() {
-        return new MainFragPresenter(getContext(), this);
+        return new MainFragPresenter(mActivity, this);
     }
 
     @Override

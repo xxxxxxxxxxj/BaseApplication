@@ -92,7 +92,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragImg;
     private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层",
             "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框",
-            "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画"};
+            "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper", "通知"};
     @BindView(R.id.text)
     TextView text;
     @BindView(R.id.tv_upgrade_bottomdia_time)
@@ -187,7 +187,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
     @Override
     protected ShopFragPresenter createPresenter() {
-        return new ShopFragPresenter(getContext(), this);
+        return new ShopFragPresenter(mActivity, this);
     }
 
     @Override
@@ -444,6 +444,18 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         beisaierImageView = imageView;
                         addGoodToCar();
                         break;
+                    case 20://StickLayout
+                        break;
+                    case 21://当页浮窗
+                        break;
+                    case 22://系统浮窗
+                        break;
+                    case 23://红包动画
+                        break;
+                    case 24://Flipper
+                        break;
+                    case 25://通知
+                        break;
                     default:
                         break;
                 }
@@ -542,10 +554,10 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                 spUtil.saveBoolean("GUIDE_GIFTCARD", true);
             }
         });
-        builder.addComponent(new GiftCardComponent(getActivity(), clickListener));
+        builder.addComponent(new GiftCardComponent(mActivity, clickListener));
         guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(true);
-        guide.show(getActivity());
+        guide.show(mActivity);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -564,17 +576,17 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
 
     private void initNormalPopupIfNeed() {
         if (mNormalPopup == null) {
-            mNormalPopup = new QMUIPopup(getContext(), QMUIPopup.DIRECTION_NONE);
-            TextView textView = new TextView(getContext());
+            mNormalPopup = new QMUIPopup(mActivity, QMUIPopup.DIRECTION_NONE);
+            TextView textView = new TextView(mActivity);
             textView.setLayoutParams(mNormalPopup.generateLayoutParam(
-                    QMUIDisplayHelper.dp2px(getContext(), 250),
+                    QMUIDisplayHelper.dp2px(mActivity, 250),
                     WRAP_CONTENT
             ));
-            textView.setLineSpacing(QMUIDisplayHelper.dp2px(getContext(), 4), 1.0f);
-            int padding = QMUIDisplayHelper.dp2px(getContext(), 20);
+            textView.setLineSpacing(QMUIDisplayHelper.dp2px(mActivity, 4), 1.0f);
+            int padding = QMUIDisplayHelper.dp2px(mActivity, 20);
             textView.setPadding(padding, padding, padding, padding);
             textView.setText("Popup 可以设置其位置以及显示和隐藏的动画");
-            textView.setTextColor(ContextCompat.getColor(getContext(), R.color.a666666));
+            textView.setTextColor(ContextCompat.getColor(mActivity, R.color.a666666));
             mNormalPopup.setContentView(textView);
             mNormalPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
@@ -605,12 +617,12 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
             };
             List<String> data = new ArrayList<>();
             Collections.addAll(data, listItems);
-            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_item, data);
-            mListPopup = new QMUIListPopup(getContext(), QMUIPopup.DIRECTION_NONE, adapter);
-            mListPopup.create(QMUIDisplayHelper.dp2px(getContext(), 250), QMUIDisplayHelper.dp2px(getContext(), 200), new AdapterView.OnItemClickListener() {
+            ArrayAdapter adapter = new ArrayAdapter<>(mActivity, R.layout.simple_list_item, data);
+            mListPopup = new QMUIListPopup(mActivity, QMUIPopup.DIRECTION_NONE, adapter);
+            mListPopup.create(QMUIDisplayHelper.dp2px(mActivity, 250), QMUIDisplayHelper.dp2px(mActivity, 200), new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Toast.makeText(getActivity(), "Item " + (i + 1), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "Item " + (i + 1), Toast.LENGTH_SHORT).show();
                     mListPopup.dismiss();
                 }
             });

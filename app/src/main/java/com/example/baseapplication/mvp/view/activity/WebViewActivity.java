@@ -252,7 +252,7 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public WebListenerManager setDownloader(WebView webView, android.webkit.DownloadListener downloadListener) {
                 return super.setDownloader(webView,
-                        new DefaultDownloadImpl((Activity) webView.getContext(),
+                        new DefaultDownloadImpl(mActivity,
                                 webView,
                                 this.mAgentWeb.getPermissionInterceptor()) {
 

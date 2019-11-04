@@ -63,7 +63,7 @@ public class NewsFragment extends BaseFragment<NewsFragPresenter> implements OnB
 
     @Override
     protected NewsFragPresenter createPresenter() {
-        return new NewsFragPresenter(getContext(), this);
+        return new NewsFragPresenter(mActivity, this);
     }
 
     @Override
