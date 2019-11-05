@@ -619,7 +619,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         //设置裁剪图片可操作的手势
         options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
         //是否隐藏底部容器，默认显示
-        options.setHideBottomControls(true);
+        options.setHideBottomControls(false);
         //设置toolbar颜色
         options.setToolbarColor(ActivityCompat.getColor(mActivity, R.color.colorPrimary));
         //设置状态栏颜色
