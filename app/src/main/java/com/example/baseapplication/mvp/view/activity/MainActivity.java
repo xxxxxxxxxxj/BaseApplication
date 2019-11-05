@@ -17,6 +17,7 @@ import com.example.baseapplication.app.UrlConstants;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.entity.CheckVersionBean;
 import com.example.baseapplication.mvp.model.entity.TabEntity;
+import com.example.baseapplication.mvp.model.event.CaptureEvent;
 import com.example.baseapplication.mvp.model.event.MatisseDataEvent;
 import com.example.baseapplication.mvp.presenter.MainActivityPresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
@@ -26,12 +27,14 @@ import com.example.baseapplication.mvp.view.fragment.PetCircleFragment;
 import com.example.baseapplication.mvp.view.fragment.ShopFragment;
 import com.example.baseapplication.mvp.view.iview.IMainActivityView;
 import com.example.baseapplication.permission.PermissionListener;
+import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.updateapputil.Callback;
 import com.example.baseapplication.updateapputil.ConfirmDialog;
 import com.example.baseapplication.updateapputil.DownloadAppUtils;
 import com.example.baseapplication.updateapputil.DownloadProgressDialog;
 import com.example.baseapplication.updateapputil.UpdateAppEvent;
 import com.example.baseapplication.updateapputil.UpdateUtil;
+import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.GetDeviceId;
 import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.StringUtil;
@@ -42,6 +45,7 @@ import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.meituan.android.walle.WalleChannelReader;
+import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
 import com.zhouyou.http.EasyHttp;
 
@@ -74,6 +78,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private int currentIndex;
     private long exitTime;
+    private List<String> pathList = new ArrayList<String>();
 
     @Override
     protected int getLayoutResID() {
@@ -360,12 +365,40 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        RingLog.e("requestCode = " + requestCode);
+        RingLog.e("resultCode = " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_CODE_CHOOSE://选择照片返回
+                case REQUEST_CODE_CHOOSE://Matisse选择照片返回
                     List<Uri> uris = Matisse.obtainResult(data);
                     List<String> strings = Matisse.obtainPathResult(data);
                     EventBus.getDefault().post(new MatisseDataEvent(uris, strings));
+                    break;
+                case REQUEST_CODE_PREVIEW://选择相册返回码
+                    //启动裁剪
+                    Uri selectedUri = data.getData();
+                    if (selectedUri != null) {
+                        startUCrop(selectedUri, REQUEST_CODE_UCROP, 1, 1);
+                    } else {
+                        RingToast.show(R.string.toast_cannot_retrieve_selected_image);
+                    }
+                    break;
+                case REQUEST_CODE_CAPTURE://拍照返回码
+                    EventBus.getDefault().post(new CaptureEvent());
+                    break;
+                case REQUEST_CODE_UCROP://UCrop裁剪返回码
+                    Uri resultUri = UCrop.getOutput(data);
+                    RingLog.e("resultUri = " + resultUri);
+                    if (resultUri != null) {
+                        String path = CommonUtil.getPathByUri4kitkat(mActivity, resultUri);
+                        pathList.clear();
+                        pathList.add(path);
+                        RingLog.e("resultUri = " + resultUri.toString());
+                        RingLog.e("path = " + path);
+                        EventBus.getDefault().post(new MatisseDataEvent(null, pathList));
+                    } else {
+                        RingToast.show(R.string.toast_cannot_retrieve_cropped_image);
+                    }
                     break;
             }
         } else if (resultCode == CameraActivity.RESULTCODE_VIDEO) {//拍摄视频返回

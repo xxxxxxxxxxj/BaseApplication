@@ -172,6 +172,8 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.0'
     //Android美团多渠道打包Walle集成
     implementation 'com.meituan.android.walle:library:1.1.6'
+    //图片裁剪框架
+    implementation 'com.github.yalantis:ucrop:2.2.4-native'
 }
 
 walle {

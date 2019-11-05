@@ -2,6 +2,7 @@ package com.example.baseapplication.mvp.view.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,11 +12,9 @@ import com.example.baseapplication.R;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
 import com.example.baseapplication.toast.RingToast;
+import com.example.baseapplication.util.CommonUtil;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
-import com.zhihu.matisse.Matisse;
-
-import java.util.List;
 
 import butterknife.OnClick;
 
@@ -112,7 +111,7 @@ public class ScanCodeActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.toolbar_photo:
-                goPhotoSingle();
+                pickFromGallery();
                 break;
             case R.id.vw_light:
                 if (!isOpen) {
@@ -129,24 +128,32 @@ public class ScanCodeActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<String> strings = Matisse.obtainPathResult(data);
-            if (strings != null && strings.size() > 0) {
-                try {
-                    CodeUtils.analyzeBitmap(strings.get(0), new CodeUtils.AnalyzeCallback() {
-                        @Override
-                        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-                            RingToast.show("解析成功,结果为 = " + result);
-                        }
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_PREVIEW://选择相册返回码
+                    //启动裁剪
+                    Uri selectedUri = data.getData();
+                    if (selectedUri != null) {
+                        String path = CommonUtil.getPathByUri4kitkat(mActivity, selectedUri);
+                        try {
+                            CodeUtils.analyzeBitmap(path, new CodeUtils.AnalyzeCallback() {
+                                @Override
+                                public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+                                    RingToast.show("解析成功,结果为 = " + result);
+                                }
 
-                        @Override
-                        public void onAnalyzeFailed() {
-                            RingToast.show("解析错误");
+                                @Override
+                                public void onAnalyzeFailed() {
+                                    RingToast.show("解析错误");
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    } else {
+                        RingToast.show(R.string.toast_cannot_retrieve_selected_image);
+                    }
+                    break;
             }
         }
     }

@@ -3,11 +3,14 @@ package com.example.baseapplication.mvp.view.fragment;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +35,7 @@ import com.example.baseapplication.R;
 import com.example.baseapplication.app.AppConfig;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.model.entity.ALiPayResult;
+import com.example.baseapplication.mvp.model.event.CaptureEvent;
 import com.example.baseapplication.mvp.model.event.MatisseDataEvent;
 import com.example.baseapplication.mvp.model.event.WXPayResultEvent;
 import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
@@ -58,9 +63,11 @@ import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.QMUIDisplayHelper;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.interfaces.OnDismissListener;
+import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
 import com.kongzue.dialog.interfaces.OnNotificationClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
+import com.kongzue.dialog.v3.BottomMenu;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.Notification;
 import com.zzhoujay.richtext.RichText;
@@ -97,7 +104,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragImg;
     private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层",
             "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框",
-            "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper", "通知"};
+            "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper", "通知", "图片裁剪"};
     @BindView(R.id.text)
     TextView text;
     @BindView(R.id.tv_upgrade_bottomdia_time)
@@ -189,6 +196,19 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     private QMUIPopup mNormalPopup;
     private QMUIListPopup mListPopup;
     private Guide guide;
+    /**
+     * 选择相册返回码
+     */
+    public static final int REQUEST_CODE_PREVIEW = 24;
+    /**
+     * 拍照返回码
+     */
+    public static final int REQUEST_CODE_CAPTURE = 25;
+    /**
+     * UCrop裁剪返回码
+     */
+    public static final int REQUEST_CODE_UCROP = 26;
+    private Uri mUri;
 
     @Override
     protected ShopFragPresenter createPresenter() {
@@ -474,6 +494,9 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                             }
                         });
                         break;
+                    case 26://图片裁剪
+                        startUCrop(CommonUtil.getUri(mActivity, new File("/storage/emulated/0/Pictures/base/JPEG_20191105_174121.jpg")), REQUEST_CODE_UCROP, 1, 1);
+                        break;
                     default:
                         break;
                 }
@@ -687,6 +710,18 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
             }
         }
     };
+
+    @Subscribe
+    public void getCapture(CaptureEvent event) {
+        if (event != null) {
+            //启动裁剪
+            if (mUri != null) {
+                startUCrop(mUri, REQUEST_CODE_UCROP, 1, 1);
+            } else {
+                RingToast.show(R.string.toast_cannot_retrieve_selected_image);
+            }
+        }
+    }
 
     @Subscribe
     public void onWXPayResult(WXPayResultEvent baseResp) {

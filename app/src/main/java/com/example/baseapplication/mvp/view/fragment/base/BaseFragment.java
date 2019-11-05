@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -29,11 +33,21 @@ import com.example.baseapplication.mvp.view.widget.GifSizeFilter;
 import com.example.baseapplication.mvp.view.widget.dialog.QMUITipDialog;
 import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
+import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.GlideUtil;
+import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.StringUtil;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.util.DialogSettings;
+import com.kongzue.dialog.v3.BottomMenu;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -136,9 +150,21 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     }
 
     /**
-     * Luban压缩返回码
+     * Matisse返回码
      */
     public static final int REQUEST_CODE_CHOOSE = 23;
+    /**
+     * 选择相册返回码
+     */
+    public static final int REQUEST_CODE_PREVIEW = 24;
+    /**
+     * 拍照返回码
+     */
+    public static final int REQUEST_CODE_CAPTURE = 25;
+    /**
+     * UCrop裁剪返回码
+     */
+    public static final int REQUEST_CODE_UCROP = 26;
 
     @Override
     public void onAttach(Context context) {
@@ -483,6 +509,133 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         return emptyView;
     }
 
+    protected void pickFromGallery() {
+        requestEachCombined(new PermissionListener() {
+            @Override
+            public void onGranted(String permissionName) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+                        .setType("image/*")
+                        .addCategory(Intent.CATEGORY_OPENABLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    String[] mimeTypes = {"image/jpeg", "image/png"};
+                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                }
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_picture)), REQUEST_CODE_PREVIEW);
+            }
+
+            @Override
+            public void onDenied(String permissionName) {
+                showToast("请打开存储权限");
+            }
+
+            @Override
+            public void onDeniedWithNeverAsk(String permissionName) {
+                MessageDialog.show(mActivity, "请打开存储权限", "确定要打开存储权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View v) {
+                        QMUIDeviceHelper.goToPermissionManager(mActivity);
+                        return false;
+                    }
+                });
+            }
+        }, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+    }
+
+    protected void capture() {
+        requestEachCombined(new PermissionListener() {
+            @Override
+            public void onGranted(String permissionName) {
+                // 步骤一：创建存储照片的文件
+                String path = mActivity.getFilesDir() + File.separator + "images" + File.separator;
+                File file = new File(path, System.currentTimeMillis()
+                        + "capture.jpg");
+                if (!file.getParentFile().exists())
+                    file.getParentFile().mkdirs();
+                Uri mUri = CommonUtil.getUri(mActivity,file);
+                //步骤四：调取系统拍照
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
+                startActivityForResult(intent, REQUEST_CODE_CAPTURE);
+            }
+
+            @Override
+            public void onDenied(String permissionName) {
+                showToast("请打开存储权限");
+            }
+
+            @Override
+            public void onDeniedWithNeverAsk(String permissionName) {
+                MessageDialog.show(mActivity, "请打开存储权限", "确定要打开存储权限吗？", "确定", "取消").setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View v) {
+                        QMUIDeviceHelper.goToPermissionManager(mActivity);
+                        return false;
+                    }
+                });
+            }
+        }, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+    }
+
+    /**
+     * 启动裁剪
+     *
+     * @param activity       上下文
+     * @param sourceFilePath 需要裁剪图片的绝对路径
+     * @param requestCode    比如：UCrop.REQUEST_CROP
+     * @param aspectRatioX   裁剪图片宽高比
+     * @param aspectRatioY   裁剪图片宽高比
+     * @return
+     */
+    protected String startUCrop(Uri sourceUri,
+                                int requestCode, float aspectRatioX, float aspectRatioY) {
+        File outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        if (!outDir.exists()) {
+            outDir.mkdirs();
+        }
+        File outFile = new File(outDir, System.currentTimeMillis() + ".jpg");
+        //裁剪后图片的绝对路径
+        String cameraScalePath = outFile.getAbsolutePath();
+        Uri destinationUri = Uri.fromFile(outFile);
+        //初始化，第一个参数：需要裁剪的图片；第二个参数：裁剪后图片
+        UCrop uCrop = UCrop.of(sourceUri, destinationUri);
+        //初始化UCrop配置
+        UCrop.Options options = new UCrop.Options();
+        //设置裁剪图片可操作的手势
+        options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
+        //是否隐藏底部容器，默认显示
+        options.setHideBottomControls(true);
+        //设置toolbar颜色
+        options.setToolbarColor(ActivityCompat.getColor(mActivity, R.color.colorPrimary));
+        //设置状态栏颜色
+        options.setStatusBarColor(ActivityCompat.getColor(mActivity, R.color.colorPrimaryDark));
+        //是否能调整裁剪框
+        options.setFreeStyleCropEnabled(true);
+        //UCrop配置
+        uCrop.withOptions(options);
+        //设置裁剪图片的宽高比，比如16：9
+        uCrop.withAspectRatio(aspectRatioX, aspectRatioY);
+        //uCrop.useSourceImageAspectRatio();//使用图片的宽高
+        //跳转裁剪页面
+        uCrop.start(mActivity, requestCode);
+        return cameraScalePath;
+    }
+
+    protected void getPhoto() {
+        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
+        DialogSettings.theme = DialogSettings.THEME.LIGHT;
+        DialogSettings.tipTheme = DialogSettings.THEME.DARK;
+        BottomMenu.show(mActivity, new String[]{"拍照", "从手机相册选择"}, new OnMenuItemClickListener() {
+            @Override
+            public void onClick(String text, int index) {
+                if (index == 0) {
+                    capture();
+                } else if (index == 1) {
+                    pickFromGallery();
+                }
+            }
+        });
+    }
+
     protected void goPhoto(int maxSelectable) {
         requestEachCombined(new PermissionListener() {
             @Override
@@ -494,45 +647,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
                         .captureStrategy(
                                 new CaptureStrategy(true, mActivity.getPackageName() + ".fileProvider", "base"))
                         .maxSelectable(maxSelectable)
-                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                        .gridExpectedSize(
-                                getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                        .thumbnailScale(0.85f)
-                        .imageEngine(new GlideEngine())
-                        .setOnSelectedListener((uriList, pathList) -> {
-                            Log.e("onSelected", "onSelected: pathList=" + pathList);
-                        })
-                        .showSingleMediaType(true)
-                        .originalEnable(true)
-                        .maxOriginalSize(10)
-                        .autoHideToolbarOnSingleTap(true)
-                        .setOnCheckedListener(isChecked -> {
-                            Log.e("isChecked", "onCheck: isChecked=" + isChecked);
-                        })
-                        .forResult(REQUEST_CODE_CHOOSE);
-            }
-
-            @Override
-            public void onDenied(String permissionName) {
-                showToast("请打开存储和相机权限");
-            }
-
-            @Override
-            public void onDeniedWithNeverAsk(String permissionName) {
-                showToast("请打开存储和相机权限");
-            }
-        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
-    }
-
-    protected void goPhotoSingle() {
-        requestEachCombined(new PermissionListener() {
-            @Override
-            public void onGranted(String permissionName) {
-                Matisse.from(mActivity)
-                        .choose(MimeType.ofImage(), false)
-                        .countable(true)
-                        .maxSelectable(1)
                         .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                         .gridExpectedSize(
                                 getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
