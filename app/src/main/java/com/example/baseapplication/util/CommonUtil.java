@@ -17,23 +17,28 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
+import androidx.core.os.EnvironmentCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.baseapplication.R;
+import com.example.baseapplication.app.AppConfig;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * author：   zp
@@ -267,5 +272,59 @@ public class CommonUtil {
             mUri = Uri.fromFile(file);
         }
         return mUri;
+    }
+
+    public static File createImageFile(Context mContext, boolean isPublic, boolean isHaveFileName, String fileName, String directory) throws IOException {
+        // Create an image file name
+        File tempFile = null;
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
+        File storageDir;
+        if (isPublic) {
+            storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+            if (!storageDir.exists()) storageDir.mkdirs();
+        } else {
+            storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        }
+        if (StringUtil.isNotEmpty(directory)) {
+            storageDir = new File(storageDir, directory);
+            if (!storageDir.exists()) storageDir.mkdirs();
+        }
+        // Avoid joining path components manually
+        if (isHaveFileName) {
+            if (StringUtil.isNotEmpty(fileName)) {
+                tempFile = new File(storageDir, fileName);
+            } else {
+                tempFile = new File(storageDir, imageFileName);
+            }
+        } else {
+            tempFile = storageDir;
+        }
+        // Handle the situation that user's external storage is not ready
+        if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {
+            return null;
+        }
+        return tempFile;
+    }
+
+    public static File createImageFile(Context mContext, int flag) throws IOException {
+        File tempFile = null;
+        switch (flag) {
+            case 1://拍照存储图片的文件夹
+                createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CAPTURE);
+                break;
+            case 2://裁剪存储图片的文件夹
+                createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CROP);
+                break;
+            case 3://鲁班压缩存储图片的文件夹
+                createImageFile(mContext, true, false, "", AppConfig.DIRECTORY_LUBAN);
+                break;
+            case 4://设备唯一ID存储的文件夹
+                createImageFile(mContext, true, true, ".devices", AppConfig.DIRECTORY_DEVICEID);
+                break;
+        }
+        return tempFile;
     }
 }

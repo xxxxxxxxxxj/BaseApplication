@@ -26,4 +26,8 @@ public class AppConfig {
     public static final int ALI_SDK_PAY_FLAG = 1000;
     public static final int REQUEST_CODE_CHOOSE = 23;
     public static final String KEYWORD = "BASE_APP";
+    public static final String DIRECTORY_CAPTURE = "base_capture";//拍照存储图片的文件夹
+    public static final String DIRECTORY_CROP = "base_crop";//裁剪存储图片的文件夹
+    public static final String DIRECTORY_LUBAN = "base_luban";//鲁班压缩存储图片的文件夹
+    public static final String DIRECTORY_DEVICEID = ".base_deviceid";//设备唯一ID存储的文件夹(隐藏文件夹)
 }

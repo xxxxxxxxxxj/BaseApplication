@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
@@ -57,6 +56,7 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -562,16 +562,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
             @Override
             public void onGranted(String permissionName) {
                 // 步骤一：创建存储照片的文件
-                String path = mActivity.getFilesDir() + File.separator + "images" + File.separator;
-                File file = new File(path, System.currentTimeMillis()
-                        + "capture.jpg");
-                if (!file.getParentFile().exists())
-                    file.getParentFile().mkdirs();
-                Uri mUri = CommonUtil.getUri(mActivity,file);
-                //步骤四：调取系统拍照
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-                startActivityForResult(intent, REQUEST_CODE_CAPTURE);
+                try {
+                    //步骤四：调取系统拍照
+                    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, CommonUtil.getUri(mActivity, CommonUtil.createImageFile(mActivity, 1)));
+                    startActivityForResult(intent, REQUEST_CODE_CAPTURE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -604,11 +602,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
      */
     protected String startUCrop(Uri sourceUri,
                                 int requestCode, float aspectRatioX, float aspectRatioY) {
-        File outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        if (!outDir.exists()) {
-            outDir.mkdirs();
+        File outFile = null;
+        try {
+            outFile = CommonUtil.createImageFile(mActivity, 2);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        File outFile = new File(outDir, System.currentTimeMillis() + ".jpg");
         //裁剪后图片的绝对路径
         String cameraScalePath = outFile.getAbsolutePath();
         Uri destinationUri = Uri.fromFile(outFile);
@@ -619,7 +618,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         //设置裁剪图片可操作的手势
         options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
         //是否隐藏底部容器，默认显示
-        options.setHideBottomControls(false);
+        options.setHideBottomControls(true);
         //设置toolbar颜色
         options.setToolbarColor(ActivityCompat.getColor(mActivity, R.color.colorPrimary));
         //设置状态栏颜色
@@ -710,14 +709,11 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
     private String getPath() {
         String path = "";
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//外部存储卡
-            path = Environment.getExternalStorageDirectory() + "/Luban/image/";
-        } else {
-            path = mActivity.getFilesDir() + "/Luban/image/";
-        }
-        File file = new File(path);
-        if (file.mkdirs()) {
-            return path;
+        try {
+            File outFile = CommonUtil.createImageFile(mActivity, 3);
+            path = outFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return path;
     }

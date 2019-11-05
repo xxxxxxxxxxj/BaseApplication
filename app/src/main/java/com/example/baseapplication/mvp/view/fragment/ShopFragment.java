@@ -104,7 +104,8 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     RecyclerView rvShopfragImg;
     private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层",
             "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框",
-            "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper", "通知", "图片裁剪"};
+            "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper",
+            "通知", "图片裁剪", "选择图片"};
     @BindView(R.id.text)
     TextView text;
     @BindView(R.id.tv_upgrade_bottomdia_time)
@@ -496,6 +497,9 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         break;
                     case 26://图片裁剪
                         startUCrop(CommonUtil.getUri(mActivity, new File("/storage/emulated/0/Pictures/base/JPEG_20191105_174121.jpg")), REQUEST_CODE_UCROP, 1, 1);
+                        break;
+                    case 27://选择图片
+                        getPhoto();
                         break;
                     default:
                         break;
