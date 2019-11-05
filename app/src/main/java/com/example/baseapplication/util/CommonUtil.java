@@ -313,16 +313,16 @@ public class CommonUtil {
         File tempFile = null;
         switch (flag) {
             case 1://拍照存储图片的文件夹
-                createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CAPTURE);
+                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CAPTURE);
                 break;
             case 2://裁剪存储图片的文件夹
-                createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CROP);
+                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CROP);
                 break;
             case 3://鲁班压缩存储图片的文件夹
-                createImageFile(mContext, true, false, "", AppConfig.DIRECTORY_LUBAN);
+                tempFile = createImageFile(mContext, true, false, "", AppConfig.DIRECTORY_LUBAN);
                 break;
             case 4://设备唯一ID存储的文件夹
-                createImageFile(mContext, true, true, ".devices", AppConfig.DIRECTORY_DEVICEID);
+                tempFile = createImageFile(mContext, true, true, AppConfig.FILENAME_DEVICEID, AppConfig.DIRECTORY_DEVICEID);
                 break;
         }
         return tempFile;
