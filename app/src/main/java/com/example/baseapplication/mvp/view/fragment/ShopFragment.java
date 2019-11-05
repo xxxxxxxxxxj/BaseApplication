@@ -35,6 +35,7 @@ import com.example.baseapplication.mvp.model.event.MatisseDataEvent;
 import com.example.baseapplication.mvp.model.event.WXPayResultEvent;
 import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
 import com.example.baseapplication.mvp.view.activity.CameraActivity;
+import com.example.baseapplication.mvp.view.activity.FlipperActivity;
 import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
 import com.example.baseapplication.mvp.view.activity.StaggerActivity;
 import com.example.baseapplication.mvp.view.activity.StickLayoutActivity;
@@ -455,6 +456,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                     case 23://红包动画
                         break;
                     case 24://Flipper
+                        startActivity(FlipperActivity.class);
                         break;
                     case 25://通知
                         break;
