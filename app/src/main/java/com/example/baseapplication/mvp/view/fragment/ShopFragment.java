@@ -57,9 +57,12 @@ import com.example.baseapplication.util.PayUtils;
 import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.QMUIDisplayHelper;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.interfaces.OnDismissListener;
+import com.kongzue.dialog.interfaces.OnNotificationClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.Notification;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
@@ -459,6 +462,17 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         startActivity(FlipperActivity.class);
                         break;
                     case 25://通知
+                        Notification.show(mActivity, "提示", "提示信息", R.mipmap.ico_wechat).setOnNotificationClickListener(new OnNotificationClickListener() {
+                            @Override
+                            public void onClick() {
+                                RingToast.show("点击了消息");
+                            }
+                        }).setOnDismissListener(new OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                RingToast.show("消息溜走了");
+                            }
+                        });
                         break;
                     default:
                         break;
