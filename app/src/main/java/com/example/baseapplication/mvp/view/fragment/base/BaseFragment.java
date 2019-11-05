@@ -509,6 +509,22 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         return emptyView;
     }
 
+    protected void getPhoto() {
+        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
+        DialogSettings.theme = DialogSettings.THEME.LIGHT;
+        DialogSettings.tipTheme = DialogSettings.THEME.DARK;
+        BottomMenu.show(mActivity, new String[]{"拍照", "从手机相册选择"}, new OnMenuItemClickListener() {
+            @Override
+            public void onClick(String text, int index) {
+                if (index == 0) {
+                    capture();
+                } else if (index == 1) {
+                    pickFromGallery();
+                }
+            }
+        });
+    }
+
     protected void pickFromGallery() {
         requestEachCombined(new PermissionListener() {
             @Override
@@ -618,22 +634,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         //跳转裁剪页面
         uCrop.start(mActivity, requestCode);
         return cameraScalePath;
-    }
-
-    protected void getPhoto() {
-        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
-        DialogSettings.theme = DialogSettings.THEME.LIGHT;
-        DialogSettings.tipTheme = DialogSettings.THEME.DARK;
-        BottomMenu.show(mActivity, new String[]{"拍照", "从手机相册选择"}, new OnMenuItemClickListener() {
-            @Override
-            public void onClick(String text, int index) {
-                if (index == 0) {
-                    capture();
-                } else if (index == 1) {
-                    pickFromGallery();
-                }
-            }
-        });
     }
 
     protected void goPhoto(int maxSelectable) {
