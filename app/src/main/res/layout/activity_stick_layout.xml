@@ -88,7 +88,6 @@
             android:layout_height="200dp"
             android:background="@android:color/holo_green_light"
             android:gravity="center"
-            app:wkp_stick="true"
             android:text="第3行" />
 
         <TextView
@@ -119,7 +118,18 @@
             android:layout_height="200dp"
             android:background="@android:color/holo_orange_light"
             android:gravity="center"
-            android:text="第7行"/>
+            android:text="第7行"
+            app:wkp_stick="true" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_shopfrag_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
     </com.example.baseapplication.mvp.view.widget.StickLayout>
 </LinearLayout>
