@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.baseapplication.R;
+import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
 import com.example.baseapplication.toast.RingToast;
@@ -135,6 +136,7 @@ public class ScanCodeActivity extends BaseActivity {
                     Uri selectedUri = data.getData();
                     if (selectedUri != null) {
                         String path = CommonUtil.getPathByUri4kitkat(mActivity, selectedUri);
+                        RingLog.e("path = " + path);
                         try {
                             CodeUtils.analyzeBitmap(path, new CodeUtils.AnalyzeCallback() {
                                 @Override

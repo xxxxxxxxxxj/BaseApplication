@@ -496,7 +496,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         });
                         break;
                     case 26://图片裁剪
-                        startUCrop(CommonUtil.getUri(mActivity, new File("/storage/emulated/0/Pictures/base/JPEG_20191105_174121.jpg")), REQUEST_CODE_UCROP, 1, 1);
+                        startUCrop(CommonUtil.getUri(mActivity, new File("/storage/emulated/0/Pictures/base_luban/1573541764852213.jpeg")), REQUEST_CODE_UCROP, 1, 1);
                         break;
                     case 27://选择图片
                         getPhoto();
