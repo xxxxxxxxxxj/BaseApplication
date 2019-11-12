@@ -16,7 +16,7 @@ import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
 import com.example.baseapplication.toast.RingToast;
-import com.example.baseapplication.util.CommonUtil;
+import com.example.baseapplication.util.FileUtil;
 
 import java.io.IOException;
 
@@ -44,7 +44,7 @@ public class CameraActivity extends BaseActivity {
     protected void setView(Bundle savedInstanceState) {
         //设置视频保存路径
         try {
-            jCameraView.setSaveVideoPath(CommonUtil.createFile(mActivity, 6, "", null).getAbsolutePath());
+            jCameraView.setSaveVideoPath(FileUtil.createFile(mActivity, 6, "", null).getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class CameraActivity extends BaseActivity {
                 //获取图片bitmap
                 String path = null;
                 try {
-                    path = CommonUtil.createFile(mActivity, 7, "", bitmap).getAbsolutePath();
+                    path = FileUtil.createFile(mActivity, 7, "", bitmap).getAbsolutePath();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -89,7 +89,7 @@ public class CameraActivity extends BaseActivity {
                 //获取视频路径
                 String path = null;
                 try {
-                    path = CommonUtil.createFile(mActivity, 7, "", firstFrame).getAbsolutePath();
+                    path = FileUtil.createFile(mActivity, 7, "", firstFrame).getAbsolutePath();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

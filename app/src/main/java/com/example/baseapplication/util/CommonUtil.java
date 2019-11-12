@@ -1,19 +1,12 @@
 package com.example.baseapplication.util;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -24,23 +17,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.baseapplication.R;
-import com.example.baseapplication.app.AppConfig;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * author：   zp
@@ -160,110 +147,6 @@ public class CommonUtil {
         return maxDate;
     }
 
-    // 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
-    @SuppressLint("NewApi")
-    public static String getPathByUri4kitkat(final Context context,
-                                             final Uri uri) {
-        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        // DocumentProvider
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            if (isExternalStorageDocument(uri)) {// ExternalStorageProvider
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/"
-                            + split[1];
-                }
-            } else if (isDownloadsDocument(uri)) {// DownloadsProvider
-                final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"),
-                        Long.valueOf(id));
-                return getDataColumn(context, contentUri, null, null);
-            } else if (isMediaDocument(uri)) {// MediaProvider
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-                Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                }
-                final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{split[1]};
-                return getDataColumn(context, contentUri, selection,
-                        selectionArgs);
-            }
-        } else if ("content".equalsIgnoreCase(uri.getScheme())) {// MediaStore
-            // (and
-            // general)
-            return getDataColumn(context, uri, null, null);
-        } else if ("file".equalsIgnoreCase(uri.getScheme())) {// File
-            return uri.getPath();
-        }
-        return null;
-    }
-
-    /**
-     * Get the value of the data column for this Uri. This is useful for
-     * MediaStore Uris, and other file-based ContentProviders.
-     *
-     * @param context       The context.
-     * @param uri           The Uri to query.
-     * @param selection     (Optional) Filter used in the query.
-     * @param selectionArgs (Optional) Selection arguments used in the query.
-     * @return The value of the _data column, which is typically a file path.
-     */
-    public static String getDataColumn(Context context, Uri uri,
-                                       String selection, String[] selectionArgs) {
-        Cursor cursor = null;
-        final String column = "_data";
-        final String[] projection = {column};
-        try {
-            cursor = context.getContentResolver().query(uri, projection,
-                    selection, selectionArgs, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                final int column_index = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(column_index);
-            }
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
-        return null;
-    }
-
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is ExternalStorageProvider.
-     */
-    public static boolean isExternalStorageDocument(Uri uri) {
-        return "com.android.externalstorage.documents".equals(uri
-                .getAuthority());
-    }
-
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is DownloadsProvider.
-     */
-    public static boolean isDownloadsDocument(Uri uri) {
-        return "com.android.providers.downloads.documents".equals(uri
-                .getAuthority());
-    }
-
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is MediaProvider.
-     */
-    public static boolean isMediaDocument(Uri uri) {
-        return "com.android.providers.media.documents".equals(uri
-                .getAuthority());
-    }
-
     public static Uri getUri(Context mContext, File file) {
         Uri mUri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -274,167 +157,5 @@ public class CommonUtil {
             mUri = Uri.fromFile(file);
         }
         return mUri;
-    }
-
-    public static File createFile(Context mContext, int flag, String versionName, Bitmap bitmap) throws IOException {
-        File tempFile = null;
-        switch (flag) {
-            case 1://拍照存储图片的文件夹
-                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CAPTURE);
-                break;
-            case 2://裁剪存储图片的文件夹
-                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CROP);
-                break;
-            case 3://鲁班压缩存储图片的文件夹
-                tempFile = createImageFile(mContext, true, false, "", AppConfig.DIRECTORY_LUBAN);
-                break;
-            case 4://设备唯一ID存储的文件夹
-                tempFile = createImageFile(mContext, true, true, AppConfig.FILENAME_DEVICEID, AppConfig.DIRECTORY_DEVICEID);
-                break;
-            case 5://下载的apk存储的文件夹
-                tempFile = createApkFile(mContext, versionName);
-                break;
-            case 6://拍摄视频存储的文件夹
-                tempFile = createVideoFile(mContext, true, false, "", AppConfig.DIRECTORY_VIDEO);
-                break;
-            case 7://拍摄视频生成封面以及拍照存储的文件夹
-                tempFile = createImgBitmapFile(mContext, true, true, "", bitmap, AppConfig.DIRECTORY_VIDEO_FRAME);
-                break;
-        }
-        return tempFile;
-    }
-
-    public static File createImageFile(Context mContext, boolean isPublic, boolean isHaveFileName, String fileName, String directory) throws IOException {
-        // Create an image file name
-        File tempFile = null;
-        String timeStamp =
-                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
-        File storageDir;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡在手机上是否是正常使用状态
-            if (isPublic) {
-                //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
-                storageDir = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES);
-                if (!storageDir.exists()) storageDir.mkdirs();
-            } else {
-                //external storage外部存储,路径为:/mnt/sdcard/Android/data/< package name >/files/…
-                storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            }
-        } else {
-            //internal storage内部存储,路径是:/data/data/< package name >/files/…
-            storageDir = mContext.getFilesDir();
-        }
-        if (StringUtil.isNotEmpty(directory)) {
-            storageDir = new File(storageDir, directory);
-            if (!storageDir.exists()) storageDir.mkdirs();
-        }
-        // Avoid joining path components manually
-        if (isHaveFileName) {
-            if (StringUtil.isNotEmpty(fileName)) {
-                tempFile = new File(storageDir, fileName);
-            } else {
-                tempFile = new File(storageDir, imageFileName);
-            }
-        } else {
-            tempFile = storageDir;
-        }
-        return tempFile;
-    }
-
-    public static File createApkFile(Context mContext, String versionName) throws IOException {
-        String fileName = mContext.getPackageName() + "_" + versionName + ".apk";
-        File tempFile = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡在手机上是否是正常使用状态
-            //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
-            tempFile = Environment.getExternalStorageDirectory();
-        } else {
-            //internal storage内部存储,路径是:/data/data/< package name >/files/…
-            tempFile = mContext.getFilesDir();
-        }
-        tempFile = new File(tempFile, AppConfig.DIRECTORY_APK);
-        if (!tempFile.exists()) tempFile.mkdirs();
-        tempFile = new File(tempFile, fileName);
-        return tempFile;
-    }
-
-    public static File createVideoFile(Context mContext, boolean isPublic, boolean isHaveFileName, String fileName, String directory) throws IOException {
-        // Create an image file name
-        File tempFile = null;
-        String timeStamp =
-                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String videoFileName = String.format("JPEG_%s.mp4", timeStamp);
-        File storageDir;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡在手机上是否是正常使用状态
-            if (isPublic) {
-                //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
-                storageDir = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_MOVIES);
-                if (!storageDir.exists()) storageDir.mkdirs();
-            } else {
-                //external storage外部存储,路径为:/mnt/sdcard/Android/data/< package name >/files/…
-                storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_MOVIES);
-            }
-        } else {
-            //internal storage内部存储,路径是:/data/data/< package name >/files/…
-            storageDir = mContext.getFilesDir();
-        }
-        if (StringUtil.isNotEmpty(directory)) {
-            storageDir = new File(storageDir, directory);
-            if (!storageDir.exists()) storageDir.mkdirs();
-        }
-        // Avoid joining path components manually
-        if (isHaveFileName) {
-            if (StringUtil.isNotEmpty(fileName)) {
-                tempFile = new File(storageDir, fileName);
-            } else {
-                tempFile = new File(storageDir, videoFileName);
-            }
-        } else {
-            tempFile = storageDir;
-        }
-        return tempFile;
-    }
-
-    public static File createImgBitmapFile(Context mContext, boolean isPublic, boolean isHaveFileName, String fileName, Bitmap bitmap, String directory) throws IOException {
-        File tempFile = null;
-        String timeStamp =
-                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
-        File storageDir;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡在手机上是否是正常使用状态
-            if (isPublic) {
-                //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
-                storageDir = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES);
-                if (!storageDir.exists()) storageDir.mkdirs();
-            } else {
-                //external storage外部存储,路径为:/mnt/sdcard/Android/data/< package name >/files/…
-                storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            }
-        } else {
-            //internal storage内部存储,路径是:/data/data/< package name >/files/…
-            storageDir = mContext.getFilesDir();
-        }
-        if (StringUtil.isNotEmpty(directory)) {
-            storageDir = new File(storageDir, directory);
-            if (!storageDir.exists()) storageDir.mkdirs();
-        }
-        // Avoid joining path components manually
-        if (isHaveFileName) {
-            if (StringUtil.isNotEmpty(fileName)) {
-                tempFile = new File(storageDir, fileName);
-            } else {
-                tempFile = new File(storageDir, imageFileName);
-            }
-        } else {
-            tempFile = storageDir;
-        }
-        FileOutputStream fout = new FileOutputStream(tempFile.getAbsolutePath());
-        BufferedOutputStream bos = new BufferedOutputStream(fout);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-        bos.flush();
-        bos.close();
-        return tempFile;
     }
 }

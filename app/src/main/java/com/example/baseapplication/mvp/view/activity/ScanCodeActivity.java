@@ -13,7 +13,7 @@ import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
 import com.example.baseapplication.toast.RingToast;
-import com.example.baseapplication.util.CommonUtil;
+import com.example.baseapplication.util.PathUtils;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -135,7 +135,7 @@ public class ScanCodeActivity extends BaseActivity {
                     //启动裁剪
                     Uri selectedUri = data.getData();
                     if (selectedUri != null) {
-                        String path = CommonUtil.getPathByUri4kitkat(mActivity, selectedUri);
+                        String path = PathUtils.getPath(mActivity, selectedUri);
                         RingLog.e("path = " + path);
                         try {
                             CodeUtils.analyzeBitmap(path, new CodeUtils.AnalyzeCallback() {

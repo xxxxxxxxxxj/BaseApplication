@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.baseapplication.util.CommonUtil;
+import com.example.baseapplication.util.FileUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadLargeFileListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -46,7 +46,7 @@ public class DownloadAppUtils {
         localserverVersionName = serverVersionName;
         localisUpgrade = isUpgrade;
         try {
-            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName,null).getAbsolutePath();
+            downloadUpdateApkFilePath = FileUtil.createFile(localContext, 5, localserverVersionName,null).getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,7 +113,7 @@ public class DownloadAppUtils {
 
     public static void retry() {
         try {
-            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName,null).getAbsolutePath();
+            downloadUpdateApkFilePath = FileUtil.createFile(localContext, 5, localserverVersionName,null).getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@ public class FileSizeUtil {
 	private static final int ERROR = -1;
 
 	/**
-	 * SDCARD是否存
+	 * 判断外部存储是否可用
 	 */
 	public static boolean externalMemoryAvailable() {
 		return android.os.Environment.getExternalStorageState().equals(

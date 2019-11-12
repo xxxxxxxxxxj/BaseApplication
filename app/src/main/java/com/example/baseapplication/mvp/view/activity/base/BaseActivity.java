@@ -34,6 +34,7 @@ import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.util.ActivityListManager;
 import com.example.baseapplication.util.CommonUtil;
+import com.example.baseapplication.util.FileUtil;
 import com.example.baseapplication.util.GlideUtil;
 import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.SharedPreferenceUtil;
@@ -643,7 +644,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
                 try {
                     //步骤四：调取系统拍照
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, CommonUtil.getUri(mActivity, CommonUtil.createFile(mActivity,1,"",null)));
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, CommonUtil.getUri(mActivity, FileUtil.createFile(mActivity,1,"",null)));
                     startActivityForResult(intent, REQUEST_CODE_CAPTURE);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -682,7 +683,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
                                 int requestCode, float aspectRatioX, float aspectRatioY) {
         File outFile = null;
         try {
-            outFile = CommonUtil.createFile(mActivity, 2,"",null);
+            outFile = FileUtil.createFile(mActivity, 2,"",null);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -788,7 +789,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     private String getPath() {
         String path = "";
         try {
-            File outFile = CommonUtil.createFile(mActivity, 3,"",null);
+            File outFile = FileUtil.createFile(mActivity, 3,"",null);
             path = outFile.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();

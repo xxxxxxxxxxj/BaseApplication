@@ -35,8 +35,8 @@ import com.example.baseapplication.updateapputil.DownloadAppUtils;
 import com.example.baseapplication.updateapputil.DownloadProgressDialog;
 import com.example.baseapplication.updateapputil.UpdateAppEvent;
 import com.example.baseapplication.updateapputil.UpdateUtil;
-import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.GetDeviceId;
+import com.example.baseapplication.util.PathUtils;
 import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.QMUIDisplayHelper;
 import com.example.baseapplication.util.StringUtil;
@@ -423,7 +423,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
                     Uri resultUri = UCrop.getOutput(data);
                     RingLog.e("resultUri = " + resultUri);
                     if (resultUri != null) {
-                        String path = CommonUtil.getPathByUri4kitkat(mActivity, resultUri);
+                        String path = PathUtils.getPath(mActivity, resultUri);
                         pathList.clear();
                         pathList.add(path);
                         RingLog.e("resultUri = " + resultUri.toString());

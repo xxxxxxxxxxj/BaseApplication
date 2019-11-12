@@ -34,7 +34,7 @@ public class GetDeviceId {
      */
     public static String readDeviceID(Context context) {
         try {
-            File file = CommonUtil.createFile(context, 4,"",null);
+            File file = FileUtil.createFile(context, 4,"",null);
             StringBuffer buffer = new StringBuffer();
             FileInputStream fis = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
@@ -59,7 +59,7 @@ public class GetDeviceId {
     public static void saveDeviceID(Context context) {
         try {
             String uuid = UUID.randomUUID().toString().replace("-", "");
-            File file = CommonUtil.createFile(context, 4,"",null);
+            File file = FileUtil.createFile(context, 4,"",null);
             StringBuffer buffer = new StringBuffer();
             FileOutputStream fos = new FileOutputStream(file);
             Writer out = new OutputStreamWriter(fos, "UTF-8");
