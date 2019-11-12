@@ -17,7 +17,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
-import androidx.core.os.EnvironmentCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -274,6 +273,31 @@ public class CommonUtil {
         return mUri;
     }
 
+    public static File createFile(Context mContext, int flag, String versionName) throws IOException {
+        File tempFile = null;
+        switch (flag) {
+            case 1://拍照存储图片的文件夹
+                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CAPTURE);
+                break;
+            case 2://裁剪存储图片的文件夹
+                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CROP);
+                break;
+            case 3://鲁班压缩存储图片的文件夹
+                tempFile = createImageFile(mContext, true, false, "", AppConfig.DIRECTORY_LUBAN);
+                break;
+            case 4://设备唯一ID存储的文件夹
+                tempFile = createImageFile(mContext, true, true, AppConfig.FILENAME_DEVICEID, AppConfig.DIRECTORY_DEVICEID);
+                break;
+            case 5://下载的apk存储的文件夹
+                tempFile = createApkFile(mContext, versionName);
+                break;
+            case 6://拍摄视频存储的文件夹
+                tempFile = createVideoFile(mContext, true, false, "", AppConfig.DIRECTORY_VIDEO);
+                break;
+        }
+        return tempFile;
+    }
+
     public static File createImageFile(Context mContext, boolean isPublic, boolean isHaveFileName, String fileName, String directory) throws IOException {
         // Create an image file name
         File tempFile = null;
@@ -281,12 +305,18 @@ public class CommonUtil {
                 new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
         File storageDir;
-        if (isPublic) {
-            storageDir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES);
-            if (!storageDir.exists()) storageDir.mkdirs();
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡在手机上是否是正常使用状态
+            //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
+            if (isPublic) {
+                storageDir = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES);
+                if (!storageDir.exists()) storageDir.mkdirs();
+            } else {
+                storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            }
         } else {
-            storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            //internal storage内部存储,路径是:/data/data/< package name >/files/…
+            storageDir = mContext.getFilesDir();
         }
         if (StringUtil.isNotEmpty(directory)) {
             storageDir = new File(storageDir, directory);
@@ -302,28 +332,54 @@ public class CommonUtil {
         } else {
             tempFile = storageDir;
         }
-        // Handle the situation that user's external storage is not ready
-        if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {
-            return null;
-        }
         return tempFile;
     }
 
-    public static File createImageFile(Context mContext, int flag) throws IOException {
+    public static File createApkFile(Context mContext, String versionName) throws IOException {
+        String fileName = mContext.getPackageName() + "_" + versionName + ".apk";
         File tempFile = null;
-        switch (flag) {
-            case 1://拍照存储图片的文件夹
-                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CAPTURE);
-                break;
-            case 2://裁剪存储图片的文件夹
-                tempFile = createImageFile(mContext, true, true, "", AppConfig.DIRECTORY_CROP);
-                break;
-            case 3://鲁班压缩存储图片的文件夹
-                tempFile = createImageFile(mContext, true, false, "", AppConfig.DIRECTORY_LUBAN);
-                break;
-            case 4://设备唯一ID存储的文件夹
-                tempFile = createImageFile(mContext, true, true, AppConfig.FILENAME_DEVICEID, AppConfig.DIRECTORY_DEVICEID);
-                break;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡在手机上是否是正常使用状态
+            //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
+            tempFile = Environment.getExternalStorageDirectory();
+        } else {
+            //internal storage内部存储,路径是:/data/data/< package name >/files/…
+            tempFile = mContext.getFilesDir();
+        }
+        tempFile = new File(tempFile, AppConfig.DIRECTORY_APK);
+        if (!tempFile.exists()) tempFile.mkdirs();
+        tempFile = new File(tempFile, fileName);
+        return tempFile;
+    }
+
+    public static File createVideoFile(Context mContext, boolean isPublic, boolean isHaveFileName, String fileName, String directory) throws IOException {
+        // Create an image file name
+        File tempFile = null;
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String videoFileName = String.format("JPEG_%s.mp4", timeStamp);
+        File storageDir;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡在手机上是否是正常使用状态
+            //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
+            storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_MOVIES);
+            if (!storageDir.exists()) storageDir.mkdirs();
+        } else {
+            //internal storage内部存储,路径是:/data/data/< package name >/files/…
+            storageDir = mContext.getFilesDir();
+        }
+        if (StringUtil.isNotEmpty(directory)) {
+            storageDir = new File(storageDir, directory);
+            if (!storageDir.exists()) storageDir.mkdirs();
+        }
+        // Avoid joining path components manually
+        if (isHaveFileName) {
+            if (StringUtil.isNotEmpty(fileName)) {
+                tempFile = new File(storageDir, fileName);
+            } else {
+                tempFile = new File(storageDir, videoFileName);
+            }
+        } else {
+            tempFile = storageDir;
         }
         return tempFile;
     }

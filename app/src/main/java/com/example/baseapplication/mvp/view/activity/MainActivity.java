@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -37,10 +38,13 @@ import com.example.baseapplication.updateapputil.UpdateUtil;
 import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.GetDeviceId;
 import com.example.baseapplication.util.QMUIDeviceHelper;
+import com.example.baseapplication.util.QMUIDisplayHelper;
 import com.example.baseapplication.util.StringUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.flyco.tablayout.utils.UnreadMsgUtils;
+import com.flyco.tablayout.widget.MsgView;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
@@ -56,6 +60,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -79,6 +84,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
     private int currentIndex;
     private long exitTime;
     private List<String> pathList = new ArrayList<String>();
+    private Random mRandom = new Random();
 
     @Override
     protected int getLayoutResID() {
@@ -102,6 +108,29 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
         }
         ctlMain.setTabData(mTabEntities, this, R.id.fl_main, mFragments);
         ctlMain.setCurrentTab(currentIndex);
+
+        //两位数
+        ctlMain.showMsg(0, 55);
+        ctlMain.setMsgMargin(0, -5, 5);
+
+        //三位数
+        ctlMain.showMsg(1, 100);
+        ctlMain.setMsgMargin(1, -5, 5);
+
+        //设置未读消息红点
+        ctlMain.showDot(2);
+        MsgView rtv_2_2 = ctlMain.getMsgView(2);
+        if (rtv_2_2 != null) {
+            UnreadMsgUtils.setSize(rtv_2_2, QMUIDisplayHelper.dp2px(mActivity, 7));
+        }
+
+        //设置未读消息背景
+        ctlMain.showMsg(3, 5);
+        ctlMain.setMsgMargin(3, 0, 5);
+        MsgView rtv_2_3 = ctlMain.getMsgView(3);
+        if (rtv_2_3 != null) {
+            rtv_2_3.setBackgroundColor(Color.parseColor("#6D8FB0"));
+        }
     }
 
     @Override
@@ -115,12 +144,16 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
             @Override
             public void onTabSelect(int position) {
                 RingLog.e("TAG", "onTabSelect position = " + position);
+                if (position == 2) {
+                    ctlMain.hideMsg(2);
+                }
             }
 
             @Override
             public void onTabReselect(int position) {
                 RingLog.e("TAG", "ponTabReselect position = " + position);
                 if (position == 0) {//刷新
+                    ctlMain.showMsg(0, mRandom.nextInt(100) + 1);
                     MainFragment mainFragment = (MainFragment) getSupportFragmentManager().getFragments().get(position);
                     mainFragment.autoRefresh();
                 }

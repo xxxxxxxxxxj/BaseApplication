@@ -565,7 +565,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
                 try {
                     //步骤四：调取系统拍照
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, CommonUtil.getUri(mActivity, CommonUtil.createImageFile(mActivity, 1)));
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, CommonUtil.getUri(mActivity, CommonUtil.createFile(mActivity, 1,"")));
                     startActivityForResult(intent, REQUEST_CODE_CAPTURE);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -604,7 +604,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
                                 int requestCode, float aspectRatioX, float aspectRatioY) {
         File outFile = null;
         try {
-            outFile = CommonUtil.createImageFile(mActivity, 2);
+            outFile = CommonUtil.createFile(mActivity, 2,"");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -710,7 +710,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     private String getPath() {
         String path = "";
         try {
-            File outFile = CommonUtil.createImageFile(mActivity, 3);
+            File outFile = CommonUtil.createFile(mActivity, 3,"");
             path = outFile.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();

@@ -18,8 +18,9 @@
         tl:tl_textSelectColor="@color/aD1494F"
         tl:tl_textUnselectColor="@color/a666666"
         tl:tl_textsize="12sp"
-        tl:tl_underline_color="#DDDDDD"
-        tl:tl_underline_height="0dp" />
+        tl:tl_underline_color="@color/aEEEEEE"
+        tl:tl_underline_gravity="TOP"
+        tl:tl_underline_height="1dp" />
 
     <FrameLayout
         android:id="@+id/fl_main"

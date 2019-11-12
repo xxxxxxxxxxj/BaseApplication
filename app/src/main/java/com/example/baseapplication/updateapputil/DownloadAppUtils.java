@@ -3,16 +3,16 @@ package com.example.baseapplication.updateapputil;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
+import com.example.baseapplication.util.CommonUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadLargeFileListener;
 import com.liulishuo.filedownloader.FileDownloader;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -45,14 +45,11 @@ public class DownloadAppUtils {
         localUrl = url;
         localserverVersionName = serverVersionName;
         localisUpgrade = isUpgrade;
-        String packageName = localContext.getPackageName();
-        String filePath = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//外部存储卡
-            filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        } else {
-            filePath = context.getFilesDir().getAbsolutePath();
+        try {
+            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName).getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        downloadUpdateApkFilePath = filePath + File.separator + packageName + "_" + localserverVersionName + ".apk";
         FileDownloader.setup(localContext);
         FileDownloader.getImpl().create(localUrl)
                 .setPath(downloadUpdateApkFilePath)
@@ -115,15 +112,11 @@ public class DownloadAppUtils {
     }
 
     public static void retry() {
-        String packageName = localContext.getPackageName();
-        String filePath = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//外部存储卡
-            filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        } else {
-            Log.i(TAG, "没有SD卡");
-            return;
+        try {
+            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName).getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        downloadUpdateApkFilePath = filePath + File.separator + packageName + "_" + localserverVersionName + ".apk";
         FileDownloader.setup(localContext);
         FileDownloader.getImpl().create(localUrl)
                 .setPath(downloadUpdateApkFilePath)
