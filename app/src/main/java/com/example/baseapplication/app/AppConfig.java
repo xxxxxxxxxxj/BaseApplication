@@ -32,5 +32,6 @@ public class AppConfig {
     public static final String DIRECTORY_DEVICEID = ".base_deviceid";//设备唯一ID存储的文件夹(隐藏文件夹)
     public static final String FILENAME_DEVICEID = ".deviceid";//设备唯一ID存储的文件夹(隐藏文件夹)
     public static final String DIRECTORY_APK = "base_apk";//下载的apk存储的文件夹
-    public static final String DIRECTORY_VIDEO = "base_video";//下载的apk存储的文件夹
+    public static final String DIRECTORY_VIDEO = "base_video";//拍摄视频存储的文件夹
+    public static final String DIRECTORY_VIDEO_FRAME = "base_video_frame";//拍摄视频生成封面以及拍照存储的文件夹
 }

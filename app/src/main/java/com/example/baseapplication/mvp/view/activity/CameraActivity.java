@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 
 import com.cjt2325.cameralibrary.JCameraView;
@@ -12,14 +11,14 @@ import com.cjt2325.cameralibrary.listener.ClickListener;
 import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.cjt2325.cameralibrary.listener.JCameraListener;
 import com.cjt2325.cameralibrary.util.DeviceUtil;
-import com.cjt2325.cameralibrary.util.FileUtil;
 import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
 import com.example.baseapplication.toast.RingToast;
+import com.example.baseapplication.util.CommonUtil;
 
-import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 
@@ -44,7 +43,11 @@ public class CameraActivity extends BaseActivity {
     @Override
     protected void setView(Bundle savedInstanceState) {
         //设置视频保存路径
-        jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
+        try {
+            jCameraView.setSaveVideoPath(CommonUtil.createFile(mActivity, 6, "", null).getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_BOTH);
         jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
         jCameraView.setErrorLisenter(new ErrorListener() {
@@ -68,7 +71,12 @@ public class CameraActivity extends BaseActivity {
             public void captureSuccess(Bitmap bitmap) {
                 RingLog.e("captureSuccess Bitmap = " + bitmap);
                 //获取图片bitmap
-                String path = FileUtil.saveBitmap("JCamera", bitmap);
+                String path = null;
+                try {
+                    path = CommonUtil.createFile(mActivity, 7, "", bitmap).getAbsolutePath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
                 intent.putExtra("flag", 1);
@@ -79,7 +87,12 @@ public class CameraActivity extends BaseActivity {
             @Override
             public void recordSuccess(String url, Bitmap firstFrame) {
                 //获取视频路径
-                String path = FileUtil.saveBitmap("JCamera", firstFrame);
+                String path = null;
+                try {
+                    path = CommonUtil.createFile(mActivity, 7, "", firstFrame).getAbsolutePath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 RingLog.e("recordSuccess url = " + url + ", Bitmap = " + path);
                 Intent intent = new Intent();
                 intent.putExtra("path", path);

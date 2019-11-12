@@ -46,7 +46,7 @@ public class DownloadAppUtils {
         localserverVersionName = serverVersionName;
         localisUpgrade = isUpgrade;
         try {
-            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName).getAbsolutePath();
+            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName,null).getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,7 +113,7 @@ public class DownloadAppUtils {
 
     public static void retry() {
         try {
-            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName).getAbsolutePath();
+            downloadUpdateApkFilePath = CommonUtil.createFile(localContext, 5, localserverVersionName,null).getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
         }
