@@ -44,7 +44,7 @@ public class FileUtil {
                 tempFile = createImageFile(mContext, true, false, "", AppConfig.DIRECTORY_LUBAN);
                 break;
             case 4://设备唯一ID存储的文件夹
-                tempFile = createImageFile(mContext, true, true, AppConfig.FILENAME_DEVICEID, AppConfig.DIRECTORY_DEVICEID);
+                tempFile = createDeviceIdFile(mContext);
                 break;
             case 5://下载的apk存储的文件夹
                 tempFile = createApkFile(mContext, versionName);
@@ -110,6 +110,21 @@ public class FileUtil {
         tempFile = new File(tempFile, AppConfig.DIRECTORY_APK);
         if (!tempFile.exists()) tempFile.mkdirs();
         tempFile = new File(tempFile, fileName);
+        return tempFile;
+    }
+
+    public static File createDeviceIdFile(Context mContext) throws IOException {
+        File tempFile = null;
+        if (externalMemoryAvailable()) {//判断sd卡在手机上是否是正常使用状态
+            //external storage外部存储,路径是:SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
+            tempFile = Environment.getExternalStorageDirectory();
+        } else {
+            //internal storage内部存储,路径是:/data/data/< package name >/files/…
+            tempFile = mContext.getFilesDir();
+        }
+        tempFile = new File(tempFile, AppConfig.DIRECTORY_DEVICEID);
+        if (!tempFile.exists()) tempFile.mkdirs();
+        tempFile = new File(tempFile, AppConfig.FILENAME_DEVICEID);
         return tempFile;
     }
 

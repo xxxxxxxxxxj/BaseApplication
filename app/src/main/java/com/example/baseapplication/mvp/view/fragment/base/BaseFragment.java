@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -530,14 +529,11 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         requestEachCombined(new PermissionListener() {
             @Override
             public void onGranted(String permissionName) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
-                        .setType("image/*")
-                        .addCategory(Intent.CATEGORY_OPENABLE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    String[] mimeTypes = {"image/jpeg", "image/png"};
-                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-                }
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_picture)), REQUEST_CODE_PREVIEW);
+                Intent intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        "image/*");
+                startActivityForResult(intent, REQUEST_CODE_PREVIEW);
             }
 
             @Override
