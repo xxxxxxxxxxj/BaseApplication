@@ -2,19 +2,28 @@ package com.example.baseapplication.mvp.view.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.log.RingLog;
 import com.example.baseapplication.mvp.presenter.base.BasePresenter;
 import com.example.baseapplication.mvp.view.activity.base.BaseActivity;
+import com.example.baseapplication.util.CountdownUtil;
 import com.example.baseapplication.util.JumpToUtil;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 启动页
  */
 public class FlashActivity extends BaseActivity {
+
+    @BindView(R.id.btn_flash_skip)
+    Button btnFlashSkip;
 
     @Override
     protected int getLayoutResID() {
@@ -61,8 +70,19 @@ public class FlashActivity extends BaseActivity {
             RingLog.e("point:" + point);
             String backup = uri.getQueryParameter("backup");
             RingLog.e("backup:" + backup);
-            JumpToUtil.jumpTo(mActivity, Integer.parseInt(point),backup);
+            JumpToUtil.jumpTo(mActivity, Integer.parseInt(point), backup);
         }
+        CountdownUtil.getInstance().newTimer(3000, 1000, new CountdownUtil.ICountDown() {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                btnFlashSkip.setText("跳过  " + millisUntilFinished / 1000);
+            }
+
+            @Override
+            public void onFinish() {
+                startActivity(MainActivity.class, true);
+            }
+        }, "FLASH_TIMER");
     }
 
     @Override
@@ -92,6 +112,22 @@ public class FlashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setAllowFullScreen(true);
         super.onCreate(savedInstanceState);
+    }
+
+    @OnClick({R.id.btn_flash_skip})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_flash_skip:
+                startActivity(MainActivity.class, true);
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CountdownUtil.getInstance().cancel("FLASH_TIMER");
     }
 }

@@ -1,5 +1,11 @@
 <resources>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <!-- 该属性解决某些系统上layer-list bottom属性看上去失效，实际上是没算上虚拟导航栏的高度 -->
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+    </style>
+
     <style name="CollapsingTopBarLayoutExpanded">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">24sp</item>
@@ -112,6 +118,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--状态栏颜色，默认使用colorPrimaryDark-->
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- 项目中button不规范使用会造成样式变形，这里把button样式覆盖为最普通的样式，以避免老代码样式走样-->
+        <item name="android:buttonStyle">@android:style/Widget.Button</item>
         <!--ToolBar上的Title颜色-->
         <item name="android:textColorPrimaryInverse">@color/white</item>
         <!--一般控件的选种效果默认采用该颜色-->

@@ -615,13 +615,13 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         //设置裁剪图片可操作的手势
         options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
         //是否隐藏底部容器，默认显示
-        options.setHideBottomControls(true);
+        options.setHideBottomControls(false);
         //设置toolbar颜色
         options.setToolbarColor(ActivityCompat.getColor(mActivity, R.color.colorPrimary));
         //设置状态栏颜色
         options.setStatusBarColor(ActivityCompat.getColor(mActivity, R.color.colorPrimaryDark));
         //是否能调整裁剪框
-        options.setFreeStyleCropEnabled(true);
+        options.setFreeStyleCropEnabled(false);
         //UCrop配置
         uCrop.withOptions(options);
         //设置裁剪图片的宽高比，比如16：9
