@@ -46,7 +46,6 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.view.activity.FlipperActivity"></activity>
         <!--
 适配刘海屏：对Application生效，意味着该应用的所有页面，
         系统都不会做竖屏场景的特殊下移或者是横屏场景的右移特殊处理：
@@ -71,7 +70,6 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <activity android:name=".mvp.view.activity.MainActivity" />
         <activity
             android:name=".mvp.view.activity.FlashActivity"
             android:launchMode="singleTop"
@@ -95,6 +93,8 @@
                     android:scheme="baseapp" />
             </intent-filter>
         </activity>
+        <activity android:name=".mvp.view.activity.MainActivity" />
+        <activity android:name=".mvp.view.activity.FlipperActivity" />
         <activity android:name=".mvp.view.activity.StickLayoutActivity" />
         <activity android:name=".mvp.view.activity.StaggerActivity" />
         <activity android:name=".mvp.view.activity.CameraActivity" />

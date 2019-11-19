@@ -114,6 +114,7 @@ public class FlashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setAllowFullScreen(true);
         super.onCreate(savedInstanceState);
+        setSwipeBack(false);
     }
 
     @OnClick({R.id.btn_flash_skip})
