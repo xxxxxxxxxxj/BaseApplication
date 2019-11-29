@@ -3,14 +3,11 @@ package com.example.baseapplication.mvp.view.fragment;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +37,7 @@ import com.example.baseapplication.mvp.model.event.WXPayResultEvent;
 import com.example.baseapplication.mvp.presenter.ShopFragPresenter;
 import com.example.baseapplication.mvp.view.activity.CameraActivity;
 import com.example.baseapplication.mvp.view.activity.FlipperActivity;
+import com.example.baseapplication.mvp.view.activity.RobustActivity;
 import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
 import com.example.baseapplication.mvp.view.activity.StaggerActivity;
 import com.example.baseapplication.mvp.view.activity.StickLayoutActivity;
@@ -58,18 +55,20 @@ import com.example.baseapplication.permission.PermissionListener;
 import com.example.baseapplication.toast.RingToast;
 import com.example.baseapplication.util.CommonUtil;
 import com.example.baseapplication.util.FileSizeUtil;
+import com.example.baseapplication.util.PatchManipulateImp;
 import com.example.baseapplication.util.PayUtils;
 import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.QMUIDisplayHelper;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.interfaces.OnDismissListener;
-import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
 import com.kongzue.dialog.interfaces.OnNotificationClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
-import com.kongzue.dialog.v3.BottomMenu;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.Notification;
+import com.meituan.robust.Patch;
+import com.meituan.robust.PatchExecutor;
+import com.meituan.robust.RobustCallBack;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
@@ -105,7 +104,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层",
             "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框",
             "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper",
-            "通知", "图片裁剪", "选择图片"};
+            "通知", "图片裁剪", "选择图片", "加载robust补丁", "测试robust"};
     @BindView(R.id.text)
     TextView text;
     @BindView(R.id.tv_upgrade_bottomdia_time)
@@ -501,11 +500,44 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                     case 27://选择图片
                         getPhoto();
                         break;
+                    case 28://加载robust补丁
+                        new PatchExecutor(mActivity, new PatchManipulateImp(), new callBack()).start();
+                        break;
+                    case 29://测试robust
+                        startActivity(RobustActivity.class);
+                        break;
                     default:
                         break;
                 }
             }
         });
+    }
+
+    private class callBack implements RobustCallBack {
+        @Override
+        public void onPatchListFetched(boolean result, boolean isNet, List<Patch> patches) {
+
+        }
+
+        @Override
+        public void onPatchFetched(boolean result, boolean isNet, Patch patch) {
+
+        }
+
+        @Override
+        public void onPatchApplied(boolean result, Patch patch) {
+
+        }
+
+        @Override
+        public void logNotify(String log, String where) {
+
+        }
+
+        @Override
+        public void exceptionNotify(Throwable throwable, String where) {
+
+        }
     }
 
     private void addGoodToCar() {

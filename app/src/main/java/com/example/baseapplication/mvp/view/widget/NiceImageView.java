@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.baseapplication.R;
-import com.example.baseapplication.util.QMUIDisplayHelper;
+import com.uuzuche.lib_zxing.DisplayUtil;
 
 /**
  * 圆角或者圆形图片控件
@@ -139,7 +139,7 @@ public class NiceImageView extends AppCompatImageView {
         if (!isCoverSrc) {
             float sx = 1.0f * (width - 2 * borderWidth - 2 * innerBorderWidth) / width;
             float sy = 1.0f * (height - 2 * borderWidth - 2 * innerBorderWidth) / height;
-            // 缩小画布，使图片内容不被borders覆盖
+// 缩小画布，使图片内容不被border、padding覆盖
             canvas.scale(sx, sy, width / 2.0f, height / 2.0f);
         }
         super.onDraw(canvas);
@@ -157,9 +157,12 @@ public class NiceImageView extends AppCompatImageView {
         if (Build.VERSION.SDK_INT <= 27) {
             canvas.drawPath(path, paint);
         } else {
+            srcPath.reset();
             srcPath.addRect(srcRectF, Path.Direction.CCW);
             // 计算tempPath和path的差集
-            srcPath.op(path, Path.Op.DIFFERENCE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                srcPath.op(path, Path.Op.DIFFERENCE);
+            }
             canvas.drawPath(srcPath, paint);
         }
         paint.setXfermode(null);
@@ -290,7 +293,7 @@ public class NiceImageView extends AppCompatImageView {
     }
 
     public void setBorderWidth(int borderWidth) {
-        this.borderWidth = QMUIDisplayHelper.dp2px(context, borderWidth);
+        this.borderWidth = DisplayUtil.dip2px(context, borderWidth);
         calculateRadiiAndRectF(false);
     }
 
@@ -300,7 +303,7 @@ public class NiceImageView extends AppCompatImageView {
     }
 
     public void setInnerBorderWidth(int innerBorderWidth) {
-        this.innerBorderWidth = QMUIDisplayHelper.dp2px(context, innerBorderWidth);
+        this.innerBorderWidth = DisplayUtil.dip2px(context, innerBorderWidth);
         clearInnerBorderWidth();
         invalidate();
     }
@@ -311,27 +314,27 @@ public class NiceImageView extends AppCompatImageView {
     }
 
     public void setCornerRadius(int cornerRadius) {
-        this.cornerRadius = QMUIDisplayHelper.dp2px(context, cornerRadius);
+        this.cornerRadius = DisplayUtil.dip2px(context, cornerRadius);
         calculateRadiiAndRectF(false);
     }
 
     public void setCornerTopLeftRadius(int cornerTopLeftRadius) {
-        this.cornerTopLeftRadius = QMUIDisplayHelper.dp2px(context, cornerTopLeftRadius);
+        this.cornerTopLeftRadius = DisplayUtil.dip2px(context, cornerTopLeftRadius);
         calculateRadiiAndRectF(true);
     }
 
     public void setCornerTopRightRadius(int cornerTopRightRadius) {
-        this.cornerTopRightRadius = QMUIDisplayHelper.dp2px(context, cornerTopRightRadius);
+        this.cornerTopRightRadius = DisplayUtil.dip2px(context, cornerTopRightRadius);
         calculateRadiiAndRectF(true);
     }
 
     public void setCornerBottomLeftRadius(int cornerBottomLeftRadius) {
-        this.cornerBottomLeftRadius = QMUIDisplayHelper.dp2px(context, cornerBottomLeftRadius);
+        this.cornerBottomLeftRadius = DisplayUtil.dip2px(context, cornerBottomLeftRadius);
         calculateRadiiAndRectF(true);
     }
 
     public void setCornerBottomRightRadius(int cornerBottomRightRadius) {
-        this.cornerBottomRightRadius = QMUIDisplayHelper.dp2px(context, cornerBottomRightRadius);
+        this.cornerBottomRightRadius = DisplayUtil.dip2px(context, cornerBottomRightRadius);
         calculateRadiiAndRectF(true);
     }
 
