@@ -4,6 +4,8 @@
         <item name="android:windowBackground">@drawable/splash_bg</item>
         <!-- 该属性解决某些系统上layer-list bottom属性看上去失效，实际上是没算上虚拟导航栏的高度 -->
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowFullscreen">true</item><!--全屏-->
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="CollapsingTopBarLayoutExpanded">
@@ -121,12 +123,15 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- 项目中button不规范使用会造成样式变形，这里把button样式覆盖为最普通的样式，以避免老代码样式走样-->
         <item name="android:buttonStyle">@android:style/Widget.Button</item>
+        <item name="android:navigationBarColor"/>
         <!--ToolBar上的Title颜色-->
         <item name="android:textColorPrimaryInverse">@color/white</item>
         <!--一般控件的选种效果默认采用该颜色-->
         <item name="colorAccent">@color/colorAccent</item>
         <!-- 设置activity切换动画 -->
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <item name="android:windowContentOverlay">@null</item><!--是否有遮盖-->
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
     <!-- animation 样式 -->
     <style name="activityAnimation" parent="@android:style/Animation">

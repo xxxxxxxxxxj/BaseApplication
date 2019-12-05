@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -39,6 +38,7 @@ import com.example.baseapplication.util.GlideUtil;
 import com.example.baseapplication.util.QMUIDeviceHelper;
 import com.example.baseapplication.util.SharedPreferenceUtil;
 import com.example.baseapplication.util.StringUtil;
+import com.gyf.immersionbar.ImmersionBar;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
 import com.kongzue.dialog.util.BaseDialog;
@@ -214,7 +214,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         mActivity = this;
         mContext = this;
         if (isSetStatusBar) {
-            steepStatusBar();
+            initImmersionBar();
         }
         if (isAllowScreenRoate) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -222,6 +222,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
         setContentView(getLayoutResID());
         spUtil = SharedPreferenceUtil.getInstance(this);
         activityListManager = new ActivityListManager();
+        activityListManager.addActivity(this);
         tipDialogBuilder = new QMUITipDialog.Builder(mActivity)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
                 .setTipWord("正在加载...");
@@ -493,17 +494,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     }
 
     /**
-     * [沉浸状态栏]
+     * 初始化沉浸式
+     * Init immersion bar.
      */
-    private void steepStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 透明状态栏
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            // 透明导航栏(虚拟键盘不能兼容)
-            //getWindow().addFlags(
-            //WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this).navigationBarColor(R.color.colorPrimary).init();
     }
 
     /**
@@ -806,6 +802,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     protected void onDestroy() {
         super.onDestroy();
         mDisposable.clear();
+        activityListManager.removeActivity(this);
         ButterKnife.bind(this).unbind();
         if (isUseEventBus() && EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
