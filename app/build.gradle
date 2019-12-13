@@ -128,6 +128,8 @@ dependencies {
     implementation project(':dialog')
     //功能强大，UI简洁，交互优雅的通用弹窗(主要用作查看大图)
     implementation project(':library')
+    //微光加载效果
+    implementation project(':shimmerlayout')
     //RxPermission权限申请
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     //Glide图片加载

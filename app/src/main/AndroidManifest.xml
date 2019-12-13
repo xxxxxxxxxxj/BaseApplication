@@ -46,7 +46,6 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.view.activity.RobustActivity"></activity>
         <!--
 适配刘海屏：对Application生效，意味着该应用的所有页面，
         系统都不会做竖屏场景的特殊下移或者是横屏场景的右移特殊处理：
@@ -99,6 +98,8 @@
         <activity android:name=".mvp.view.activity.StaggerActivity" />
         <activity android:name=".mvp.view.activity.CameraActivity" />
         <activity android:name=".mvp.view.activity.ScanCodeActivity" />
+        <activity android:name=".mvp.view.activity.ShimmerActivity" />
+        <activity android:name=".mvp.view.activity.RobustActivity" />
         <activity
             android:name=".mvp.view.activity.WebViewActivity"
             android:configChanges="orientation|screenSize"

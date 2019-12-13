@@ -39,6 +39,7 @@ import com.example.baseapplication.mvp.view.activity.CameraActivity;
 import com.example.baseapplication.mvp.view.activity.FlipperActivity;
 import com.example.baseapplication.mvp.view.activity.RobustActivity;
 import com.example.baseapplication.mvp.view.activity.ScanCodeActivity;
+import com.example.baseapplication.mvp.view.activity.ShimmerActivity;
 import com.example.baseapplication.mvp.view.activity.StaggerActivity;
 import com.example.baseapplication.mvp.view.activity.StickLayoutActivity;
 import com.example.baseapplication.mvp.view.adapter.ImgAdapter;
@@ -106,7 +107,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层",
             "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框",
             "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper",
-            "通知", "图片裁剪", "选择图片", "加载robust补丁", "测试robust", "列表弹窗(拖拽)"};
+            "通知", "图片裁剪", "选择图片", "加载robust补丁", "测试robust", "列表弹窗(拖拽)", "微光加载效果"};
     @BindView(R.id.text)
     TextView text;
     @BindView(R.id.tv_upgrade_bottomdia_time)
@@ -511,7 +512,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                     case 30://列表弹窗(拖拽)
                         new XPopup.Builder(mActivity)
                                 .maxHeight(QMUIDisplayHelper.getScreenHeight(mActivity) / 3 * 2)
-                                .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4"},
+                                .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目1", "条目2", "条目3", "条目4", "条目1", "条目2", "条目3", "条目4", "条目1", "条目2", "条目3", "条目4", "条目1", "条目2", "条目3", "条目4"},
                                         new OnSelectListener() {
                                             @Override
                                             public void onSelect(int position, String text) {
@@ -519,6 +520,9 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                                             }
                                         })
                                 .show();
+                        break;
+                    case 31://微光加载效果
+                        startActivity(ShimmerActivity.class);
                         break;
                     default:
                         break;
