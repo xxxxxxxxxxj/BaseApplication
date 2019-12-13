@@ -66,6 +66,8 @@ import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.Notification;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.meituan.robust.Patch;
 import com.meituan.robust.PatchExecutor;
 import com.meituan.robust.RobustCallBack;
@@ -104,7 +106,7 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
     private final String[] mTitles = {"Matisse", "zxing", "微信支付", "支付宝支付", "拍摄视频", "RichText", "普通浮层",
             "列表浮层", "加载框", "提示框", "自定义提示框", "亮色ios对话框", "暗色ios对话框", "亮色md对话框", "暗色md对话框",
             "新手引导", "倒计时", "滚轮", "瀑布流", "购物车动画", "StickLayout", "当页浮窗", "系统浮窗", "红包动画", "Flipper",
-            "通知", "图片裁剪", "选择图片", "加载robust补丁", "测试robust"};
+            "通知", "图片裁剪", "选择图片", "加载robust补丁", "测试robust", "列表弹窗(拖拽)"};
     @BindView(R.id.text)
     TextView text;
     @BindView(R.id.tv_upgrade_bottomdia_time)
@@ -505,6 +507,18 @@ public class ShopFragment extends BaseFragment<ShopFragPresenter> implements ISh
                         break;
                     case 29://测试robust
                         startActivity(RobustActivity.class);
+                        break;
+                    case 30://列表弹窗(拖拽)
+                        new XPopup.Builder(mActivity)
+                                .maxHeight(QMUIDisplayHelper.getScreenHeight(mActivity) / 3 * 2)
+                                .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4"},
+                                        new OnSelectListener() {
+                                            @Override
+                                            public void onSelect(int position, String text) {
+                                                RingToast.show("click " + text);
+                                            }
+                                        })
+                                .show();
                         break;
                     default:
                         break;
